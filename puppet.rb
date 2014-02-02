@@ -59,7 +59,6 @@ class PuppetGem < FPM::Cookery::Recipe
 
   platforms [:ubuntu, :debian] do
     def build_files
-      system "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/debian/puppet.conf"
       system "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/debian/puppet.init"
       system "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/debian/puppet.default"
       # Set the real daemon path in initscript defaults
@@ -67,16 +66,12 @@ class PuppetGem < FPM::Cookery::Recipe
     end
     def install_files
       etc('puppet').mkdir
-      etc('puppet').install builddir('puppet.conf') => 'puppet.conf'
-      etc('init.d').install builddir('puppet.init') => 'puppet'
       etc('default').install builddir('puppet.default') => 'puppet'
-      chmod 0755, etc('init.d/puppet')
     end
   end
 
   platforms [:fedora, :redhat, :centos] do
     def build_files
-      safesystem "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/redhat/puppet.conf"
       safesystem "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/redhat/client.init"
       safesystem "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/redhat/client.sysconfig"
       # Set the real daemon path in initscript defaults
@@ -84,10 +79,7 @@ class PuppetGem < FPM::Cookery::Recipe
     end
     def install_files
       etc('puppet').mkdir
-      etc('puppet').install builddir('puppet.conf') => 'puppet.conf'
-      etc('init.d').install builddir('client.init') => 'puppet'
       etc('sysconfig').install builddir('client.sysconfig') => 'puppet'
-      chmod 0755, etc('init.d/puppet')
     end
   end
 
