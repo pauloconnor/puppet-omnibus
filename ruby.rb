@@ -14,6 +14,8 @@ class Ruby193 < FPM::Cookery::Recipe
 
   section 'interpreters'
 
+  rel = `cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2`.chomp
+
   platforms [:ubuntu, :debian] do
     build_depends 'autoconf',
                   'libreadline6-dev',
@@ -24,8 +26,13 @@ class Ruby193 < FPM::Cookery::Recipe
                   'build-essential',
                   'libffi-dev',
                   'libgdbm-dev'
-    depends 'libffi6',
-            'libncurses5',
+    case rel
+    when 'lucid'
+      depends 'libffi5'
+    else
+      depends 'libffi6'
+    end
+    depends 'libncurses5',
             'libreadline6',
             'libssl1.0.0',
             'libtinfo5',
