@@ -28,14 +28,12 @@ class Ruby193 < FPM::Cookery::Recipe
                   'libgdbm-dev'
     case rel
     when 'lucid'
-      depends 'libffi5'
+      depends 'libffi5', 'libssl0.9.8'
     else
-      depends 'libffi6'
+      depends 'libffi6', 'libssl1.0.0', 'libtinfo5'
     end
     depends 'libncurses5',
             'libreadline6',
-            'libssl1.0.0',
-            'libtinfo5',
             'zlib1g',
             'libgdbm3'
   end
