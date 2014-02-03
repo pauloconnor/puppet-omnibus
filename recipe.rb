@@ -1,13 +1,13 @@
 class PuppetOmnibus < FPM::Cookery::Recipe
-  homepage 'https://github.com/andytinycat/puppet-omnibus'
+  homepage 'https://github.com/bobtfish/puppet-omnibus'
 
   section 'Utilities'
   name 'puppet-omnibus'
-  version '3.3.2'
+  version '3.0.2'
   description 'Puppet Omnibus package'
-  revision 0
-  vendor 'fpm'
-  maintainer '<github@tinycat.co.uk>'
+  revision ENV['BUILD_NUMBER']
+  vendor 'yelp'
+  maintainer '<tdoran@yelp.com>'
   license 'Apache 2.0 License'
 
   source '', :with => :noop
