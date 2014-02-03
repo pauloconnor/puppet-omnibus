@@ -15,8 +15,12 @@ pushd /
 tar xzf $WORKSPACE/ruby-*.tgz
 popd
 echo "Done"
-echo "Going for bundle install and build:"
 set -x
+if [ "$BUILD_NO" == "" ];then
+  echo "BUILD_NO environment not set - producing debug build"
+  export BUILD_NO=debug001
+fi
+echo "Going for bundle install and build:"
 /opt/ruby/bin/bundle install --binstubs
 fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe-aws.rb
 
