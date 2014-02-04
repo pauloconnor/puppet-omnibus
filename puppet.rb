@@ -21,6 +21,8 @@ class PuppetGem < FPM::Cookery::Recipe
     gem_install 'facter',      '1.7.3'
     gem_install 'json_pure',   '1.8.0'
     gem_install 'hiera',       '1.3.0'
+    gem_install name,          version # Note that we install puppet after it's deps, but before things which depend on it
+                                       # as otherwise you can end up with two different versions of puppet inlined
     gem_install 'deep_merge',  '1.0.0'
     gem_install 'rgen',        '0.6.5'
     gem_install 'ruby-augeas', '0.4.1'
@@ -43,7 +45,6 @@ class PuppetGem < FPM::Cookery::Recipe
 #  :git => 'git://github.com/keymone/rspec-hiera-puppet.git',
 #    :ref => 'v0.3.1.1'
     gem_install 'sensu-plugin', '0.2.2'
-    gem_install name,          version
 
     # Download init scripts and conf
     build_files
