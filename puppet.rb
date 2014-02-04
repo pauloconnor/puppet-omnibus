@@ -21,31 +21,14 @@ class PuppetGem < FPM::Cookery::Recipe
     gem_install 'facter',      '1.7.3'
     gem_install 'json_pure',   '1.8.0'
     gem_install 'hiera',       '1.3.0'
-    gem_install name,          version # Note that we install puppet after it's deps, but before things which depend on it
-                                       # as otherwise you can end up with two different versions of puppet inlined
     gem_install 'deep_merge',  '1.0.0'
     gem_install 'rgen',        '0.6.5'
     gem_install 'ruby-augeas', '0.4.1'
     gem_install 'ruby-shadow', '2.2.0'
     gem_install 'gpgme',       '2.0.2'
-    gem_install 'unicorn',     '4.8.1'
     gem_install 'rack',        '1.5.2'
-    gem_install 'puppet-syntax', '1.1.0'                        # MIT
-    gem_install 'librarian-puppet', '0.9.10'           # Ruby
-    gem_install 'puppetlabs_spec_helper', '0.4.1'      # Apache2
-    #gem 'puppet-lint', #'~> 0.4.0.pre1'         # MIT
-    #    :git => 'git://github.com/rodjek/puppet-lint.git' # Due to https://github.com/rodjek/puppet-lint/issues/224 - go back to forge as soon as there is a release
-    gem_install 'rake-hooks', '1.2.3'                  # MIT
-    gem_install 'rspec', '2.14.1'                      # MIT
-    gem_install 'rspec-core', '2.14.5'                 # MIT
-    gem_install 'rspec-expectations', '2.14.2'         # MIT
-    gem_install 'rspec-mocks', '2.14.3'                # MIT
-    gem_install 'rspec-puppet', '0.1.6'               # MIT
-#gem 'rspec-hiera-puppet',                  # MIT
-#  :git => 'git://github.com/keymone/rspec-hiera-puppet.git',
-#    :ref => 'v0.3.1.1'
-    gem_install 'sensu-plugin', '0.2.2'
-
+    gem_install 'unicorn',     '4.8.1'
+    gem_install name,          version
     # Download init scripts and conf
     build_files
   end

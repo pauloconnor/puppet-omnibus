@@ -16,7 +16,9 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   omnibus_dir     "/opt/#{name}"
   omnibus_recipes 'libyaml',
                   'ruby',
-                  'puppet'
+                  'puppet',
+                  'aws',
+                  'puppetools'
 
   # Set up paths to initscript and config files per platform
   platforms [:ubuntu, :debian] do

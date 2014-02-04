@@ -22,5 +22,5 @@ if [ "$BUILD_NO" == "" ];then
 fi
 echo "Going for bundle install and build:"
 /opt/ruby/bin/bundle install --binstubs
-fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe-aws.rb
+fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
 
