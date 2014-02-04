@@ -8,8 +8,14 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   revision ENV['BUILD_NUMBER']
   uname = `uname -a`
   if uname =~ /Linux/
-    codename = `cat /etc/lsb-release | grep CODENAME | cut -d= -f2`.chomp
-    vendor "yelp-#{codename}"
+    if File.exists?('/etc/redhat-release')
+      redhat = IO.read('/etc/redhat-release')
+      releaseno = /CentOS release (\d)/.match(redhat)[1]
+      vendor "yelp-centos#{releaseno}-"
+    else
+      codename = `cat /etc/lsb-release | grep CODENAME | cut -d= -f2`.chomp
+      vendor "yelp-#{codename}-"
+    end 
   else
     vendor 'yelp-darwin'
   end
