@@ -1,4 +1,4 @@
-class PuppetTools < FPM::Cookery::Recipe
+class PuppetToolsGem < FPM::Cookery::Recipe
   description 'Puppet tools and support gems'
 
   name 'puppettools'

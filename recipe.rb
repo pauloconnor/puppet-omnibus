@@ -30,7 +30,7 @@ class PuppetOmnibus < FPM::Cookery::Recipe
                   'ruby',
                   'puppet',
                   'aws',
-                  'puppetools'
+                  'puppettools'
 
   # Set up paths to initscript and config files per platform
   platforms [:ubuntu, :debian] do
