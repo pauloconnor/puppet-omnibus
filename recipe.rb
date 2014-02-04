@@ -6,7 +6,13 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   version '3.0.2'
   description 'Puppet Omnibus package'
   revision ENV['BUILD_NUMBER']
-  vendor 'yelp'
+  uname = `uname -a`
+  if uname =~ /Linux/
+    codename = `cat /etc/lsb-release | grep CODENAME | cut -d= -f2`.chomp
+    vendor "yelp-#{codename}"
+  else
+    vendor 'yelp-darwin'
+  end
   maintainer '<tdoran@yelp.com>'
   license 'Apache 2.0 License'
 
