@@ -16,9 +16,9 @@ tar xzf $WORKSPACE/ruby-*.tgz
 popd
 echo "Done"
 set -x
-if [ "$BUILD_NO" == "" ];then
-  echo "BUILD_NO environment not set - producing debug build"
-  export BUILD_NO=debug001
+if [ "$BUILD_NUMBER" == "" ];then
+  echo "BUILD_NUMBER environment not set - producing debug build"
+  export BUILD_NUMBER=debug0
 fi
 echo "Going for bundle install and build:"
 /opt/ruby/bin/bundle install --binstubs
