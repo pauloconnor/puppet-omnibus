@@ -32,6 +32,7 @@ class PuppetOmnibus < FPM::Cookery::Recipe
                   'aws',
                   'puppettools'
   replaces 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger'
+  conflicts 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger'
 
   # Set up paths to initscript and config files per platform
   platforms [:ubuntu, :debian] do
