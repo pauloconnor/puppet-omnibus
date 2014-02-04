@@ -31,6 +31,10 @@ class PuppetGem < FPM::Cookery::Recipe
     gem_install name,          version
     # Download init scripts and conf
     build_files
+
+    # Nasty hack to make puppet be able to use facter 1.7.3
+    cleanenv_safesystem "rm -r #{destdir}/lib/ruby/gems/1.9.1/gems/facter-1.6.18 #{destdir}/lib/ruby/gems/1.9.1/cache/facter-1.6.18.gem"
+    cleanenv_safesystem "sed -i -e's/1.6.11/1.7.3/' lib/ruby/gems/1.9.1/specifications/puppet-3.0.2.gemspec"
   end
 
   def install
