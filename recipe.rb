@@ -31,18 +31,18 @@ class PuppetOmnibus < FPM::Cookery::Recipe
                   'puppet',
                   'aws',
                   'puppettools'
-  replaces 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
-  conflicts 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
-  provides 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
+#  replaces 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
+#  conflicts 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
+#  provides 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
 
   # Set up paths to initscript and config files per platform
   platforms [:ubuntu, :debian] do
-    config_files '/etc/default/puppet'
+#    config_files '/etc/default/puppet'
   end
   platforms [:fedora, :redhat, :centos] do
-    config_files '/etc/sysconfig/puppet'
+#    config_files '/etc/sysconfig/puppet'
   end
-  omnibus_additional_paths config_files
+#  omnibus_additional_paths config_files
 
   def build
     # Nothing

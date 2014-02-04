@@ -64,27 +64,18 @@ class PuppetGem < FPM::Cookery::Recipe
 
   platforms [:ubuntu, :debian] do
     def build_files
-      system "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/debian/puppet.init"
-      system "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/debian/puppet.default"
-      # Set the real daemon path in initscript defaults
-      system "echo DAEMON=#{destdir}/bin/puppet >> puppet.default"
     end
     def install_files
-      etc('puppet').mkdir
-      etc('default').install builddir('puppet.default') => 'puppet'
+    #  etc('puppet').mkdir
+    #  etc('default').install builddir('puppet.default') => 'puppet'
     end
   end
 
   platforms [:fedora, :redhat, :centos] do
     def build_files
-      safesystem "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/redhat/client.init"
-      safesystem "curl -O https://raw.github.com/puppetlabs/puppet/#{version}/ext/redhat/client.sysconfig"
-      # Set the real daemon path in initscript defaults
-      safesystem "echo PUPPETD=#{destdir}/bin/puppet >> client.sysconfig"
     end
     def install_files
-      etc('puppet').mkdir
-      etc('sysconfig').install builddir('client.sysconfig') => 'puppet'
+    #  etc('puppet').mkdir
     end
   end
 
@@ -93,6 +84,9 @@ class PuppetGem < FPM::Cookery::Recipe
       f.write <<-__POSTINST
 #!/bin/sh
 set -e
+
+echo "Not setting up binstubs to /usr/bin"
+exit 0
 
 BIN_PATH="#{destdir}/bin"
 BINS="puppet facter hiera"
