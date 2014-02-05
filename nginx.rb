@@ -50,7 +50,7 @@ class Nginx < FPM::Cookery::Recipe
 
       :pid_path                   => '/var/run/nginx.pid',
       :lock_path                  => '/var/lock/subsys/nginx',
-      :conf_path                  => '/opt/omnibus-puppet/embedded/etc/nginx/nginx.conf',
+      :conf_path                  => '/opt/omnibus-puppet/etc/nginx.conf',
       :http_log_path              => '/var/log/nginx/access.log',
       :error_log_path             => '/var/log/nginx/error.log',
       :http_proxy_temp_path       => '/var/lib/nginx/tmp/proxy',
@@ -77,7 +77,7 @@ class Nginx < FPM::Cookery::Recipe
     # server
     destdir('../etc').install builddir('../nginx.conf')
     destdir('../bin').install workdir('omnibus.bin'), 'nginx'
-    destdir('').install Dir['objs/nginx']
+    destdir('bin').install Dir['objs/nginx']
 
     # man page
     #man8.install Dir['objs/nginx.8']
