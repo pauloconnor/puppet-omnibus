@@ -47,6 +47,7 @@ class PuppetGem < FPM::Cookery::Recipe
     destdir('../bin').install workdir('omnibus.bin'), 'puppet'
     destdir('../bin').install workdir('omnibus.bin'), 'facter'
     destdir('../bin').install workdir('omnibus.bin'), 'hiera'
+    destdir('../bin').install builddir('../unicorn'), 'unicorn'
 
     destdir('../var').mkdir
     destdir('../var/lib').mkdir
