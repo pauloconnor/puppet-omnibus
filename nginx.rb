@@ -12,6 +12,8 @@ class Nginx < FPM::Cookery::Recipe
 
   platforms [:ubuntu, :debian] do
     build_depends 'make', 'gcc', 'g++', 'libpcre3-dev', 'zlib1g-dev', 'libssl-dev', 'libxml2-dev', 'libxslt1-dev'
+
+    rel = `cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2`.chomp
     case rel
     when 'lucid'
       depends 'libssl0.9.8'
