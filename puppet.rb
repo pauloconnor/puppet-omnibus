@@ -25,10 +25,10 @@ class PuppetGem < FPM::Cookery::Recipe
     gem_install 'rgen',        '0.6.5'
     ENV['PKG_CONFIG_PATH'] = '/opt/puppet-omnibus/embedded/lib/pkgconfig'
     gem_install 'ruby-augeas -- --with-opt-dir=/opt/puppet-omnibus/embedded', '0.4.1'
-    platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
+    self.class.platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
       gem_install 'ruby-shadow', '2.2.0'
     end
-    platforms [:darwin] do
+    self.class.platforms [:darwin] do
       cleanenv_safesystem "git clone -b osx git://github.com/apalmblad/ruby-shadow.git"
       cleanenv_safesystem "#{destdir}/bin/gem build #{workdir}/ruby-shadow/*.gemspec"
       cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/ruby-shadow/*.gem"
