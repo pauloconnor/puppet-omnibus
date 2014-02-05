@@ -48,14 +48,14 @@ class Nginx < FPM::Cookery::Recipe
       :user                       => 'puppet',
       :group                      => 'puppet',
 
-      :pid_path                   => '/var/run/nginx.pid',
-      :lock_path                  => '/var/lock/subsys/nginx',
+      :pid_path                   => '/var/run/puppetmaster-nginx.pid',
+      :lock_path                  => '/opt/omnibus-puppet/embedded/var/lock/nginx',
       :conf_path                  => '/opt/omnibus-puppet/etc/nginx.conf',
-      :http_log_path              => '/var/log/nginx/access.log',
-      :error_log_path             => '/var/log/nginx/error.log',
-      :http_proxy_temp_path       => '/var/lib/nginx/tmp/proxy',
-      :http_fastcgi_temp_path     => '/var/lib/nginx/tmp/fastcgi',
-      :http_client_body_temp_path => '/var/lib/nginx/tmp/client_body'
+      :http_log_path              => '/var/log/puppetmaster-nginx/access.log',
+      :error_log_path             => '/var/log/puppetmaster-nginx/error.log',
+      :http_proxy_temp_path       => '/opt/omnibus-puppet/var/tmp/proxy',
+      :http_fastcgi_temp_path     => '/opt/omnibus-puppet/var/tmp/fastcgi',
+      :http_client_body_temp_path => '/opt/omnibus-puppet/var/tmp/client_body'
 #      :http_uwsgi_temp_path       => '/var/lib/nginx/tmp/uwsgi',
 #      :http_scgi_temp_path        => '/var/lib/nginx/tmp/scgi'
 
@@ -84,7 +84,7 @@ class Nginx < FPM::Cookery::Recipe
     #system 'gzip', man8/'nginx.8'
 
     # support dirs
-    %w( run lock log/nginx lib/nginx ).map do |dir|
+    %w( var var/lock  var/tmp ).map do |dir|
       destdir(dir).mkpath
     end
   end
