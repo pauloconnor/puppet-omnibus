@@ -49,13 +49,13 @@ class Nginx < FPM::Cookery::Recipe
       :group                      => 'puppet',
 
       :pid_path                   => '/var/run/puppetmaster-nginx.pid',
-      :lock_path                  => '/opt/omnibus-puppet/embedded/var/lock/nginx',
-      :conf_path                  => '/opt/omnibus-puppet/etc/nginx.conf',
+      :lock_path                  => '/opt/puppet-omnibus/embedded/var/lock/nginx',
+      :conf_path                  => '/opt/puppet-omnibus/etc/nginx.conf',
       :http_log_path              => '/var/log/puppetmaster-nginx/access.log',
       :error_log_path             => '/var/log/puppetmaster-nginx/error.log',
-      :http_proxy_temp_path       => '/opt/omnibus-puppet/var/tmp/proxy',
-      :http_fastcgi_temp_path     => '/opt/omnibus-puppet/var/tmp/fastcgi',
-      :http_client_body_temp_path => '/opt/omnibus-puppet/var/tmp/client_body'
+      :http_proxy_temp_path       => '/opt/puppet-omnibus/var/tmp/proxy',
+      :http_fastcgi_temp_path     => '/opt/puppet-omnibus/var/tmp/fastcgi',
+      :http_client_body_temp_path => '/opt/puppet-omnibus/var/tmp/client_body'
 #      :http_uwsgi_temp_path       => '/var/lib/nginx/tmp/uwsgi',
 #      :http_scgi_temp_path        => '/var/lib/nginx/tmp/scgi'
 
