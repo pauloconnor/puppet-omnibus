@@ -30,9 +30,6 @@ class Nginx < FPM::Cookery::Recipe
                 'initscripts', 'chkconfig' 
   end 
 
-  config_files '/etc/nginx/nginx.conf',
-               '/etc/nginx/mime.types'
-
   def build
     configure \
       '--with-http_gzip_static_module',
@@ -78,6 +75,7 @@ class Nginx < FPM::Cookery::Recipe
     #(var/'www/nginx-default').install Dir['html/*']
 
     # server
+    destdir('../etc').install builddir('../nginx.conf')
     destdir('../bin').install workdir('omnibus.bin'), 'nginx'
 
     # man page
