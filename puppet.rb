@@ -52,10 +52,10 @@ class PuppetGem < FPM::Cookery::Recipe
     destdir('../var/lib').mkdir
     destdir('../var/lib/puppetmaster').mkdir
     destdir('../var/lib/puppetmaster/rack').mkdir
-    destdir('../var/lib/puppetmaster/rack').install builddir('config.ru')
+    destdir('../var/lib/puppetmaster/rack').install builddir('../config.ru')
 
     destdir('../etc').mkdir
-    destdir('../etc').install builddir('unicorn.conf')
+    destdir('../etc').install builddir('../unicorn.conf')
 
     # Symlink binaries to PATH using update-alternatives
     with_trueprefix do
