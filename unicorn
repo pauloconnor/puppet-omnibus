@@ -1,3 +1,4 @@
 #!/bin/sh
-exec sudo -u puppet /opt/puppet-omnibus/embedded/bin/unicorn -c /opt/puppet-omnibus/etc/unicorn.conf
+export HOME=/
+exec setuidgid puppet /opt/puppet-omnibus/embedded/bin/unicorn -c /opt/puppet-omnibus/etc/unicorn.conf
 
