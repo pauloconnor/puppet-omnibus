@@ -23,7 +23,7 @@ class PuppetGem < FPM::Cookery::Recipe
     gem_install 'hiera',       '1.3.0'
     gem_install 'deep_merge',  '1.0.0'
     gem_install 'rgen',        '0.6.5'
-    gem_install 'ruby-augeas', '0.4.1'
+    gem_install 'ruby-augeas --with-opt-dir=/opt/puppet-omnibus/embedded', '0.4.1'
     gem_install 'ruby-shadow', '2.2.0'
     gem_install 'gpgme',       '2.0.2'
     gem_install 'rack',        '1.5.2'
