@@ -10,12 +10,23 @@ class Nginx < FPM::Cookery::Recipe
 
   section 'System Environment/Daemons'
 
-  build_depends 'gcc', 'gcc-c++', 'make', 'pcre-devel', 'zlib-devel', 'openssl-devel'
+  platforms [:ubuntu, :debian] do
+    build_depends 'make', 'gcc', 'g++', 'libpcre3-dev', 'zlib1g-dev', 'libssl-dev', 'libxml2-dev', 'libxslt1-dev'
+    case rel
+    when 'lucid'
+      depends 'libssl0.9.8'
+    else
+      depends 'libssl1.0.0'
+    end
+    depends 'zlib1g', 'libxml2', 'libxslt1.1'
+  end
 
-  # 'yum deplist nginx' yields:
-  depends       'openssl', 'glibc', 'zlib', 'pcre', 'libxslt',
+  platforms [:fedora, :redhat, :centos] do
+    build_depends 'gcc', 'gcc-c++', 'make', 'pcre-devel', 'zlib-devel', 'openssl-devel', 'libxml2-devel', 'libxslt-devel'
+    depends 'openssl', 'glibc', 'zlib', 'pcre', 'libxslt',
                 'gd', 'GeoIP', 'libxml2', 'perl', 'bash', 'shadow-utils',
-                'initscripts', 'chkconfig'
+                'initscripts', 'chkconfig' 
+  end 
 
   config_files '/etc/nginx/nginx.conf',
                '/etc/nginx/mime.types'
