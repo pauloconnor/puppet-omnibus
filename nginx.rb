@@ -26,7 +26,7 @@ class Nginx < FPM::Cookery::Recipe
   platforms [:fedora, :redhat, :centos] do
     build_depends 'gcc', 'gcc-c++', 'make', 'pcre-devel', 'zlib-devel', 'openssl-devel', 'libxml2-devel', 'libxslt-devel'
     depends 'openssl', 'glibc', 'zlib', 'pcre', 'libxslt',
-                'gd', 'GeoIP', 'libxml2', 'perl', 'bash', 'shadow-utils',
+                'perl', 'bash', 'shadow-utils',
                 'initscripts', 'chkconfig' 
   end 
 
