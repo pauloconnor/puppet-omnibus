@@ -12,8 +12,8 @@ $0 = "master"
 # ARGV << "--debug"
 
 ARGV << "--rack"
-ARGV << "--confdir" << "/etc/puppet"
-ARGV << "--vardir" << "/var/lib/puppet"
+ARGV << "--confdir" << "/etc/puppetmaster"
+ARGV << "--vardir" << "/var/lib/puppetmaster"
 
 require 'puppet/util/command_line'
 
