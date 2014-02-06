@@ -6,6 +6,8 @@
 # if puppet is not in your RUBYLIB:
 # $:.unshift('/opt/puppet/lib')
 
+Encoding.default_external = Encoding::UTF_8
+
 $0 = "master"
 
 # if you want debugging:
