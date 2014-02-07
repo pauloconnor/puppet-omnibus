@@ -11,7 +11,7 @@ class Nginx < FPM::Cookery::Recipe
   section 'System Environment/Daemons'
 
   platforms [:ubuntu, :debian] do
-    build_depends 'make', 'gcc', 'g++', 'libpcre3-dev', 'zlib1g-dev', 'libssl-dev', 'libxml2-dev', 'libxslt1-dev'
+    build_depends 'make', 'gcc', 'g++', 'libssl-dev', 'libxml2-dev', 'libxslt1-dev'
 
     rel = `cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2`.chomp
     case rel
@@ -20,22 +20,22 @@ class Nginx < FPM::Cookery::Recipe
     else
       depends 'libssl1.0.0'
     end
-    depends 'zlib1g', 'libxml2', 'libxslt1.1'
+    depends 'libxml2', 'libxslt1.1'
   end
 
   platforms [:fedora, :redhat, :centos] do
-    build_depends 'gcc', 'gcc-c++', 'make', 'pcre-devel', 'zlib-devel', 'openssl-devel', 'libxml2-devel', 'libxslt-devel'
-    depends 'openssl', 'glibc', 'zlib', 'pcre', 'libxslt',
+    build_depends 'gcc', 'gcc-c++', 'make', 'openssl-devel', 'libxml2-devel', 'libxslt-devel'
+    depends 'openssl', 'glibc', 'libxslt',
                 'perl', 'bash', 'shadow-utils',
                 'initscripts', 'chkconfig' 
   end 
 
   def build
     configure \
-      '--with-http_gzip_static_module',
+      '--without-http_gzip_static_module',
       '--with-http_stub_status_module',
       '--with-http_ssl_module',
-      '--with-pcre',
+      '--without-pcre',
       '--with-file-aio',
       '--with-http_realip_module',
       '--without-http_scgi_module',
