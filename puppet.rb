@@ -34,6 +34,9 @@ class PuppetGem < FPM::Cookery::Recipe
       cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/ruby-shadow/*.gem"
     end
     gem_install 'gpgme',       '2.0.2'
+    gem_install 'highline',    '1.6.20' # Ruby
+    gem_install 'trollop',     '2.0' # ??? FIXME
+    gem_install 'hiera-eyaml', '2.0.0' # MIT
     gem_install 'rack',        '1.5.2'
     gem_install 'unicorn',     '4.8.1'
     gem_install name,          version
