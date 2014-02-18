@@ -35,6 +35,7 @@ class Nginx < FPM::Cookery::Recipe
       '--with-http_stub_status_module',
       '--with-http_ssl_module',
       '--without-pcre',
+      '--without-http_rewrite_module',
       '--with-file-aio',
       '--with-http_realip_module',
       '--without-http_scgi_module',
