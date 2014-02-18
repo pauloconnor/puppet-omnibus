@@ -32,7 +32,6 @@ class Nginx < FPM::Cookery::Recipe
 
   def build
     configure \
-      '--without-http_gzip_static_module',
       '--with-http_stub_status_module',
       '--with-http_ssl_module',
       '--without-pcre',
