@@ -6,6 +6,7 @@ class PuppetToolsGem < FPM::Cookery::Recipe
   source "nothing", :with => :noop
 
   def build
+    gen_install 'bundler'
     gem_install 'puppet-syntax', '1.1.0'                        # MIT
     gem_install 'librarian-puppet', '0.9.10'           # Ruby
     #gem 'puppet-lint', #'~> 0.4.0.pre1'         # MIT
