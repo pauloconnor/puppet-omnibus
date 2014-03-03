@@ -9,7 +9,7 @@ class PuppetToolsGem < FPM::Cookery::Recipe
     gen_install 'bundler'
     gem_install 'puppet-syntax', '1.1.0'                        # MIT
     gem_install 'librarian-puppet', '0.9.10'           # Ruby
-    #gem 'puppet-lint', #'~> 0.4.0.pre1'         # MIT
+    gem_install 'puppet-lint', '~> 0.4.0.pre1'         # MIT
     #    :git => 'git://github.com/rodjek/puppet-lint.git' # Due to https://github.com/rodjek/puppet-lint/issues/224 - go back to forge as soon as there is a release
     gem_install 'rspec-core', '2.14.5'                 # MIT
     gem_install 'rspec-expectations', '2.14.2'         # MIT
