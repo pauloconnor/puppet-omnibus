@@ -1,4 +1,5 @@
 #!/bin/sh
 export HOME=/
-exec setuidgid puppet /opt/puppet-omnibus/embedded/bin/unicorn -c /opt/puppet-omnibus/etc/unicorn.conf
-
+exec setuidgid puppet /opt/puppet-omnibus/embedded/bin/unicorn -D \
+                        -c /opt/puppet-omnibus/etc/unicorn.conf \
+                        -E deployment
