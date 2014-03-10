@@ -5,6 +5,7 @@
 
 # if puppet is not in your RUBYLIB:
 # $:.unshift('/opt/puppet/lib')
+require '/opt/puppet-omnibus/var/lib/ruby/seppuku_patch.rb'
 
 Encoding.default_external = Encoding::UTF_8
 

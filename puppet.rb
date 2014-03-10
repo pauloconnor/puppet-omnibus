@@ -62,6 +62,8 @@ class PuppetGem < FPM::Cookery::Recipe
 
     destdir('../var').mkdir
     destdir('../var/lib').mkdir
+    destdir('../var/lib/ruby').mkdir
+    destdir('../var/lib/ruby').install builddir('../seppuku_patch.rb')
     destdir('../var/lib/puppetmaster').mkdir
     destdir('../var/lib/puppetmaster/rack').mkdir
     destdir('../var/lib/puppetmaster/rack').install builddir('../config.ru')

@@ -75,7 +75,7 @@ pull requests welcomed!
 
 You need to clone the repository and bundle it:
 
-    $ git clone https://github.com/andytinycat/puppet-omnibus
+    $ git clone https://github.com/bobtfish/puppet-omnibus
     $ bundle install
 
 Now use fpm-cookery to build the package:

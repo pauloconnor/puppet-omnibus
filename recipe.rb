@@ -1,11 +1,11 @@
 class PuppetOmnibus < FPM::Cookery::Recipe
   homepage 'https://github.com/bobtfish/puppet-omnibus'
-
   section 'Utilities'
   name 'puppet-omnibus'
   version '3.0.2'
   description 'Puppet Omnibus package'
   revision ENV['BUILD_NUMBER']
+
   uname = `uname -a`
   if uname =~ /Linux/
     if File.exists?('/etc/redhat-release')
@@ -15,10 +15,11 @@ class PuppetOmnibus < FPM::Cookery::Recipe
     else
       codename = `cat /etc/lsb-release | grep CODENAME | cut -d= -f2`.chomp
       vendor "yelp-#{codename}-"
-    end 
+    end
   else
     vendor 'yelp-darwin'
   end
+
   maintainer '<tdoran@yelp.com>'
   license 'Apache 2.0 License'
 
@@ -55,6 +56,4 @@ class PuppetOmnibus < FPM::Cookery::Recipe
     self.class.post_install builddir('post-install')
     self.class.pre_uninstall builddir('pre-uninstall')
   end
-
 end
-
