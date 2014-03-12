@@ -1,6 +1,10 @@
 class Unicorn::HttpServer
   # memory limit in KILOBYTES
-  MEM_LIMIT = ENV['PUPPET_OMNIBUS_WMLIMIT'].to_i || 2_000_000
+  MEM_LIMIT = if (limit = ENV['PUPPET_OMNIBUS_WMLIMIT'].to_i) == 0
+    500_000
+  else
+    limit
+  end
 
   alias :original_process_client :process_client
   def process_client(client)
