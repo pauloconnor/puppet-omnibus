@@ -21,6 +21,6 @@ if [ "$BUILD_NUMBER" == "" ];then
   export BUILD_NUMBER=debug0
 fi
 echo "Going for bundle install and build:"
-/opt/ruby/bin/bundle install --binstubs
+/opt/ruby/bin/bundle install --binstubs --local
 fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
 
