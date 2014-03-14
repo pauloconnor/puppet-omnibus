@@ -54,6 +54,7 @@ The following gems are built into both recipes:
 - ruby-shadow
 - gpgme
 - puppet
+- unicorn
 
 The following extra gems are included in the `recipe-aws.rb` build:
 - aws-sdk
@@ -96,6 +97,16 @@ The final package will be at:
     puppet-omnibus/pkg
 
 You might want to update the maintainer, revision and vendor in puppet-omnibus.rb.
+
+Configuration
+-------------
+
+Unicorn server can be configured via following env variables:
+
+- PUPPET_OMNIBUS_LOG (/var/log/puppetmaster) where do unicorn logs go
+- PUPPET_OMNIBUS_WORKERS (12) number of workers
+- PUPPET_OMNIBUS_WMLIMIT (500 000) memory limit for worker process in Kilobytes
+- PUPPET_OMNIBUS_WRLIMIT (1000) maximum number of requests worker can process
 
 Testing
 -------
