@@ -17,6 +17,8 @@ class PuppetToolsGem < FPM::Cookery::Recipe
     gem_install 'rspec-puppet', '0.1.6'                # MIT
     gem_install 'puppetlabs_spec_helper', '0.4.1'      # Apache2
     gem_install 'sensu-plugin', '0.2.2'
+    gem_install 'puppet-lint', '~> 0.4.0.pre1'
+    gem_install 'r10k', '~> 1.2.0'
 
     # gem 'rspec-hiera-puppet',                  # MIT
     #   :git => 'git://github.com/keymone/rspec-hiera-puppet.git',
