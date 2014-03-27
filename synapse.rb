@@ -3,11 +3,11 @@ class SynapseRecipe < FPM::Cookery::Recipe
 
   name 'synapse'
   version '1.0.0'
-  source "nothing", :with => :noop
+  source "https://github.com/airbnb/synapse", :with => :git,
 
   def build
-    cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc specific_install"
-    cleanenv_safesystem "#{destdir}/bin/gem specific_install https://github.com/airbnb/synapse.git"
+    cleanenv_safesystem "#{destdir}/bin/gem build *.gemspec"
+    cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc *,gem"
   end
 
   def install
