@@ -6,9 +6,16 @@ class SynapseRecipe < FPM::Cookery::Recipe
   source "https://github.com/airbnb/synapse", :with => :git
 
   def build
+    gem_install "zk", "~> 1.9.2"
+    gem_install "docker-api", "~> 1.7.2"
     cleanenv_safesystem "#{destdir}/bin/gem build *.gemspec"
     cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc *.gem"
   end
+
+  def gem_install(name, version = nil)
+    v = version.nil? ? '' : "-v #{version}"
+    cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{v} #{name}"
+  end 
 
   def install
     # Provide 'safe' binaries in /opt/<package>/bin like Vagrant does
