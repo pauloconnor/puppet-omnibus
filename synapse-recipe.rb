@@ -2,7 +2,7 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   homepage 'https://github.com/bobtfish/puppet-omnibus'
   section 'Utilities'
   name 'synapse-omnibus'
-  version '3.0.2'
+  version '0.8.0'
   description 'Synapse Omnibus package'
   revision ENV['BUILD_NUMBER']
 
