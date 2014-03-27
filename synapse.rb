@@ -3,7 +3,7 @@ class SynapseRecipe < FPM::Cookery::Recipe
 
   name 'synapse'
   version '0.9.1'
-  source "https://github.com/airbnb/synapse", :with => :git
+  source "https://github.com/bobtfish/synapse", :with => :git, :ref => 'gem_work_in_non_git'
 
   def build
     gem_install "zk", "1.9.4"
