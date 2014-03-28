@@ -56,7 +56,7 @@ class Ruby193 < FPM::Cookery::Recipe
 
   def build
     ENV['CFLAGS'] = "-O3 #{ENV['CFLAGS']}"
-    ENV['MAINLIBS'] = "-ltcmalloc_minimal"
+    #ENV['MAINLIBS'] = "-ltcmalloc_minimal"
     configure :prefix => destdir,
               'enable-shared' => true,
               'disable-install-doc' => true,
