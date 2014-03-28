@@ -1,0 +1,12 @@
+--- lib/ruby/gems/1.9.1/gems/puppet-3.0.2/lib/puppet/type/user_old.rb   2014-03-28 16:28:17.956743521 +0000
++++ lib/ruby/gems/1.9.1/gems/puppet-3.0.2/lib/puppet/type/user.rb   2014-03-28 16:27:41.485265388 +0000
+@@ -158,6 +158,9 @@
+
+     newproperty(:comment) do
+       desc "A description of the user.  Generally the user's full name."
++      munge do |v|
++        v.respond_to?(:force_encoding) ? v.encode(Encoding::ASCII_8BIT) : v
++      end
+     end
+
+     newproperty(:shell) do
