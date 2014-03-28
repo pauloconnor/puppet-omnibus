@@ -55,9 +55,11 @@ class Ruby193 < FPM::Cookery::Recipe
   platforms [:redhat, :centos] do depends.push('openssl') end
 
   def build
+    ENV['RUBY_CFLAGS'] = "-O3 -Wno-error=shorten-64-to-32 -march=native #{ENV['RUBY_CFLAGS']}"
     configure :prefix => destdir,
               'enable-shared' => true,
               'disable-install-doc' => true,
+              'disable-pthread' => true,
               'with-opt-dir' => destdir
     make
   end
