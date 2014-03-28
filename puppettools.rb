@@ -14,7 +14,7 @@ class PuppetToolsGem < FPM::Cookery::Recipe
     gem_install 'rspec-mocks', '2.14.3'                # MIT
     gem_install 'rspec', '2.14.1'                      # MIT
     gem_install 'rake-hooks', '1.2.3'                  # MIT
-    gem_install 'rspec-puppet', '0.1.6'                # MIT
+    gem_install 'rspec-puppet', '1.0.1'                # MIT
     gem_install 'puppetlabs_spec_helper', '0.4.1'      # Apache2
     gem_install 'sensu-plugin', '0.2.2'
     gem_install 'puppet-lint', '0.4.0.pre1'
