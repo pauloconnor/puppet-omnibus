@@ -72,7 +72,7 @@ __USERPATCH
     # Provide 'safe' binaries in /opt/<package>/bin like Vagrant does
     rm_rf "#{destdir}/../bin"
     destdir('../bin').mkdir
-    destdir('../bin').install workdir('omnibus.bin'), 'puppet'
+    destdir('../bin').install workdir('puppet'), 'puppet'
     destdir('../bin').install workdir('omnibus.bin'), 'facter'
     destdir('../bin').install workdir('omnibus.bin'), 'hiera'
     destdir('../bin').install builddir('../unicorn'), 'unicorn'
@@ -81,6 +81,7 @@ __USERPATCH
     destdir('../var/lib').mkdir
     destdir('../var/lib/ruby').mkdir
     destdir('../var/lib/ruby').install builddir('../seppuku_patch.rb')
+    destdir('../var/lib/ruby').install builddir('../gemspec_patch.rb')
     destdir('../var/lib/puppetmaster').mkdir
     destdir('../var/lib/puppetmaster/rack').mkdir
     destdir('../var/lib/puppetmaster/rack').install builddir('../config.ru')
