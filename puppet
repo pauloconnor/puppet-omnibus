@@ -4,6 +4,8 @@ unset RUBYOPT BUNDLE_GEMFILE BUNDLE_BIN_PATH GEM_HOME GEM_PATH GEMRC
 export RUBY_HEAP_MIN_SLOTS=600000
 export RUBY_GC_MALLOC_LIMIT=59000000
 export RUBY_HEAP_FREE_MIN=100000
-export RUBYOPT="-rrubygems -r/opt/puppet-omnibus/var/lib/ruby/gemset_patch.rb"
+# FIXME - put this back
+#export RUBYOPT="-rrubygems -r/opt/puppet-omnibus/var/lib/ruby/gemset_patch.rb"
 
-/opt/puppet-omnibus/embedded/bin/puppet "$@"
+exec /opt/puppet-omnibus/embedded/bin/puppet "$@"
+
