@@ -51,9 +51,11 @@ class Ruby193 < FPM::Cookery::Recipe
             'gdbm'
     redhat = IO.read('/etc/redhat-release')
     releaseno = /CentOS release (\d)/.match(redhat)[1]
+    puts "CENTOS RELESE #{releaseno.inspect}"
     if releaseno == '5'
       build_depends 'autoconf26x'
     else
+      puts "USING JUST autoconf"
       build_depends 'autoconf'
     end
   end
