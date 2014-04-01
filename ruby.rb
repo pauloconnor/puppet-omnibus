@@ -41,7 +41,6 @@ class Ruby193 < FPM::Cookery::Recipe
   platforms [:fedora, :redhat, :centos] do
     build_depends 'rpmdevtools',
                   'libffi-devel',
-                  'autoconf',
                   'bison',
                   'libxml2-devel',
                   'libxslt-devel',
