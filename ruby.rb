@@ -50,6 +50,13 @@ class Ruby193 < FPM::Cookery::Recipe
     depends 'zlib',
             'libffi',
             'gdbm'
+    redhat = IO.read('/etc/redhat-release')
+    releaseno = /CentOS release (\d)/.match(redhat)[1]
+    if releaseno == '5'
+      build_depends 'autoconf26x'
+    else
+      build_depends 'autoconf'
+    end
   end
   platforms [:fedora] { depends.push('openssl-libs') }
   platforms [:redhat, :centos] { depends.push('openssl') }
