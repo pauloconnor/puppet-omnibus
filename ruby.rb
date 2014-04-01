@@ -2,11 +2,11 @@ class Ruby193 < FPM::Cookery::Recipe
   description 'The Ruby virtual machine'
 
   name 'ruby'
-  version '1.9.3.484'
-  revision 1
+  version '1.9.3.545'
+  revision 545
   homepage 'http://www.ruby-lang.org/'
-  source 'http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p484.tar.bz2'
-  sha256 '0fdc6e860d0023ba7b94c7a0cf1f7d32908b65b526246de9dfd5bb39d0d7922b'
+  source 'http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p545.tar.bz2'
+  sha256 '2533de9f56d62f11c06a02dd32b5ab6d22a8f268c94b8e1e1ade6536adfd1aab'
 
   maintainer '<github@tinycat.co.uk>'
   vendor     'fpm'
@@ -51,12 +51,14 @@ class Ruby193 < FPM::Cookery::Recipe
             'libffi',
             'gdbm'
   end
-  platforms [:fedora] do depends.push('openssl-libs') end
-  platforms [:redhat, :centos] do depends.push('openssl') end
+  platforms [:fedora] { depends.push('openssl-libs') }
+  platforms [:redhat, :centos] { depends.push('openssl') }
 
   def build
+    patch_ruby
+
     ENV['CFLAGS'] = "-O3 #{ENV['CFLAGS']}"
-    #ENV['MAINLIBS'] = "-ltcmalloc_minimal"
+    system "autoconf"
     configure :prefix => destdir,
               'enable-shared' => true,
               'disable-install-doc' => true,
@@ -72,5 +74,16 @@ class Ruby193 < FPM::Cookery::Recipe
     safesystem "strip #{destdir}/bin/ruby"
     safesystem "find #{destdir} -name '*.so' -or -name '*.so.*' | xargs strip"
   end
-end
 
+  def patch_ruby
+    repo = "https://raw.githubusercontent.com/keymone/rvm-patchsets/master"
+    ruby = "1.9.3/p545"
+    system(%Q{
+      cat #{workdir('ruby-patchset')} | grep -v '^#' |
+      while read patch; do
+        echo "Applying $patch..."
+        curl #{repo}/patches/ruby/#{ruby}/$patch | patch -p1 > /dev/null
+      done
+    })
+  end
+end
