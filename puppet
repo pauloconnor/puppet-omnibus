@@ -6,4 +6,4 @@ export RUBY_GC_MALLOC_LIMIT=59000000
 export RUBY_HEAP_FREE_MIN=100000
 export RUBYOPT="-rrubygems -r/opt/puppet-omnibus/var/lib/ruby/gemspec_patch.rb"
 
-/opt/puppet-omnibus/embedded/bin/puppet "$@"
+exec /opt/puppet-omnibus/embedded/bin/puppet "$@"
