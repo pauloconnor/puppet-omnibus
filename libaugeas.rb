@@ -21,8 +21,14 @@ class Libaugeas < FPM::Cookery::Recipe
 
   platforms [:fedora, :redhat, :centos] do
     build_depends 'rpmdevtools',
-                  'autoconf',
                   'bison'
+     redhat = IO.read('/etc/redhat-release')
+     releaseno = /CentOS release (\d)/.match(redhat)[1]
+     if releaseno == '5'
+       build_depends 'autoconf26x'
+     else
+       build_depends 'autoconf'
+     end 
   end
 
   def build
