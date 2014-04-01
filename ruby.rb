@@ -57,7 +57,7 @@ class Ruby193 < FPM::Cookery::Recipe
   def build
     patch_ruby
 
-    ENV['CFLAGS'] = "-O3 #{ENV['CFLAGS']}"
+    ENV['CFLAGS'] = "-Os #{ENV['CFLAGS']}"
     system "autoconf"
     configure :prefix => destdir,
               'enable-shared' => true,
@@ -76,13 +76,10 @@ class Ruby193 < FPM::Cookery::Recipe
   end
 
   def patch_ruby
-    repo = "https://raw.githubusercontent.com/keymone/rvm-patchsets/master"
-    ruby = "1.9.3/p545"
     system(%Q{
-      cat #{workdir('ruby-patchset')} | grep -v '^#' |
-      while read patch; do
+      for patch in #{workdir('ruby-patches')}/#{version}/*; do
         echo "Applying $patch..."
-        curl #{repo}/patches/ruby/#{ruby}/$patch | patch -p1 > /dev/null
+        cat $patch | patch -p1 > /dev/null
       done
     })
   end
