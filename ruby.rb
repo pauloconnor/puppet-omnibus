@@ -59,14 +59,14 @@ class Ruby193 < FPM::Cookery::Recipe
       build_depends 'autoconf'
     end
   end
-  platforms [:fedora] { depends.push('openssl-libs') }
-  platforms [:redhat, :centos] { depends.push('openssl') }
+  platforms([:fedora]) { depends.push('openssl-libs') }
+  platforms([:redhat, :centos]) { depends.push('openssl') }
 
   def build
     patch_ruby
 
     ENV['CFLAGS'] = "-Os #{ENV['CFLAGS']}"
-    system "autoconf"
+    system "autoconf2.6x || autoconf"
     configure :prefix => destdir,
               'enable-shared' => true,
               'disable-install-doc' => true,

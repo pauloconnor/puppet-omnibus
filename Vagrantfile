@@ -10,6 +10,12 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--cpus", "2"]
   end
 
+  config.vm.define :centos5 do |node0|
+    node0.vm.hostname = "centos5"
+    node0.vm.box      = "centos5"
+    node0.vm.box_url  = "http://puppet-vagrant-boxes.puppetlabs.com/centos-59-x64-vbox4210.box"
+  end
+
   config.vm.define :centos6 do |node1|
     node1.vm.hostname = "centos6"
     node1.vm.box      = "centos6"
