@@ -81,6 +81,7 @@ __USERPATCH
     destdir('../var/lib').mkdir
     destdir('../var/lib/ruby').mkdir
     destdir('../var/lib/ruby').install builddir('../seppuku_patch.rb')
+    destdir('../var/lib/ruby').install builddir('../puppet_autoload_patch.rb')
     destdir('../var/lib/ruby').install builddir('../gemspec_patch.rb')
     destdir('../var/lib/puppetmaster').mkdir
     destdir('../var/lib/puppetmaster/rack').mkdir
