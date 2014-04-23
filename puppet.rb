@@ -25,7 +25,6 @@ class PuppetGem < FPM::Cookery::Recipe
     gem_install 'rgen',        '0.6.5'
     ENV['PKG_CONFIG_PATH'] = '/opt/puppet-omnibus/embedded/lib/pkgconfig'
     gem_install 'ruby-augeas -- --with-opt-dir=/opt/puppet-omnibus/embedded', '0.4.1'
-    gem_install 'augeas  -- --with-opt-dir=/opt/puppet-omnibus/embedded', '0.6.3'
     self.class.platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
       gem_install 'ruby-shadow', '2.2.0'
     end
