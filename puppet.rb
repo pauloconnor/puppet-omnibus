@@ -31,6 +31,7 @@ class PuppetGem < FPM::Cookery::Recipe
       cleanenv_safesystem "#{destdir}/bin/gem build #{workdir}/ruby-shadow/*.gemspec"
       cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/ruby-shadow/*.gem"
     end
+    gem_install 'libvirt',     '0.2.0'
     gem_install 'gpgme',       '2.0.2'
     gem_install 'highline',    '1.6.20' # Ruby
     gem_install 'trollop',     '2.0' # ??? FIXME
