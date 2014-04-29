@@ -8,12 +8,10 @@ class PuppetGem < FPM::Cookery::Recipe
 
   platforms [:ubuntu, :debian] do
     build_depends 'pkg-config'
-    depends 'pkg-config'
   end
 
   platforms [:fedora, :redhat, :centos] do
     build_depends 'pkgconfig'
-    depends 'pkgconfig'
   end
 
   def build

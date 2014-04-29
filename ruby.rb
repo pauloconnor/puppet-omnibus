@@ -18,22 +18,24 @@ class Ruby193 < FPM::Cookery::Recipe
 
   platforms [:ubuntu, :debian] do
     build_depends 'autoconf',
-                  'libreadline6-dev',
                   'bison',
                   'zlib1g-dev',
                   'libssl-dev',
                   'libncurses5-dev',
                   'build-essential',
-                  'libffi-dev',
                   'libgdbm-dev'
     case rel
+    when 'hardy'
+      build_depends 'libffi4-dev', 'libreadline5-dev'
+      depends 'libreadline5', 'libffi4', 'libssl0.9.8'
     when 'lucid'
-      depends 'libffi5', 'libssl0.9.8'
+      build_depends 'libffi-dev', 'libreadline6-dev'
+      depends 'libreadline6', 'libffi5', 'libssl0.9.8'
     else
-      depends 'libffi6', 'libssl1.0.0', 'libtinfo5'
+      build_depends 'libffi-dev', 'libreadline6-dev'
+      depends 'libreadline6', 'libffi6', 'libssl1.0.0', 'libtinfo5'
     end
     depends 'libncurses5',
-            'libreadline6',
             'zlib1g',
             'libgdbm3'
   end
