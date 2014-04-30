@@ -25,6 +25,6 @@ test:   .docker_is_created
 	touch .docker_is_created
 
 clean:
-	rm -rf dist/
+	rm -rf pkg/ cache/
 	rm .docker_is_created
 
