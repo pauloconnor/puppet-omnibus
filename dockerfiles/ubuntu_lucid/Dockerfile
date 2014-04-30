@@ -6,4 +6,5 @@ RUN useradd jenkins ; chmod 600 /home/jenkins/.ssh/authorized_keys ; chown jenki
 RUN mkdir /package ; mkdir /nail; chown jenkins: /opt /nail ; rm -f /bin/sh ; ln -s /bin/bash /bin/sh ; mkdir /etc/puppet ; mkdir /var/lib/puppet ; mkdir /var/cache/omnibus ; chown jenkins: /var/cache/omnibus /etc/puppet /var/lib/puppet ; touch /etc/default/puppet ;chown jenkins: /etc/default/puppet /package
 RUN cd /tmp ; git clone https://github.com/sstephenson/ruby-build ; cd ruby-build ; RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm" ./bin/ruby-build 1.9.3-p484 /opt/ruby
 RUN cd /opt/ruby ; rm -rf /tmp/ruby-build ; ./bin/ruby ./bin/gem install bundler ; ./bin/ruby ./bin/gem install fpm
+RUN chown -R jenkins: /opt/ruby
 

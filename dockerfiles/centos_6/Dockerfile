@@ -13,4 +13,5 @@ RUN mkdir /package ; mkdir /etc/puppet ; mkdir /var/lib/puppet ; mkdir /var/cach
 RUN touch /etc/sysconfig/puppet ;chown jenkins: /etc/sysconfig/puppet
 RUN cd /tmp ; git clone https://github.com/sstephenson/ruby-build ; cd ruby-build ; RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm" ./bin/ruby-build 1.9.3-p484 /opt/ruby
 RUN cd /opt/ruby ; rm -rf /tmp/ruby-build ; ./bin/ruby ./bin/gem install bundler ; ./bin/ruby ./bin/gem install fpm
+RUN chown -R jenkins: /opt/ruby
 
