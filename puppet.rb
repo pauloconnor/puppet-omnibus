@@ -23,6 +23,7 @@ class PuppetGem < FPM::Cookery::Recipe
 
   def build
     # Install gems using the gem command from destdir
+    gem_install 'nokogiri',    '1.4.3' # N.b. ruby-libvirt pins this here
     gem_install 'facter',      '1.7.3'
     gem_install 'json_pure',   '1.8.0'
     gem_install 'hiera',       '1.3.0'
