@@ -9,7 +9,7 @@ RUN passwd -uf jenkins
 RUN yum install gcc-c++ pcre-devel glibc-headers openssl-devel readline libyaml-devel readline-devel zlib zlib-devel rpmdevtools libffi-devel autoconf bison libxslt-devel gdbm-devel gnutls-devel -y
 RUN yum install -y libvirt-devel libvirt
 RUN mkdir /opt ; mkdir /nail; chown jenkins: /opt /nail ; yum install sudo fakeroot -y
-RUN mkdir /package ; /etc/puppet ; mkdir /var/lib/puppet ; mkdir /var/cache/omnibus ; chown jenkins: /etc/puppet /var/lib/puppet /var/cache/omnibus /package
+RUN mkdir /package ; mkdir /etc/puppet ; mkdir /var/lib/puppet ; mkdir /var/cache/omnibus ; chown jenkins: /etc/puppet /var/lib/puppet /var/cache/omnibus /package
 RUN touch /etc/sysconfig/puppet ;chown jenkins: /etc/sysconfig/puppet
 RUN cd /tmp ; git clone https://github.com/sstephenson/ruby-build ; cd ruby-build ; RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm" ./bin/ruby-build 1.9.3-p484 /opt/ruby
 RUN cd /opt/ruby ; rm -rf /tmp/ruby-build ; ./bin/ruby ./bin/gem install bundler ; ./bin/ruby ./bin/gem install fpm
