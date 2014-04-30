@@ -21,7 +21,7 @@ test:   .docker_is_created
 .docker_is_created:
 	# We lock the building of the container, because multiple simultaneous docker builds
 	# don't make anything faster.
-	cd dockerfiles/$(OS) && flock /tmp/container_$(OS)_docker_build.lock docker build -t "package_$(BASE_PACKAGE_NAME)_$(OS)" .
+	docker images | grep "package_$(BASE_PACKAGE_NAME)_$(OS)" >/dev/null 2>&1 ; if [ "$$?" -eq "0" ];then /bin/true; else cd dockerfiles/$(OS) && flock /tmp/container_$(OS)_docker_build.lock docker build -t "package_$(BASE_PACKAGE_NAME)_$(OS)" .; fi
 	touch .docker_is_created
 
 clean:
