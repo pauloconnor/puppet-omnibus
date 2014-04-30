@@ -3,7 +3,7 @@ VERSION:=3.0.2
 #BUILD_NUMBER:=debug0
 #OS:=ubuntu_lucid
 
-DOCKER_RUN:=docker run -v  $(CURDIR):/package:rw -e BUILD_NUMBER=$(BUILD_NUMBER) package_$(BASE_PACKAGE_NAME)_$(OS)
+DOCKER_RUN:=docker run -u jenkins -v $(CURDIR):/package:rw -e BUILD_NUMBER=$(BUILD_NUMBER) package_$(BASE_PACKAGE_NAME)_$(OS)
 
 OUTPUT_PACKAGE_NAME   :=pkg/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
 
