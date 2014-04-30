@@ -13,7 +13,7 @@ itest:   package
 package:   test   $(OUTPUT_PACKAGE_NAME)
 
 $(OUTPUT_PACKAGE_NAME):
-	$(DOCKER_RUN) package_$(BASE_PACKAGE_NAME)_$(OS) /package/JENKINS_BUILD.sh
+	$(DOCKER_RUN) /package/JENKINS_BUILD.sh
 
 test:   .docker_is_created
 	/bin/true
