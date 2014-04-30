@@ -12,6 +12,13 @@ class PuppetGem < FPM::Cookery::Recipe
 
   platforms [:fedora, :redhat, :centos] do
     build_depends 'pkgconfig'
+    redhat = IO.read('/etc/redhat-release')
+    releaseno = /CentOS release (\d)/.match(redhat)[1]
+    if releaseno == '6'
+      build_depends 'libvirt-devel'
+      depends 'libvirt'
+    end
+
   end
 
   def build
@@ -31,7 +38,13 @@ class PuppetGem < FPM::Cookery::Recipe
       cleanenv_safesystem "#{destdir}/bin/gem build #{workdir}/ruby-shadow/*.gemspec"
       cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/ruby-shadow/*.gem"
     end
-    gem_install 'ruby-libvirt','0.4.0'
+    self.class.platforms [:fedora, :redhat, :centos] do
+      redhat = IO.read('/etc/redhat-release')
+      releaseno = /CentOS release (\d)/.match(redhat)[1]
+      if releaseno == '6'
+        gem_install 'ruby-libvirt','0.4.0'
+      end
+    end 
     gem_install 'gpgme',       '2.0.2'
     gem_install 'highline',    '1.6.20' # Ruby
     gem_install 'trollop',     '2.0' # ??? FIXME
