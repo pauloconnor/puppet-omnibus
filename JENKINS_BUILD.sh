@@ -9,6 +9,8 @@ if [ "$BUILD_NUMBER" == "" ];then
 fi
 echo "Going for bundle install and build:"
 cd /package
+cp -r /package_source/* /package/
 /opt/ruby/bin/bundle install --binstubs --local
 fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
+cp -r pkg/* /package_dest/
 

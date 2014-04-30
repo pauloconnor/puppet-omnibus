@@ -6,6 +6,6 @@ RUN chmod 600 /home/jenkins/.ssh/authorized_keys ; chown jenkins: -R /home/jenki
 RUN chsh -s /bin/bash jenkins
 RUN mkdir /opt ; mkdir /nail; chown jenkins: /opt /nail
 RUN rm -f /bin/sh ; ln -s /bin/bash /bin/sh
-RUN mkdir /etc/puppet ; mkdir /var/lib/puppet ; mkdir /var/cache/omnibus ; chown jenkins: /etc/puppet /var/lib/puppet /var/cache/omnibus
+RUN mkdir /package ; mkdir /etc/puppet ; mkdir /var/lib/puppet ; mkdir /var/cache/omnibus ; chown jenkins: /etc/puppet /var/lib/puppet /var/cache/omnibus /package
 RUN touch /etc/default/puppet ;chown jenkins: /etc/default/puppet
 

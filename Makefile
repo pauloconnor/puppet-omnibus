@@ -3,17 +3,19 @@ VERSION:=3.0.2
 #BUILD_NUMBER:=debug0
 #OS:=ubuntu_lucid
 
-DOCKER_RUN:=docker run -u jenkins -v $(CURDIR):/package:rw -e BUILD_NUMBER=$(BUILD_NUMBER) package_$(BASE_PACKAGE_NAME)_$(OS)
+DOCKER_RUN:=docker run -u jenkins -e BUILD_NUMBER=$(BUILD_NUMBER) package_$(BASE_PACKAGE_NAME)_$(OS)
 
 OUTPUT_PACKAGE_NAME   :=pkg/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
 
 itest:   package
-	$(DOCKER_RUN) /package/itest/$(OS).sh /package/$(OUTPUT_PACKAGE_NAME)
+	$(DOCKER_RUN) -v $(CURDIR)/pkg:/package_dest:ro /package_source/itest/$(OS).sh /package_dest/$(OUTPUT_PACKAGE_NAME)
 
 package:   test   $(OUTPUT_PACKAGE_NAME)
 
 $(OUTPUT_PACKAGE_NAME):
-	$(DOCKER_RUN) /package/JENKINS_BUILD.sh
+	if [ ! -d pkg/ ]; then mkdir pkg; fi
+	chmod 777 pkg
+	$(DOCKER_RUN) -v $(CURDIR):/package_source:ro -v $(CURDIR)/pkg:/package_dest:rw /package_source/JENKINS_BUILD.sh
 
 test:   .docker_is_created
 	/bin/true

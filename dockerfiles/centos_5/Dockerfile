@@ -13,5 +13,5 @@ RUN yum install --enablerepo=webtatic git-all -y
 RUN yum install make gcc-c++ pcre-devel glibc-headers openssl-devel readline libyaml-devel readline-devel zlib zlib-devel rpmdevtools libffi-devel bison libxslt-devel gdbm-devel rpmdevtools gnutls-devel -y
 RUN rpm -Uvh ftp://ftp.pbone.net/mirror/dl.iuscommunity.org/pub/ius/archive/Redhat/5/i386/autoconf26x-2.63-4.ius.el5.noarch.rpm
 RUN mkdir /opt ; mkdir /nail; chown jenkins: /opt /nail ; yum install sudo fakeroot -y
-RUN mkdir /etc/puppet ; mkdir /var/lib/puppet ; mkdir /var/cache/omnibus ; chown jenkins: /etc/puppet /var/lib/puppet /var/cache/omnibus
+RUN mkdir /package ; mkdir /etc/puppet ; mkdir /var/lib/puppet ; mkdir /var/cache/omnibus ; chown jenkins: /etc/puppet /var/lib/puppet /var/cache/omnibus /package
 RUN touch /etc/sysconfig/puppet ;chown jenkins: /etc/sysconfig/puppet
