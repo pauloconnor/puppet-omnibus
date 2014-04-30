@@ -14,7 +14,7 @@ class Ruby193 < FPM::Cookery::Recipe
   section 'libraries'
 
   platforms [:ubuntu, :debian] do
-	build_depends 'build-essential', 'gnutls-dev'
+	build_depends 'build-essential', 'libgnutls-dev'
     depends 'libgnutls26'
   end
 
