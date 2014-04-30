@@ -1,7 +1,7 @@
 BASE_PACKAGE_NAME:=puppet-omnibus
 VERSION:=3.0.2
 BUILD_NUMBER:=debug0
-OS:=ubuntu_lucid
+#OS:=ubuntu_lucid
 
 DOCKER_RUN:=docker run -v  $(CURDIR):/package:rw -e BUILD_NUMBER=$(BUILD_NUMBER) package_$(BASE_PACKAGE_NAME)_$(OS)
 
