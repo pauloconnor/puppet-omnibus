@@ -5,3 +5,4 @@ ldd.out
 pkg/
 tmp-build/
 tmp-dest/
+.lucid_docker_is_created
