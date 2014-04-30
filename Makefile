@@ -26,5 +26,5 @@ test:   .docker_is_created
 
 clean:
 	rm -rf pkg/ cache/
-	rm .docker_is_created
+	rm -f .docker_is_created
 
