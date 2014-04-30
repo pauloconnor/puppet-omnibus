@@ -6,19 +6,7 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   description 'Puppet Omnibus package'
   revision ENV['BUILD_NUMBER']
 
-  uname = `uname -a`
-  if uname =~ /Linux/
-    if File.exists?('/etc/redhat-release')
-      redhat = IO.read('/etc/redhat-release')
-      releaseno = /CentOS release (\d)/.match(redhat)[1]
-      vendor "yelp-centos#{releaseno}-"
-    else
-      codename = `cat /etc/lsb-release | grep CODENAME | cut -d= -f2`.chomp
-      vendor "yelp-#{codename}-"
-    end
-  else
-    vendor 'yelp-darwin'
-  end
+  vendor 'yelp'
 
   maintainer '<tdoran@yelp.com>'
   license 'Apache 2.0 License'
