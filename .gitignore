@@ -6,4 +6,4 @@ pkg/
 tmp-build/
 tmp-dest/
 cache/*
-.docker_is_created
+.*docker_is_created

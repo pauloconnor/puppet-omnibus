@@ -12,5 +12,8 @@ cd /package
 cp -r /package_source/* /package/
 /opt/ruby/bin/bundle install --binstubs --local
 fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
-cp -r pkg/* /package_dest/
+echo "Copying package to the dist folder"
+env
+set -vx
+cp -v pkg/* /package_dest/
 
