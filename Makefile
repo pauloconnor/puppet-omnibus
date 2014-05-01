@@ -15,7 +15,7 @@ package:   test   $(OUTPUT_PACKAGE_NAME)
 $(OUTPUT_PACKAGE_NAME):
 	if [ ! -d pkg/ ]; then mkdir pkg; fi
 	chmod 777 pkg
-	$(DOCKER_RUN) -i jenkins -e HOME=/package -v $(CURDIR)/pkg:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/pkg:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
 
 test:   .docker_is_created
 	/bin/true
