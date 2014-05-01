@@ -3,19 +3,19 @@ VERSION:=3.0.2
 #BUILD_NUMBER:=debug0
 #OS:=ubuntu_lucid
 
-DOCKER_RUN:=docker run -u jenkins -e BUILD_NUMBER=$(BUILD_NUMBER) -v $(CURDIR):/package_source:ro
+DOCKER_RUN:=docker run -e BUILD_NUMBER=$(BUILD_NUMBER) -v $(CURDIR):/package_source:ro
 
 OUTPUT_PACKAGE_NAME   :=pkg/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
 
 itest:   package
-	$(DOCKER_RUN) -v $(CURDIR)/pkg:/package_dest:ro package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/itest/$(OS).sh /package_dest/$(OUTPUT_PACKAGE_NAME)
+	$(DOCKER_RUN) -v $(CURDIR):/package_dest:ro package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/itest/$(OS).sh /package_dest/$(OUTPUT_PACKAGE_NAME)
 
 package:   test   $(OUTPUT_PACKAGE_NAME)
 
 $(OUTPUT_PACKAGE_NAME):
 	if [ ! -d pkg/ ]; then mkdir pkg; fi
 	chmod 777 pkg
-	$(DOCKER_RUN) -e HOME=/package -v $(CURDIR)/pkg:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	$(DOCKER_RUN) -i jenkins -e HOME=/package -v $(CURDIR)/pkg:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
 
 test:   .docker_is_created
 	/bin/true
