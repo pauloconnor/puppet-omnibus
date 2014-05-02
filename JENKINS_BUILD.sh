@@ -16,4 +16,4 @@ echo "Copying package to the dist folder"
 env
 set -vx
 cp -v pkg/* /package_dest/
-
+exit 0

@@ -3,10 +3,10 @@ VERSION:=3.0.2
 BUILD_NUMBER:=1
 
 # TODO: FIX FILENAME
-HARDY_OUTPUT_PACKAGE_NAME   :=dist/hardy/$(BASE_PACKAGE_NAME)_$(VERSION)-yelp$(BUILD_NUMBER)_amd64.deb
-LUCID_OUTPUT_PACKAGE_NAME   :=dist/lucid/$(BASE_PACKAGE_NAME)_$(VERSION)-yelp$(BUILD_NUMBER)_amd64.deb
-PRECISE_OUTPUT_PACKAGE_NAME :=dist/precise/$(BASE_PACKAGE_NAME)_$(VERSION)-yelp$(BUILD_NUMBER)_amd64.deb
-TRUSTY_OUTPUT_PACKAGE_NAME  :=dist/trusty/$(BASE_PACKAGE_NAME)_$(VERSION)-yelp$(BUILD_NUMBER)_amd64.deb
+HARDY_OUTPUT_PACKAGE_NAME   :=dist/hardy/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
+LUCID_OUTPUT_PACKAGE_NAME   :=dist/lucid/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
+PRECISE_OUTPUT_PACKAGE_NAME :=dist/precise/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
+TRUSTY_OUTPUT_PACKAGE_NAME  :=dist/trusty/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
 CENTOS5_OUTPUT_PACKAGE_NAME :=dist/centos5/$(BASE_PACKAGE_NAME)_$(VERSION)-yelp$(BUILD_NUMBER)-1.x86_64.rpm
 CENTOS6_OUTPUT_PACKAGE_NAME :=dist/centos6/$(BASE_PACKAGE_NAME)_$(VERSION)-yelp$(BUILD_NUMBER)-1.x86_64.rpm
 
@@ -21,17 +21,17 @@ DOCKER_CENTOS6_TEST_RUN:=docker run -v $(CURDIR)/itest:/itest:ro -v $(CURDIR)/di
 
 # Targets to run itests on each distro using the special stock test containers
 itest_hardy:   package_hardy
-	$(DOCKER_HARDY_TEST_RUN) /itest/hardy.sh $(HARDY_OUTPUT_PACKAGE_NAME)
+	$(DOCKER_HARDY_TEST_RUN) /itest/hardy.sh /$(HARDY_OUTPUT_PACKAGE_NAME)
 itest_lucid:   package_lucid
-	$(DOCKER_LUCID_TEST_RUN) /itest/lucid.sh $(LUCID_OUTPUT_PACKAGE_NAME)
+	$(DOCKER_LUCID_TEST_RUN) /itest/lucid.sh /$(LUCID_OUTPUT_PACKAGE_NAME)
 itest_precise: package_precise
-	$(DOCKER_PRECISE_TEST_RUN) /itest/precise.sh $(PRECISE_OUTPUT_PACKAGE_NAME)
+	$(DOCKER_PRECISE_TEST_RUN) /itest/precise.sh /$(PRECISE_OUTPUT_PACKAGE_NAME)
 itest_trusty:  package_trusty
-	$(DOCKER_TRUSTY_TEST_RUN) /itest/trusty.sh $(TRUSTY_OUTPUT_PACKAGE_NAME)
+	$(DOCKER_TRUSTY_TEST_RUN) /itest/trusty.sh /$(TRUSTY_OUTPUT_PACKAGE_NAME)
 itest_centos5: package_centos5
-	$(DOCKER_CENTOS5_TEST_RUN) /itest/centos5.sh $(CENTOS5_OUTPUT_PACKAGE_NAME)
+	$(DOCKER_CENTOS5_TEST_RUN) /itest/centos5.sh /$(CENTOS5_OUTPUT_PACKAGE_NAME)
 itest_centos6: package_centos6
-	$(DOCKER_CENTOS6_TEST_RUN) /itest/centos6.sh $(CENTOS6_OUTPUT_PACKAGE_NAME)
+	$(DOCKER_CENTOS6_TEST_RUN) /itest/centos6.sh /$(CENTOS6_OUTPUT_PACKAGE_NAME)
 
 # Named targets that depend on the docker AND the package
 package_hardy:   .hardy_docker_is_created $(HARDY_OUTPUT_PACKAGE_NAME)
