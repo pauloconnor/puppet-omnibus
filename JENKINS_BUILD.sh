@@ -11,7 +11,7 @@ echo "Going for bundle install and build:"
 cd /package
 cp -r /package_source/* /package/
 /opt/ruby/bin/bundle install --binstubs --local
-exec fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
+fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
 echo "Copying package to the dist folder"
 env
 set -vx
