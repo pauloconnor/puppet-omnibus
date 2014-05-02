@@ -9,7 +9,7 @@ TRUSTY_OUTPUT_PACKAGE_NAME  :=dist/trusty/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(
 CENTOS5_OUTPUT_PACKAGE_NAME :=dist/centos5/$(BASE_PACKAGE_NAME)_$(VERSION).yelp$(BUILD_NUMBER)-1.x86_64.rpm
 CENTOS6_OUTPUT_PACKAGE_NAME :=dist/centos6/$(BASE_PACKAGE_NAME)_$(VERSION).yelp$(BUILD_NUMBER)-1.x86_64.rpm
 
-DOCKER_RUN:=docker run -t -e BUILD_NUMBER=$(BUILD_NUMBER) -v $(CURDIR):/package_source:ro
+DOCKER_RUN:=docker run -e BUILD_NUMBER=$(BUILD_NUMBER) -v $(CURDIR):/package_source:ro
 
 DOCKER_HARDY_TEST_RUN:=docker run -v   $(CURDIR)/itest:/itest:ro -v $(CURDIR)/dist:/dist:ro docker-dev.yelpcorp.com/hardy_yelp
 DOCKER_LUCID_TEST_RUN:=docker run -v   $(CURDIR)/itest:/itest:ro -v $(CURDIR)/dist:/dist:ro docker-dev.yelpcorp.com/lucid_yelp
