@@ -7,7 +7,7 @@ if [ -z "$*" ]; then
   exit 1
 else
   packages_to_install=$*
-  print "Going to run integration tests on $packages_to_install"
+  echo "Going to run integration tests on $packages_to_install"
 fi
 
 if [ -e /opt/puppet-omnibus ]; then
