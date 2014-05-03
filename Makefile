@@ -62,7 +62,6 @@ $(TRUSTY_OUTPUT_PACKAGE_NAME): OS=trusty
 $(TRUSTY_OUTPUT_PACKAGE_NAME):
 	[ -d dist/trusty ] || mkdir -p dist/trusty
 	chmod 777 dist/trusty/
-	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/precise:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
 	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/trusty:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
 $(CENTOS5_OUTPUT_PACKAGE_NAME): OS=centos5
 $(CENTOS5_OUTPUT_PACKAGE_NAME):
