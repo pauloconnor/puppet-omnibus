@@ -15,5 +15,7 @@ fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
 echo "Copying package to the dist folder"
 env
 set -vx
+echo About to put files in /package_dest/
+ls -lha /package_dest/
 cp -v pkg/* /package_dest/
 exit 0
