@@ -2,6 +2,11 @@ BASE_PACKAGE_NAME:=puppet-omnibus
 VERSION:=3.0.2
 BUILD_NUMBER:=1
 
+CURDIR:=$(shell /bin/pwd)
+
+all: itest_hardy itest_lucid itest_precise itest_trusty itest_centos5 itest_centos6
+build_all: package_hardy package_lucid package_precise package_trusty package_centos5 package_centos6
+
 HARDY_OUTPUT_PACKAGE_NAME   :=dist/hardy/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
 LUCID_OUTPUT_PACKAGE_NAME   :=dist/lucid/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
 PRECISE_OUTPUT_PACKAGE_NAME :=dist/precise/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
@@ -9,7 +14,7 @@ TRUSTY_OUTPUT_PACKAGE_NAME  :=dist/trusty/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(
 CENTOS5_OUTPUT_PACKAGE_NAME :=dist/centos5/$(BASE_PACKAGE_NAME)_$(VERSION).yelp$(BUILD_NUMBER)-1.x86_64.rpm
 CENTOS6_OUTPUT_PACKAGE_NAME :=dist/centos6/$(BASE_PACKAGE_NAME)_$(VERSION).yelp$(BUILD_NUMBER)-1.x86_64.rpm
 
-DOCKER_RUN:=docker run -e BUILD_NUMBER=$(BUILD_NUMBER) -v $(CURDIR):/package_source:ro
+DOCKER_RUN:=unbuffer docker run -t -i  -e BUILD_NUMBER=$(BUILD_NUMBER) -v $(CURDIR):/package_source:ro
 
 DOCKER_HARDY_TEST_RUN:=docker run -v   $(CURDIR)/itest:/itest:ro -v $(CURDIR)/dist:/dist:ro docker-dev.yelpcorp.com/hardy_yelp
 DOCKER_LUCID_TEST_RUN:=docker run -v   $(CURDIR)/itest:/itest:ro -v $(CURDIR)/dist:/dist:ro docker-dev.yelpcorp.com/lucid_yelp
@@ -47,7 +52,7 @@ $(HARDY_OUTPUT_PACKAGE_NAME): OS=hardy
 $(HARDY_OUTPUT_PACKAGE_NAME):
 	[ -d dist/hardy ] || mkdir -p dist/hardy
 	chmod 777 dist/hardy/
-	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/hardy/:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/hardy/:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /bin/bash /package_source/JENKINS_BUILD.sh
 $(LUCID_OUTPUT_PACKAGE_NAME): OS=lucid
 $(LUCID_OUTPUT_PACKAGE_NAME):
 	[ -d dist/lucid ] || mkdir -p dist/lucid

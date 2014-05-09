@@ -18,4 +18,6 @@ set -vx
 echo About to put files in /package_dest/
 ls -lha /package_dest/
 cp -v pkg/* /package_dest/
-exit 0
+echo "Package copying worked!"
+ps -ef --forest
+#exit 0
