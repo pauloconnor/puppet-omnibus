@@ -14,7 +14,7 @@ if [ -e /opt/puppet-omnibus ]; then
   exit 1
 fi
 
-if yum install -y $packages_to_install; then
+if yum --nogpg install -y $packages_to_install; then
   echo "Looks like it installed correctly"
 else
   echo "yum install failed"
