@@ -1,6 +1,6 @@
 BASE_PACKAGE_NAME:=puppet-omnibus
 VERSION:=3.0.2
-BUILD_NUMBER:=1
+BUILD_NUMBER:=2
 
 CURDIR:=$(shell /bin/pwd)
 
