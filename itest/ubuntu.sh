@@ -7,6 +7,7 @@ if [ -z "$*" ]; then
   exit 1
 else
   packages_to_install=$*
+  echo "Going to run integration tests on $packages_to_install"
 fi
 
 if [ -e /opt/puppet-omnibus ]; then
@@ -14,7 +15,9 @@ if [ -e /opt/puppet-omnibus ]; then
   exit 1
 fi
 
-if dpkg -i $packages_to_install; then
+apt-get update
+apt-get -y install gdebi-core
+if gdebi -n $packages_to_install; then
   echo "Looks like it installed correctly"
 else
   echo "Dpkg install failed"
@@ -27,3 +30,11 @@ else
   echo "puppet-omnibus doesnt look like it is installed"
   exit 1
 fi
+
+if /opt/puppet-omnibus/bin/puppet --version; then
+  echo "puppet-omnibus looks like it Works!"
+else
+  echo "puppet-omnibus --version failed"
+  exit 1
+fi
+
