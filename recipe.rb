@@ -6,7 +6,7 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   description 'Puppet Omnibus package'
   revision ENV['BUILD_NUMBER']
 
-  vendor 'yelp'
+  vendor 'yelp-'
 
   maintainer '<tdoran@yelp.com>'
   license 'Apache 2.0 License'
