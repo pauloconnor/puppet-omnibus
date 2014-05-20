@@ -8,12 +8,12 @@ CURDIR:=$(shell /bin/pwd)
 all: itest_hardy itest_lucid itest_precise itest_trusty itest_centos5 itest_centos6
 build_all: package_hardy package_lucid package_precise package_trusty package_centos5 package_centos6
 
-HARDY_OUTPUT_PACKAGE_NAME   :=dist/hardy/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
-LUCID_OUTPUT_PACKAGE_NAME   :=dist/lucid/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
-PRECISE_OUTPUT_PACKAGE_NAME :=dist/precise/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
-TRUSTY_OUTPUT_PACKAGE_NAME  :=dist/trusty/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp$(BUILD_NUMBER)_amd64.deb
-CENTOS5_OUTPUT_PACKAGE_NAME :=dist/centos5/$(BASE_PACKAGE_NAME)-$(VERSION).yelp$(BUILD_NUMBER)-1.x86_64.rpm
-CENTOS6_OUTPUT_PACKAGE_NAME :=dist/centos6/$(BASE_PACKAGE_NAME)-$(VERSION).yelp$(BUILD_NUMBER)-1.x86_64.rpm
+HARDY_OUTPUT_PACKAGE_NAME   :=dist/hardy/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp-$(BUILD_NUMBER)_amd64.deb
+LUCID_OUTPUT_PACKAGE_NAME   :=dist/lucid/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp-$(BUILD_NUMBER)_amd64.deb
+PRECISE_OUTPUT_PACKAGE_NAME :=dist/precise/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp-$(BUILD_NUMBER)_amd64.deb
+TRUSTY_OUTPUT_PACKAGE_NAME  :=dist/trusty/$(BASE_PACKAGE_NAME)_$(VERSION)+yelp-$(BUILD_NUMBER)_amd64.deb
+CENTOS5_OUTPUT_PACKAGE_NAME :=dist/centos5/$(BASE_PACKAGE_NAME)-$(VERSION).yelp-$(BUILD_NUMBER)-1.x86_64.rpm
+CENTOS6_OUTPUT_PACKAGE_NAME :=dist/centos6/$(BASE_PACKAGE_NAME)-$(VERSION).yelp-$(BUILD_NUMBER)-1.x86_64.rpm
 
 DOCKER_RUN:=unbuffer docker run -t -i  -e BUILD_NUMBER=$(BUILD_NUMBER) -v $(CURDIR):/package_source:ro
 
