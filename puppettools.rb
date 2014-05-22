@@ -20,6 +20,7 @@ class PuppetToolsGem < FPM::Cookery::Recipe
     gem_install 'puppet-lint', '0.4.0.pre1'
     gem_install 'r10k', '1.2.0'
     gem_install 'pry'
+    gem_install 'json'
     # gem 'rspec-hiera-puppet',                  # MIT
     #   :git => 'git://github.com/keymone/rspec-hiera-puppet.git',
     #   :ref => 'v0.3.1.1'
