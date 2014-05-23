@@ -159,7 +159,6 @@ exit 0
     File.open(builddir('pre-uninstall'), 'w', 0755) do |f|
       f.write <<-__PRERM
 #!/bin/sh
-set -e
 
 BIN_PATH="#{destdir}/bin"
 BINS="puppet facter hiera"
