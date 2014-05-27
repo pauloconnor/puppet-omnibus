@@ -140,8 +140,30 @@ __USERPATCH
 #!/bin/sh
 set -e
 
-echo "Not setting up binstubs to /usr/bin"
-exit 0
+if [ "$1" = "configure" ]; then
+
+    # Create the "puppet" user
+    if ! getent passwd puppet > /dev/null; then
+        adduser --quiet --system --group --home /var/lib/puppet  \
+            --no-create-home                                 \
+            --gecos "Puppet configuration management daemon" \
+            puppet
+    fi
+
+    # Set correct permissions and ownership for puppet directories
+    if ! dpkg-statoverride --list /var/log/puppet >/dev/null 2>&1; then
+        dpkg-statoverride --update --add puppet puppet 0750 /var/log/puppet
+    fi
+
+    if ! dpkg-statoverride --list /var/lib/puppet >/dev/null 2>&1; then
+        dpkg-statoverride --update --add puppet puppet 0750 /var/lib/puppet
+    fi
+
+    # Create folders common to "puppet" and "puppetmaster", which need
+    # to be owned by the "puppet" user
+    install --owner puppet --group puppet --directory \
+        /var/lib/puppet/state
+fi
 
 BIN_PATH="#{destdir}/bin"
 BINS="puppet facter hiera"
