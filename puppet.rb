@@ -75,7 +75,7 @@ class PuppetGem < FPM::Cookery::Recipe
      newproperty(:shell) do
 __USERPATCH
     end
-    cleanenv_safesystem "cd #{destdir} ; patch -p0 < user.patch && rm user.patch"
+#    cleanenv_safesystem "cd #{destdir} ; patch -p0 < user.patch && rm user.patch"
   end
 
   def install
