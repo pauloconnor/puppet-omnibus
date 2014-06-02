@@ -2,7 +2,7 @@ class PuppetGem < FPM::Cookery::Recipe
   description 'Puppet gem stack'
 
   name 'puppet'
-  version '3.0.2'
+  version '3.4.3'
 
   source "nothing", :with => :noop
 
@@ -24,9 +24,9 @@ class PuppetGem < FPM::Cookery::Recipe
   def build
     # Install gems using the gem command from destdir
     gem_install 'nokogiri',    '1.4.3' # N.b. ruby-libvirt pins this here
-    gem_install 'facter',      '1.7.3'
+    gem_install 'facter',      '1.7.5'
     gem_install 'json_pure',   '1.8.0'
-    gem_install 'hiera',       '1.3.0'
+    gem_install 'hiera',       '1.3.3'
     gem_install 'deep_merge',  '1.0.0'
     gem_install 'rgen',        '0.6.5'
     ENV['PKG_CONFIG_PATH'] = '/opt/puppet-omnibus/embedded/lib/pkgconfig'
@@ -57,8 +57,8 @@ class PuppetGem < FPM::Cookery::Recipe
     build_files
 
     # Nasty hack to make puppet be able to use facter 1.7.3
-    cleanenv_safesystem "rm -r #{destdir}/lib/ruby/gems/1.9.1/gems/facter-1.6.18 #{destdir}/lib/ruby/gems/1.9.1/cache/facter-1.6.18.gem"
-    cleanenv_safesystem "sed -i -e's/1.6.11/1.7.3/' #{destdir}/lib/ruby/gems/1.9.1/specifications/puppet-3.0.2.gemspec"
+    #cleanenv_safesystem "rm -r #{destdir}/lib/ruby/gems/1.9.1/gems/facter-1.6.18 #{destdir}/lib/ruby/gems/1.9.1/cache/facter-1.6.18.gem"
+    #cleanenv_safesystem "sed -i -e's/1.6.11/1.7.3/' #{destdir}/lib/ruby/gems/1.9.1/specifications/puppet-3.0.2.gemspec"
     File.open("#{destdir}/user.patch", 'w', 0755) do |f|
       f.write <<-__USERPATCH
 --- lib/ruby/gems/1.9.1/gems/puppet-3.0.2/lib/puppet/type/user_old.rb   2014-03-28 16:28:17.956743521 +0000
