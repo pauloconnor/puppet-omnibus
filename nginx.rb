@@ -30,9 +30,9 @@ class Nginx < FPM::Cookery::Recipe
     rel = `facter 2>/dev/null | grep operatingsystemmajrelease | cut -d' ' -f3`.chomp
     case rel
     when '5'
-      depends 'openssl (>= 0.9.8e-27.el5_10.3)'
+      depends 'openssl >= 0.9.8e-27.el5_10.3'
     when '6'
-      depends 'openssl (>= 1.0.1e-16.el6_5.14)'
+      depends 'openssl >= 1.0.1e-16.el6_5.14'
     else
       depends 'openssl'
     end
