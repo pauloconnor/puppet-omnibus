@@ -1,5 +1,4 @@
 FROM centos:6.4
-ADD main.repo /etc/yum.repos.d/
 RUN yum install screen git passwd java-1.7.0-openjdk openssh-server gcc -y ; mkdir /var/run/sshd
 
 RUN adduser jenkins -g root ; adduser puppet ; mkdir /home/jenkins/.ssh ; chown jenkins: /home/jenkins/.ssh ; chmod 700 /home/jenkins/.ssh
