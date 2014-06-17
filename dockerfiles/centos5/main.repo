@@ -1,0 +1,6 @@
+[Packages-main]
+name=main Repository for CentOS $releasever $basearch
+failovermethod=priority
+baseurl=http://packages.local.yelpcorp.com:8000/centos/$releasever/main/
+enabled=1
+gpgcheck=0
