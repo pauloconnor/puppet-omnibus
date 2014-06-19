@@ -2,7 +2,7 @@ class PuppetGem < FPM::Cookery::Recipe
   description 'Puppet gem stack'
 
   name 'puppet'
-  version '3.4.3'
+  version '3.5.0'
 
   source "nothing", :with => :noop
 
@@ -56,26 +56,6 @@ class PuppetGem < FPM::Cookery::Recipe
     # Download init scripts and conf
     build_files
 
-    # Nasty hack to make puppet be able to use facter 1.7.3
-    #cleanenv_safesystem "rm -r #{destdir}/lib/ruby/gems/1.9.1/gems/facter-1.6.18 #{destdir}/lib/ruby/gems/1.9.1/cache/facter-1.6.18.gem"
-    #cleanenv_safesystem "sed -i -e's/1.6.11/1.7.3/' #{destdir}/lib/ruby/gems/1.9.1/specifications/puppet-3.0.2.gemspec"
-    File.open("#{destdir}/user.patch", 'w', 0755) do |f|
-      f.write <<-__USERPATCH
---- lib/ruby/gems/1.9.1/gems/puppet-3.0.2/lib/puppet/type/user_old.rb   2014-03-28 16:28:17.956743521 +0000
-+++ lib/ruby/gems/1.9.1/gems/puppet-3.0.2/lib/puppet/type/user.rb   2014-03-28 16:27:41.485265388 +0000
-@@ -158,6 +158,9 @@
-
-     newproperty(:comment) do
-       desc "A description of the user.  Generally the user's full name."
-+      munge do |v|
-+        v.respond_to?(:force_encoding) ? v.force_encoding(Encoding::ASCII_8BIT) : v
-+      end
-     end
-
-     newproperty(:shell) do
-__USERPATCH
-    end
-#    cleanenv_safesystem "cd #{destdir} ; patch -p0 < user.patch && rm user.patch"
   end
 
   def install
