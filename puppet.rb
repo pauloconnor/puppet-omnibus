@@ -2,7 +2,7 @@ class PuppetGem < FPM::Cookery::Recipe
   description 'Puppet gem stack'
 
   name 'puppet'
-  version '3.4.3'
+  version '3.5.1'
 
   source "nothing", :with => :noop
 
@@ -29,23 +29,28 @@ class PuppetGem < FPM::Cookery::Recipe
     gem_install 'hiera',       '1.3.3'
     gem_install 'deep_merge',  '1.0.0'
     gem_install 'rgen',        '0.6.5'
+
     ENV['PKG_CONFIG_PATH'] = '/opt/puppet-omnibus/embedded/lib/pkgconfig'
     gem_install 'ruby-augeas -- --with-opt-dir=/opt/puppet-omnibus/embedded', '0.4.1'
+
     self.class.platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
       gem_install 'ruby-shadow', '2.2.0'
     end
+
     self.class.platforms [:darwin] do
       cleanenv_safesystem "git clone -b osx git://github.com/apalmblad/ruby-shadow.git"
       cleanenv_safesystem "#{destdir}/bin/gem build #{workdir}/ruby-shadow/*.gemspec"
       cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/ruby-shadow/*.gem"
     end
+
     self.class.platforms [:fedora, :redhat, :centos] do
       redhat = IO.read('/etc/redhat-release')
       releaseno = /CentOS release (\d)/.match(redhat)[1]
       if releaseno == '6'
         gem_install 'ruby-libvirt','0.4.0'
       end
-    end 
+    end
+
     gem_install 'gpgme',       '2.0.2'
     gem_install 'highline',    '1.6.20' # Ruby
     gem_install 'trollop',     '2.0' # ??? FIXME
@@ -94,7 +99,7 @@ __USERPATCH
     destdir('../var/lib').mkdir
     destdir('../var/lib/ruby').mkdir
     destdir('../var/lib/ruby').install builddir('../seppuku_patch.rb')
-    destdir('../var/lib/ruby').install builddir('../puppet_autoload_patch.rb')
+    #destdir('../var/lib/ruby').install builddir('../puppet_autoload_patch.rb')
     destdir('../var/lib/ruby').install builddir('../gemspec_patch.rb')
     destdir('../var/lib/puppetmaster').mkdir
     destdir('../var/lib/puppetmaster/rack').mkdir

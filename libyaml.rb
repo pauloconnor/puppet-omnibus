@@ -1,4 +1,4 @@
-class Ruby193 < FPM::Cookery::Recipe
+class Libyaml < FPM::Cookery::Recipe
   description 'LibYAML is a YAML 1.1 parser and emitter written in C'
 
   name 'libyaml'
