@@ -1,5 +1,5 @@
 source "https://rubygems.org"
 
 gem "fpm-cookery",
-   :git => 'git://github.com/bobtfish/fpm-cookery.git', :branch => 'master'
+   :git => 'git://github.com/bernd/fpm-cookery.git', :tag => 'v0.24.0'
 
