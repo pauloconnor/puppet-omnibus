@@ -1,5 +1,6 @@
 node "precise" {
-  package {"ruby1.9.3": ensure => installed}
+  exec {"/usr/bin/apt-get update":} ->
+  package {"ruby1.9.3": ensure => installed} ->
   package {"git": ensure => installed}
 }
 

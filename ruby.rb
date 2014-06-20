@@ -14,17 +14,11 @@ class Ruby212 < FPM::Cookery::Recipe
 
   section 'interpreters'
 
-  rel = `cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2`.chomp
-
   platforms [:ubuntu, :debian] do
-    build_depends 'autoconf',
-                  'bison',
-                  'zlib1g-dev',
-                  'libssl-dev',
-                  'libncurses5-dev',
-                  'build-essential',
-                  'libgdbm-dev'
-    case rel
+    build_depends 'autoconf', 'bison', 'zlib1g-dev', 'libssl-dev',
+                  'libncurses5-dev', 'build-essential', 'libgdbm-dev'
+
+    case `cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2`.chomp
     when 'hardy'
       build_depends 'libffi4-dev', 'libreadline5-dev'
       depends 'libreadline5', 'libffi4', 'libssl0.9.8'
@@ -35,32 +29,23 @@ class Ruby212 < FPM::Cookery::Recipe
       build_depends 'libffi-dev', 'libreadline6-dev'
       depends 'libreadline6', 'libffi6', 'libssl1.0.0', 'libtinfo5'
     end
-    depends 'libncurses5',
-            'zlib1g',
-            'libgdbm3'
+
+    depends 'libncurses5', 'zlib1g', 'libgdbm3'
   end
 
   platforms [:fedora, :redhat, :centos] do
-    build_depends 'rpmdevtools',
-                  'libffi-devel',
-                  'bison',
-                  'libxml2-devel',
-                  'libxslt-devel',
-                  'openssl-devel',
-                  'gdbm-devel'
-    depends 'zlib',
-            'libffi',
-            'gdbm'
-    redhat = IO.read('/etc/redhat-release')
-    releaseno = /CentOS release (\d)/.match(redhat)[1]
-    puts "CENTOS RELESE #{releaseno.inspect}"
-    if releaseno == '5'
+    build_depends 'rpmdevtools', 'libffi-devel', 'bison', 'libxml2-devel',
+                  'libxslt-devel', 'openssl-devel', 'gdbm-devel'
+    depends 'zlib', 'libffi', 'gdbm'
+
+    if IO.read('/etc/redhat-release') =~ /CentOS release 5/
       build_depends 'autoconf26x'
     else
       puts "USING JUST autoconf"
       build_depends 'autoconf'
     end
   end
+
   platforms([:fedora]) { depends.push('openssl-libs') }
   platforms([:redhat, :centos]) { depends.push('openssl') }
 

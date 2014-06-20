@@ -2,7 +2,7 @@ class PuppetGem < FPM::Cookery::Recipe
   description 'Puppet gem stack'
 
   name 'puppet'
-  version '3.5.1'
+  version '3.6.2'
 
   source "nothing", :with => :noop
 
@@ -12,21 +12,19 @@ class PuppetGem < FPM::Cookery::Recipe
 
   platforms [:fedora, :redhat, :centos] do
     build_depends 'pkgconfig'
-    redhat = IO.read('/etc/redhat-release')
-    releaseno = /CentOS release (\d)/.match(redhat)[1]
-    if releaseno == '6'
+
+    if IO.read('/etc/redhat-release') =~ /CentOS release 6/
       build_depends 'libvirt-devel'
       depends 'libvirt'
     end
-
   end
 
   def build
     # Install gems using the gem command from destdir
     gem_install 'nokogiri',    '1.4.3' # N.b. ruby-libvirt pins this here
-    gem_install 'facter',      '1.7.5'
-    gem_install 'json_pure',   '1.8.0'
-    gem_install 'hiera',       '1.3.3'
+    gem_install 'facter',      '2.0.2'
+    gem_install 'json',        '1.8.0'
+    gem_install 'hiera',       '1.3.4'
     gem_install 'deep_merge',  '1.0.0'
     gem_install 'rgen',        '0.6.5'
 
@@ -44,23 +42,20 @@ class PuppetGem < FPM::Cookery::Recipe
     end
 
     self.class.platforms [:fedora, :redhat, :centos] do
-      redhat = IO.read('/etc/redhat-release')
-      releaseno = /CentOS release (\d)/.match(redhat)[1]
-      if releaseno == '6'
+      if IO.read('/etc/redhat-release') =~ /CentOS release 6/
         gem_install 'ruby-libvirt','0.4.0'
       end
     end
 
-    gem_install 'gpgme',       '2.0.2'
-    gem_install 'highline',    '1.6.20' # Ruby
+    gem_install 'gpgme',       '2.0.5'
+    gem_install 'highline',    '1.6.21' # Ruby
     gem_install 'trollop',     '2.0' # ??? FIXME
-    gem_install 'hiera-eyaml', '2.0.0' # MIT
+    gem_install 'hiera-eyaml', '2.0.2' # MIT
     gem_install 'rack',        '1.5.2'
-    gem_install 'unicorn',     '4.8.1'
+    gem_install 'unicorn',     '4.8.3'
     gem_install name,          version
     # Download init scripts and conf
     build_files
-
   end
 
   def install
