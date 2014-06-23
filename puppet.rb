@@ -9,11 +9,13 @@ class PuppetGem < FPM::Cookery::Recipe
   platforms [:ubuntu, :debian] do
     # don't install libvirt on deb systems (without fedora/redhat/centos)
     ENV['BUNDLE_WITHOUT'] = 'frc'
-    build_depends 'pkg-config', 'libxml2-dev', 'libxslt-dev'
+    build_depends 'pkg-config', 'libxml2-dev', 'libxslt1-dev'
+    depends 'libxml2', 'libxslt1.1'
   end
 
   platforms [:fedora, :redhat, :centos] do
-    build_depends 'pkgconfig'
+    build_depends 'pkgconfig', 'libxml2-devel', 'libxslt-devel'
+    depends 'libxml2', 'libxslt'
 
     if IO.read('/etc/redhat-release') =~ /CentOS release 6/
       build_depends 'libvirt-devel'
@@ -52,22 +54,24 @@ class PuppetGem < FPM::Cookery::Recipe
     rm_rf "#{destdir}/../bin"
     destdir('../bin').mkdir
     destdir('../bin').install workdir('puppet/puppet'), 'puppet'
-    destdir('../bin').install workdir('omnibus.bin'), 'facter'
-    destdir('../bin').install workdir('omnibus.bin'), 'hiera'
-    destdir('../bin').install builddir('../unicorn'), 'unicorn'
+    destdir('../bin').install workdir('shared/omnibus.bin'), 'facter'
+    destdir('../bin').install workdir('shared/omnibus.bin'), 'hiera'
+    destdir('../bin').install workdir('puppet/unicorn'), 'unicorn'
 
     destdir('../var').mkdir
     destdir('../var/lib').mkdir
+
     destdir('../var/lib/ruby').mkdir
-    destdir('../var/lib/ruby').install builddir('../seppuku_patch.rb')
-    #destdir('../var/lib/ruby').install builddir('../puppet_autoload_patch.rb')
-    destdir('../var/lib/ruby').install builddir('../gemspec_patch.rb')
+    destdir('../var/lib/ruby').install workdir('puppet/seppuku_patch.rb')
+    #destdir('../var/lib/ruby').install workdir('puppet/puppet_autoload_patch.rb')
+    destdir('../var/lib/ruby').install workdir('puppet/gemspec_patch.rb')
+
     destdir('../var/lib/puppetmaster').mkdir
     destdir('../var/lib/puppetmaster/rack').mkdir
-    destdir('../var/lib/puppetmaster/rack').install builddir('../config.ru')
+    destdir('../var/lib/puppetmaster/rack').install workdir('puppet/config.ru')
 
     destdir('../etc').mkdir
-    destdir('../etc').install builddir('../unicorn.conf')
+    destdir('../etc').install workdir('puppet/unicorn.conf')
 
     # Symlink binaries to PATH using update-alternatives
     with_trueprefix do

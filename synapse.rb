@@ -21,7 +21,7 @@ class SynapseRecipe < FPM::Cookery::Recipe
     # Provide 'safe' binaries in /opt/<package>/bin like Vagrant does
     rm_rf "#{destdir}/../bin"
     destdir('../bin').mkdir
-    destdir('../bin').install workdir('omnibus.bin'), 'synapse'
+    destdir('../bin').install workdir('shared/omnibus.bin'), 'synapse'
 
     with_trueprefix do
       create_post_install_hook

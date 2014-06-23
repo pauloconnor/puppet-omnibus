@@ -4,7 +4,9 @@ bin/
 ldd.out
 pkg/
 tmp-build/
+tmp-build
 tmp-dest/
+tmp-dest
 cache/*
 .*docker_is_created
 dist/

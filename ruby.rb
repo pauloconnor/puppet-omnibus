@@ -72,7 +72,7 @@ class Ruby212 < FPM::Cookery::Recipe
 
   def patch_ruby
     system(%Q{
-      for patch in #{workdir('ruby-patches')}/#{version}/*; do
+      for patch in #{workdir('ruby')}/#{version}/*; do
         echo "Applying $patch..."
         cat $patch | patch -p1 > /dev/null
       done

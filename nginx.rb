@@ -77,8 +77,8 @@ class Nginx < FPM::Cookery::Recipe
     #(var/'www/nginx-default').install Dir['html/*']
 
     # server
-    destdir('../etc').install builddir('../nginx.conf')
-    destdir('../bin').install workdir('omnibus.bin'), 'nginx'
+    destdir('../etc').install workdir('nginx/nginx.conf')
+    destdir('../bin').install workdir('shared/omnibus.bin'), 'nginx'
     destdir('bin').install Dir['objs/nginx']
 
     # man page
