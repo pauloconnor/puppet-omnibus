@@ -38,5 +38,4 @@ Vagrant.configure("2") do |config|
     puppet.manifests_path = "puppet_provisioning"
     puppet.manifest_file  = "site.pp"
   end
-
 end

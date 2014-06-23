@@ -1,5 +1,5 @@
 class Libyaml < FPM::Cookery::Recipe
-  description 'LibYAML is a YAML 1.1 parser and emitter written in C'
+  description 'LibYAML is a YAML 1.4 parser and emitter written in C'
 
   name 'libyaml'
   version '0.1.4'
@@ -15,11 +15,11 @@ class Libyaml < FPM::Cookery::Recipe
   section 'libraries'
 
   platforms [:ubuntu, :debian] do
-	build_depends 'build-essential'
+    build_depends 'build-essential'
   end
 
   platforms [:fedora, :redhat, :centos] do
-	build_depends 'gcc', 'gcc-c++', 'make'
+    build_depends 'gcc', 'gcc-c++', 'make'
   end
 
   def build

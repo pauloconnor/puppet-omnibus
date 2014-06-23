@@ -1,0 +1,12 @@
+Puppet FPM recipe
+
+This was prepared inside vagrant precise instance, i will add more details as
+i go and stumble upon non-obvious things.
+
+Make sure you do
+
+    $ PKG_CONFIG_PATH=/opt/puppet-omnibus/embedded/lib/pkgconfig \
+      bundle package
+
+every time you change gems/versions. You will need to apt-get install
+libvirt-dev to make installing ruby-libvirt happy.

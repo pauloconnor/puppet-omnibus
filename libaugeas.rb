@@ -15,20 +15,14 @@ class Libaugeas < FPM::Cookery::Recipe
   section 'libraries'
 
   platforms [:ubuntu, :debian] do
-    build_depends 'autoconf',
-                  'bison'
+    build_depends 'autoconf', 'bison', 'pkg-config', 'libxml2-dev'
   end
 
   platforms [:fedora, :redhat, :centos] do
-    build_depends 'rpmdevtools',
-                  'bison'
-     redhat = IO.read('/etc/redhat-release')
-     releaseno = /CentOS release (\d)/.match(redhat)[1]
-     if releaseno == '5'
-       build_depends 'autoconf26x'
-     else
-       build_depends 'autoconf'
-     end 
+    build_depends 'rpmdevtools', 'bison', 'pkgconfig'
+
+    centos_5 = IO.read('/etc/redhat-release') =~ /CentOS release 5/
+    build_depends centos_5 ? 'autoconf26x' : 'autoconf'
   end
 
   def build
@@ -41,8 +35,6 @@ class Libaugeas < FPM::Cookery::Recipe
 
   def install
     make :install
-    # Shrink package.
     safesystem "find #{destdir} -name '*.so' -or -name '*.so.*' | xargs strip"
   end
 end
-

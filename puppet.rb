@@ -7,7 +7,9 @@ class PuppetGem < FPM::Cookery::Recipe
   source "nothing", :with => :noop
 
   platforms [:ubuntu, :debian] do
-    build_depends 'pkg-config'
+    # don't install libvirt on deb systems (without fedora/redhat/centos)
+    ENV['BUNDLE_WITHOUT'] = 'frc'
+    build_depends 'pkg-config', 'libxml2-dev', 'libxslt-dev'
   end
 
   platforms [:fedora, :redhat, :centos] do
@@ -20,19 +22,11 @@ class PuppetGem < FPM::Cookery::Recipe
   end
 
   def build
-    # Install gems using the gem command from destdir
-    gem_install 'nokogiri',    '1.4.3' # N.b. ruby-libvirt pins this here
-    gem_install 'facter',      '2.0.2'
-    gem_install 'json',        '1.8.0'
-    gem_install 'hiera',       '1.3.4'
-    gem_install 'deep_merge',  '1.0.0'
-    gem_install 'rgen',        '0.6.5'
-
-    ENV['PKG_CONFIG_PATH'] = '/opt/puppet-omnibus/embedded/lib/pkgconfig'
-    gem_install 'ruby-augeas -- --with-opt-dir=/opt/puppet-omnibus/embedded', '0.4.1'
-
     self.class.platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
-      gem_install 'ruby-shadow', '2.2.0'
+      ENV['PKG_CONFIG_PATH'] = '/opt/puppet-omnibus/embedded/lib/pkgconfig'
+      gem_install "#{workdir}/vendor/bundler-1.6.3.gem"
+      cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas --with-opt-dir=/opt/puppet-omnibus/embedded"
+      cleanenv_safesystem "#{destdir}/bin/bundle install --local --gemfile #{workdir}/puppet/Gemfile"
     end
 
     self.class.platforms [:darwin] do
@@ -47,14 +41,6 @@ class PuppetGem < FPM::Cookery::Recipe
       end
     end
 
-    gem_install 'gpgme',       '2.0.5'
-    gem_install 'highline',    '1.6.21' # Ruby
-    gem_install 'trollop',     '2.0' # ??? FIXME
-    gem_install 'hiera-eyaml', '2.0.2' # MIT
-    gem_install 'rack',        '1.5.2'
-    gem_install 'unicorn',     '4.8.3'
-    gem_install name,          version
-    # Download init scripts and conf
     build_files
   end
 
@@ -65,7 +51,7 @@ class PuppetGem < FPM::Cookery::Recipe
     # Provide 'safe' binaries in /opt/<package>/bin like Vagrant does
     rm_rf "#{destdir}/../bin"
     destdir('../bin').mkdir
-    destdir('../bin').install workdir('puppet'), 'puppet'
+    destdir('../bin').install workdir('puppet/puppet'), 'puppet'
     destdir('../bin').install workdir('omnibus.bin'), 'facter'
     destdir('../bin').install workdir('omnibus.bin'), 'hiera'
     destdir('../bin').install builddir('../unicorn'), 'unicorn'

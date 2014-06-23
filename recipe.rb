@@ -2,7 +2,7 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   homepage 'https://github.com/bobtfish/puppet-omnibus'
   section 'Utilities'
   name 'puppet-omnibus'
-  version '3.5.1'
+  version '3.6.2'
   description 'Puppet Omnibus package'
   revision ENV['BUILD_NUMBER']
 
@@ -19,24 +19,16 @@ class PuppetOmnibus < FPM::Cookery::Recipe
                   'libyaml',
                   'ruby',
                   'puppet',
-                  'aws',
-                  'puppettools',
+                  'aws',          # TODO: send into Gemfile.puppet?
+                  'puppettools',  # TODO: send into Gemfile.puppet?
                   'nginx'
-#  replaces 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
-#  conflicts 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
-#  provides 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
 
-  # Set up paths to initscript and config files per platform
-  platforms [:ubuntu, :debian] do
-#    config_files '/etc/default/puppet'
-  end
-  platforms [:fedora, :redhat, :centos] do
-#    config_files '/etc/sysconfig/puppet'
-  end
-#  omnibus_additional_paths config_files
+  #  replaces 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
+  #  conflicts 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
+  #  provides 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
+  # omnibus_additional_paths config_files
 
   def build
-    # Nothing
   end
 
   def install

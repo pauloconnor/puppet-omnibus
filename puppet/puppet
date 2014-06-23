@@ -8,3 +8,4 @@ export RUBYOPT="-rrubygems -r/opt/puppet-omnibus/var/lib/ruby/gemspec_patch.rb"
 export PATH="/opt/puppet-omnibus/embedded/bin:$PATH"
 
 exec /opt/puppet-omnibus/embedded/bin/puppet "$@"
+
