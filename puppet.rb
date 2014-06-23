@@ -1,6 +1,7 @@
 class PuppetGem < FPM::Cookery::Recipe
   description 'Puppet gem stack'
 
+  # If you want to bump puppet version you have to do it in Gemfile as well
   name 'puppet'
   version '3.6.2'
 
