@@ -19,8 +19,6 @@ class PuppetOmnibus < FPM::Cookery::Recipe
                   'libyaml',
                   'ruby',
                   'puppet',
-                  'aws',          # TODO: send into Gemfile.puppet?
-                  'puppettools',  # TODO: send into Gemfile.puppet?
                   'nginx'
 
   #  replaces 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
