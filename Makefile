@@ -1,5 +1,5 @@
 BASE_PACKAGE_NAME:=puppet-omnibus
-VERSION:=3.5.1
+VERSION:=3.6.2
 #BUILD_NUMBER:=2
 BUILD_NUMBER:=$(upstream_build_number)
 

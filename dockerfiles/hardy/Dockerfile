@@ -12,6 +12,5 @@ RUN cd /tmp ; wget --no-check-certificate https://github.com/sstephenson/ruby-bu
 RUN cd /tmp ; unzip master.zip ; mv ruby-build-master ruby-build
 
 RUN cd /tmp/ruby-build ; RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm" ./bin/ruby-build 1.9.3-p484 /opt/ruby
-RUN cd /opt/ruby ; rm -rf /tmp/ruby-build ; ./bin/ruby ./bin/gem install bundler ; ./bin/ruby ./bin/gem install fpm
+RUN cd /opt/ruby ; rm -rf /tmp/ruby-build
 RUN chown -R jenkins: /opt/ruby
-
