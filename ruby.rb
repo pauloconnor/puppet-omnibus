@@ -14,6 +14,7 @@ class Ruby212 < FPM::Cookery::Recipe
   section 'interpreters'
 
   def build
+    ENV['RUBY_CFLAGS'] = '-Os'
     safesystem "tar -zxf #{workdir('vendor/ruby-build-20140524.tar.gz')} -C /tmp"
     safesystem "cat #{workdir('ruby')}/#{version}/* | \
                   /tmp/ruby-build-20140524/bin/ruby-build -p -v 2.1.2 #{destdir}"
