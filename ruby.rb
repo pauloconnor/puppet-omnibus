@@ -5,7 +5,7 @@ class Ruby212 < FPM::Cookery::Recipe
   version '2.1.2'
   revision 1
   homepage 'http://www.ruby-lang.org/'
-  source '', :with => :noop
+  source 'nothing', :with => :noop
 
   maintainer '<maksym@yelp.com>'
   vendor     'fpm'
@@ -22,11 +22,9 @@ class Ruby212 < FPM::Cookery::Recipe
   end
 
   def build
-    safesystem %Q{
-      git clone https://github.com/sstephenson/ruby-build.git; \
-      ruby-build/bin/ruby-build 2.1.2 #{destdir}; \
-      find #{destdir} -name '*.so' -or -name '*.so.*' | xargs strip; \
-      rm -rf ruby-build }
+    safesystem "tar -zxf #{workdir('vendor/ruby-build-20140524.tar.gz')} -C /tmp"
+    safesystem "/tmp/ruby-build-20140524/bin/ruby-build 2.1.2 #{builddir}"
+    safesystem "find #{builddir} -name '*.so' -or -name '*.so.*' | xargs strip"
   end
 
   def install
