@@ -26,9 +26,9 @@ class PuppetGem < FPM::Cookery::Recipe
 
   def build
     self.class.platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
-      ENV['PKG_CONFIG_PATH'] = '/opt/puppet-omnibus/embedded/lib/pkgconfig'
+      ENV['PKG_CONFIG_PATH'] = "#{destdir}/lib/pkgconfig"
       gem_install "#{workdir}/vendor/bundler-1.6.3.gem"
-      cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas --with-opt-dir=/opt/puppet-omnibus/embedded"
+      cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas --with-opt-dir=#{destdir}"
       cleanenv_safesystem "#{destdir}/bin/bundle install --local --gemfile #{workdir}/puppet/Gemfile"
     end
 
