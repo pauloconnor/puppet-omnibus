@@ -13,14 +13,6 @@ class Ruby212 < FPM::Cookery::Recipe
 
   section 'interpreters'
 
-  platforms [:ubuntu, :debian] do
-    build_depends 'git-core'
-  end
-
-  platforms [:fedora, :redhat, :centos] do
-    build_depends 'git'
-  end
-
   def build
     safesystem "tar -zxf #{workdir('vendor/ruby-build-20140524.tar.gz')} -C /tmp"
     safesystem "/tmp/ruby-build-20140524/bin/ruby-build -v 2.1.2 #{destdir}"
