@@ -23,13 +23,12 @@ class Ruby212 < FPM::Cookery::Recipe
 
   def build
     safesystem "tar -zxf #{workdir('vendor/ruby-build-20140524.tar.gz')} -C /tmp"
-    safesystem "/tmp/ruby-build-20140524/bin/ruby-build -v 2.1.2 #{builddir}/ruby-2.1.2"
-    safesystem "find #{builddir}/ruby-2.1.2 -name '*.so' -or -name '*.so.*' -exec strip {} \\;"
+    safesystem "/tmp/ruby-build-20140524/bin/ruby-build -v 2.1.2 #{destdir}"
+    safesystem "find #{destdir} -name '*.so' -or -name '*.so.*' -exec strip {} \\;"
     safesystem "rm -rf /tmp/ruby-build-20140524"
   end
 
   def install
-    safesystem "cp -r #{builddir}/ruby-2.1.2/* #{destdir}/"
   end
 
   def patch_ruby
