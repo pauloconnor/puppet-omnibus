@@ -16,7 +16,7 @@ cp -r /package_source/* /package/
 # docker hangs on ruby-build? qq
 export MAKE_OPTS=-j1
 export RUBY_CONFIGURE_OPTS="--disable-install-doc --without-tcl --without-tk"
-fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
+fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb </dev/null
 echo "Copying package to the dist folder"
 cp -v pkg/* /package_dest/
 echo "Package copying worked!"
