@@ -15,8 +15,11 @@ class Ruby212 < FPM::Cookery::Recipe
 
   def build
     ENV['RUBY_CFLAGS'] = '-Os'
+    ENV['MAKE_OPTS']   = '-j1'
+    ENV['RUBY_CONFIGURE_OPTS'] = '--disable-install-doc --without-tcl --without-tk'
+
     safesystem "tar -zxf #{workdir('vendor/ruby-build-20140524.tar.gz')} -C /tmp"
-    safesystem "/tmp/ruby-build-20140524/bin/ruby-build -v 2.1.2 #{destdir}"
+    safesystem "/tmp/ruby-build-20140524/bin/ruby-build 2.1.2 #{destdir}"
     safesystem "find #{destdir} -name '*.so' -or -name '*.so.*' -exec strip {} \\;"
     safesystem "rm -rf /tmp/ruby-build-20140524"
   end

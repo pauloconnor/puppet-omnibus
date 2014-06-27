@@ -51,34 +51,52 @@ package_centos6: .centos6_docker_is_created $(CENTOS6_OUTPUT_PACKAGE_NAME)
 # Targets to build the PACKAGE itself
 $(HARDY_OUTPUT_PACKAGE_NAME): OS=hardy
 $(HARDY_OUTPUT_PACKAGE_NAME):
+	$(eval TMPDIR := $(shell mktemp -d))
 	[ -d dist/hardy ] || mkdir -p dist/hardy
 	chmod 777 dist/hardy/
-	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/hardy/:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /bin/bash /package_source/JENKINS_BUILD.sh
+	chmod 777 $(TMPDIR)
+	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(TMPDIR):/tmp:rw -v $(CURDIR)/dist/hardy/:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /bin/bash /package_source/JENKINS_BUILD.sh
+	rm -rf $(TMPDIR)
 $(LUCID_OUTPUT_PACKAGE_NAME): OS=lucid
 $(LUCID_OUTPUT_PACKAGE_NAME):
+	$(eval TMPDIR := $(shell mktemp -d))
 	[ -d dist/lucid ] || mkdir -p dist/lucid
 	chmod 777 dist/lucid/
-	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/lucid/:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	chmod 777 $(TMPDIR)
+	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(TMPDIR):/tmp:rw -v $(CURDIR)/dist/lucid/:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	rm -rf $(TMPDIR)
 $(PRECISE_OUTPUT_PACKAGE_NAME): OS=precise
 $(PRECISE_OUTPUT_PACKAGE_NAME):
+	$(eval TMPDIR := $(shell mktemp -d))
 	[ -d dist/precise ] || mkdir -p dist/precise
 	chmod 777 dist/precise/
-	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/precise:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	chmod 777 $(TMPDIR)
+	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(TMPDIR):/tmp:rw -v $(CURDIR)/dist/precise:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	rm -rf $(TMPDIR)
 $(TRUSTY_OUTPUT_PACKAGE_NAME): OS=trusty
 $(TRUSTY_OUTPUT_PACKAGE_NAME):
+	$(eval TMPDIR := $(shell mktemp -d))
 	[ -d dist/trusty ] || mkdir -p dist/trusty
 	chmod 777 dist/trusty/
-	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/trusty:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	chmod 777 $(TMPDIR)
+	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(TMPDIR):/tmp:rw -v $(CURDIR)/dist/trusty:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	rm -rf $(TMPDIR)
 $(CENTOS5_OUTPUT_PACKAGE_NAME): OS=centos5
 $(CENTOS5_OUTPUT_PACKAGE_NAME):
+	$(eval TMPDIR := $(shell mktemp -d))
 	[ -d dist/centos5 ] || mkdir -p dist/centos5
 	chmod 777 dist/centos5/
-	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/centos5:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	chmod 777 $(TMPDIR)
+	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(TMPDIR):/tmp:rw -v $(CURDIR)/dist/centos5:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	rm -rf $(TMPDIR)
 $(CENTOS6_OUTPUT_PACKAGE_NAME): OS=centos6
 $(CENTOS6_OUTPUT_PACKAGE_NAME):
+	$(eval TMPDIR := $(shell mktemp -d))
 	[ -d dist/centos6 ] || mkdir -p dist/centos6
 	chmod 777 dist/centos6/
-	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(CURDIR)/dist/centos6:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	chmod 777 $(TMPDIR)
+	$(DOCKER_RUN) -u jenkins -e HOME=/package -v $(TMPDIR):/tmp:rw -v $(CURDIR)/dist/centos6:/package_dest:rw package_$(BASE_PACKAGE_NAME)_$(OS) /package_source/JENKINS_BUILD.sh
+	rm -rf $(TMPDIR)
 
 # Targets to build the DOCKERS for building the package
 .hardy_docker_is_created: OS=hardy

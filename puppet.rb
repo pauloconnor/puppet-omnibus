@@ -26,7 +26,7 @@ class PuppetGem < FPM::Cookery::Recipe
   end
 
   def build
-    File.open("~/.gemrc") { |f| f.puts "install: --no-rdoc --no-ri" }
+    cleanenv_safesystem "echo 'install: -Nf' > ~/.gemrc"
 
     self.class.platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
       ENV['PKG_CONFIG_PATH'] = "#{destdir}/lib/pkgconfig"
