@@ -26,6 +26,8 @@ class PuppetGem < FPM::Cookery::Recipe
   end
 
   def build
+    File.open("~/.gemrc") { |f| f.puts "install: --no-rdoc --no-ri" }
+
     self.class.platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
       ENV['PKG_CONFIG_PATH'] = "#{destdir}/lib/pkgconfig"
       gem_install "#{workdir}/vendor/bundler-1.6.3.gem"
@@ -37,12 +39,6 @@ class PuppetGem < FPM::Cookery::Recipe
       cleanenv_safesystem "git clone -b osx git://github.com/apalmblad/ruby-shadow.git"
       cleanenv_safesystem "#{destdir}/bin/gem build #{workdir}/ruby-shadow/*.gemspec"
       cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/ruby-shadow/*.gem"
-    end
-
-    self.class.platforms [:fedora, :redhat, :centos] do
-      if IO.read('/etc/redhat-release') =~ /CentOS release 6/
-        gem_install 'ruby-libvirt','0.4.0'
-      end
     end
 
     build_files
