@@ -1,3 +1,27 @@
+# This is basically a Docker file but with ruby for convenience.
+#
+# Run all your usual docker directives(lowcase though) and they will each
+# be translated into a single line in Dockerfile
+#
+# e.g.:
+#   run "hello"
+# is equal to
+#   RUN hello
+#
+# Multiple lines are squashed:
+#
+#   run %Q{
+#     foo
+#     bar
+#     this is new line \
+#       this is not
+#   }
+#
+# translates into
+#
+#   RUN   foo;   bar;   this is new line     this is not
+#
+
 OS_SOURCES = {
   'centos5' => 'backjlack/centos:5.9',
   'centos6' => 'centos:6.4',

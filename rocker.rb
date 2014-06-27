@@ -31,4 +31,4 @@ class Rocker
   end
 end
 
-Rocker.new(ARGV[0]).dockerfile
+Rocker.new(ARGV[0] || "./Rockerfile").dockerfile

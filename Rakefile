@@ -35,12 +35,10 @@ OS_BUILDS.each do |os|
     tempdir = `mktemp -d`.strip
 
     run <<-SHELL
-      cd dockerfiles/#{os};
-      flock /tmp/#{PACKAGE_NAME}_#{os}_docker_build.lock \
-        docker build -t \
-          "package_#{PACKAGE_NAME}_#{os}" \
-          -v #{tempdir}:/tmp:rw
-          #{tempdir}:/tmp:rw .;
+      OS=#{os} TMPDIR=#{tempdir} \
+        flock /tmp/#{PACKAGE_NAME}_#{os}_docker_build.lock \
+        ./rocker.rb | docker build -t \
+          "package_#{PACKAGE_NAME}_#{os}" -;
       touch .#{os}_docker_is_created;
       rm -rf #{tempdir}
     SHELL
