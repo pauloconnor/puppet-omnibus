@@ -8,17 +8,18 @@ class PuppetGem < FPM::Cookery::Recipe
   source "nothing", :with => :noop
 
   platforms [:ubuntu, :debian] do
-    # don't install libvirt on deb systems (without fedora/redhat/centos)
-    ENV['BUNDLE_WITHOUT'] = 'frc'
+    ENV['BUNDLE_WITHOUT'] = 'centos_6'
     build_depends 'pkg-config', 'libxml2-dev', 'libxslt1-dev'
     depends 'libxml2', 'libxslt1.1'
   end
 
   platforms [:fedora, :redhat, :centos] do
+    ENV['BUNDLE_WITHOUT'] = 'centos_6'
     build_depends 'pkgconfig', 'libxml2-devel', 'libxslt-devel'
     depends 'libxml2', 'libxslt'
 
     if IO.read('/etc/redhat-release') =~ /CentOS release 6/
+      ENV['BUNDLE_WITHOUT'] = ''
       build_depends 'libvirt-devel'
       depends 'libvirt'
     end
