@@ -12,6 +12,9 @@ cd /package
 cp -r /package_source/* /package/
 /opt/ruby/bin/gem install --no-ri --no-rdoc /package/vendor/bundler-1.6.3.gem
 /opt/ruby/bin/bundle install --binstubs --local
+
+# docker hangs on ruby-build? qq
+export MAKE_OPTS=-j1
 fakeroot /opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb
 echo "Copying package to the dist folder"
 cp -v pkg/* /package_dest/
