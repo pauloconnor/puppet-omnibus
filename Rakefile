@@ -24,16 +24,25 @@ end
 
 OS_BUILDS.each do |os|
   task :"docker_#{os}" do
-    unless File.exists? ".#{os}_docker_is_created"
+    run "mkdir -p dockerfiles/#{os}"
+    run "OS=#{os} ./rocker.rb > dockerfiles/#{os}/Dockerfile"
+
+    current_docker_md5 = `md5sum dockerfiles/#{os}/Dockerfile`.strip
+    last_docker_md5    = File.read(".#{os}_docker_is_created").strip rescue nil
+
+    raise "Dockerfile md5 is empty, wtf?" if "#{current_docker_md5}".empty?
+
+    puts "last Dockerfile md5: #{current_docker_md5}"
+    puts "current Dockerfile md5: #{current_docker_md5}"
+
+    if current_docker_md5 != last_docker_md5
       tempdir = `mktemp -d`.strip
 
-      run "mkdir -p dockerfiles/#{os}"
-      run "OS=#{os} ./rocker.rb > dockerfiles/#{os}/Dockerfile"
       run "cp -r #{CURDIR}/vendor/* dockerfiles/#{os}/"
       run <<-SHELL
         flock /tmp/#{PACKAGE_NAME}_#{os}_docker_build.lock \
-          docker build -t "package_#{PACKAGE_NAME}_#{os}" \
-            dockerfiles/#{os}/ && touch .#{os}_docker_is_created
+          docker build -t "package_#{PACKAGE_NAME}_#{os}" dockerfiles/#{os}/ && \
+        echo "#{current_docker_md5}" > .#{os}_docker_is_created
       SHELL
       run "rm -rf #{tempdir} dockerfiles/#{os}/vendor"
     end
