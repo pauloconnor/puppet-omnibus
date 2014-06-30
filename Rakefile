@@ -45,9 +45,10 @@ OS_BUILDS.each do |os|
     if current_docker_md5 != last_docker_md5
       run "cp -r #{CURDIR}/vendor/* dockerfiles/#{os}/"
       run <<-SHELL
+        cd dockerfiles/#{os} && \
         flock /tmp/#{PACKAGE_NAME}_#{os}_docker_build.lock \
-          docker build -t "package_#{PACKAGE_NAME}_#{os}" dockerfiles/#{os}/ && \
-        echo "#{current_docker_md5}" > .#{os}_docker_is_created
+          docker build -t "package_#{PACKAGE_NAME}_#{os}" . && \
+        echo "#{current_docker_md5}" > ../../.#{os}_docker_is_created
       SHELL
     end
   end
