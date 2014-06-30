@@ -121,7 +121,6 @@ run %Q{
 # ruby2.1.2
 
 add "ruby-build-20140524.tar.gz /tmp"
-copy "ruby-2.1.2.tar.gz /tmp"
 run %Q{
   mkdir -p /opt/puppet-omnibus/embedded
   MAKE_OPTS=-j1 RUBY_CFLAGS=-Os RUBY_BUILD_CACHE_PATH=/tmp \
