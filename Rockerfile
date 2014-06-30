@@ -8,19 +8,21 @@
 # is equal to
 #   RUN hello
 #
-# Multiple lines are squashed:
+# Multiple lines are stripped and joined with '; '
 #
-#   run %Q{
-#     foo
-#     bar
-#     this is new line \
-#       this is not
-#   }
+#   |run %Q{
+#   |  foo
+#   |  bar
+#   |  this is new line \
+#   |    this is not
+#   |}
 #
 # translates into
 #
-#   RUN   foo;   bar;   this is new line     this is not
-#
+#   RUN foo; bar; this is new line     this is not
+#                                   ∧
+#                                   |
+#           note the spaces here ---'
 
 OS_SOURCES = {
   'centos5' => 'backjlack/centos:5.9',
@@ -33,30 +35,29 @@ OS_SOURCES = {
 
 from OS_SOURCES[env_os]
 
-# volume "#{env_tmpdir}:/tmp:rw" if env_tmpdir
-# volume "#{env_vendordir}:/vendor:ro" if env_vendordir
-
 # packages
 
 rpm_packages = %w{
   bison fakeroot gcc-c++ gdbm-devel glibc-headers gnutls-devel libffi-devel \
-  libxslt-devel libyaml-devel openssh-server openssl-devel pcre-devel readline \
-  readline-devel rpmdevtools screen sudo zlib zlib-devel }
-c5_packages = %w{java make}
-c6_packages = %w{autoconf gcc git java-1.7.0-openjdk libvirt libvirt-devel passwd}
+  libxslt-devel openssh-server openssl-devel pcre-devel readline readline-devel \
+  rpmdevtools screen sudo zlib zlib-devel }
+c5_packages = rpm_packages + %w{java make}
+c6_packages = rpm_packages + %w{autoconf gcc git java-1.7.0-openjdk libvirt libvirt-devel passwd}
+
+if env_os == 'centos5'
+  add "remi-release-5.rpm /tmp/remi-release-5.rpm"
+  add "epel-release-5-4.noarch.rpm /tmp/epel-release-5-4.noarch.rpm"
+  run %Q{
+    rpm -Uvh /tmp/remi-release-5*.rpm /tmp/epel-release-5*.rpm
+    rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
+    rpm -Uvh ftp://ftp.pbone.net/mirror/dl.iuscommunity.org/pub/ius/archive/Redhat/5/i386/autoconf26x-2.63-4.ius.el5.noarch.rpm
+    yum install --enablerepo=webtatic git-all -y
+    yum install #{c5_packages.sort.join ' '} -y
+  }
+end
 
 run %Q{
-  wget http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
-  wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
-  rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
-  rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
-  rpm -Uvh ftp://ftp.pbone.net/mirror/dl.iuscommunity.org/pub/ius/archive/Redhat/5/i386/autoconf26x-2.63-4.ius.el5.noarch.rpm
-  yum install --enablerepo=webtatic git-all -y
-  yum install #{(rpm_packages + c5_packages).sort.join ' '} -y
-} if env_os == 'centos5'
-
-run %Q{
-  yum install #{(rpm_packages + c6_packages).sort.join ' '} -y
+  yum install #{c6_packages.sort.join ' '} -y
 } if env_os == 'centos6'
 
 run %Q{
@@ -72,23 +73,20 @@ deb_packages = %w{
   autoconf bison build-essential curl fakeroot libgdbm-dev libgnutls-dev
   libncurses5-dev libpcre3-dev libsqlite3-dev libssl-dev libxslt1-dev
   openjdk-6-jdk openssh-server pkg-config screen sudo wget zlib1g zlib1g-dev
-  git-core libyaml-dev libxml2-dev }
+  git-core libxml2-dev }
 
-h_packages = %w{
-  libreadline5-dev libffi4-dev }
-
-tpl_packages = %w{
-  libffi-dev libffi6 libreadline6 libreadline6-dev }
+h_packages   = deb_packages + %w{libreadline5-dev libffi4-dev}
+tpl_packages = deb_packages + %w{libffi-dev libffi6 libreadline6 libreadline6-dev}
 
 run %Q{
   apt-get update
-  apt-get install #{(deb_packages + h_packages).sort.join(' ')} --yes --force-yes
+  aptitude -y install #{h_packages.sort.join(' ')}
 } if env_os == 'hardy'
 
 run %Q{
   rm /etc/dpkg/dpkg.cfg.d/02apt-speedup
   apt-get update
-  apt-get install #{(deb_packages + tpl_packages).sort.join(' ')} --yes --force-yes
+  apt-get install #{tpl_packages.sort.join(' ')} --yes --force-yes
   mkdir /var/run/sshd
 } if %w{trusty precise lucid}.include? env_os
 
@@ -97,8 +95,8 @@ run %Q{
 run %Q{
   adduser jenkins -g root
   adduser puppet
-  mkdir /home/jenkins/.ssh
-  chown jenkins: /home/jenkins/.ssh /home/jenkins/.ssh/authorized_keys
+  mkdir -p /home/jenkins/.ssh
+  chown jenkins: /home/jenkins/.ssh
   chmod 700 /home/jenkins/.ssh
 } if %w{centos5 centos6}.include? env_os
 
@@ -107,7 +105,6 @@ run "passwd -uf jenkins" if env_os == 'centos6'
 run %Q{
   useradd jenkins
   mkdir /home/jenkins
-  chmod 600 /home/jenkins/.ssh/authorized_keys
   chown jenkins: -R /home/jenkins
   chsh -s /bin/bash jenkins
   rm -f /bin/sh
@@ -117,16 +114,16 @@ run %Q{
 puppet_file = env_os =~ /centos/ ? "/etc/sysconfig/puppet" : "/etc/default/puppet"
 run %Q{
   touch #{puppet_file}
-  mkdir /opt /nail /package /etc/puppet /var/lib/puppet /var/cache/omnibus
+  mkdir -p /opt /nail /package /etc/puppet /var/lib/puppet /var/cache/omnibus
   chown jenkins: /opt /nail /package /etc/puppet /var/lib/puppet /var/cache/omnibus #{puppet_file}
 }
 
-# ruby1.9.3
+# ruby2.1.2
 
+add "ruby-build-20140524.tar.gz /tmp"
 run %Q{
-  git clone https://github.com/sstephenson/ruby-build /tmp/ruby-build
-  RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm" \
-    /tmp/ruby-build/bin/ruby-build 1.9.3-p484 /opt/ruby
-  rm -rf /tmp/ruby-build
-  chown -R jenkins: /opt/ruby
+  MAKE_OPTS=-j1 RUBY_CFLAGS=-Os \
+  RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm --disable-install-doc --without-tcl --without-tk" \
+    /tmp/ruby-build-20140524/bin/ruby-build 2.1.2 /opt/puppet-omnibus/embedded
+  chown -R jenkins: /opt/puppet-omnibus
 }

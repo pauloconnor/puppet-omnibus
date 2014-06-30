@@ -27,9 +27,7 @@ class Nginx < FPM::Cookery::Recipe
 
   platforms [:fedora, :redhat, :centos] do
     build_depends 'gcc', 'gcc-c++', 'make', 'openssl-devel', 'libxml2-devel', 'libxslt-devel'
-    depends 'openssl', 'glibc', 'libxslt',
-                'perl', 'bash', 'shadow-utils',
-                'initscripts', 'chkconfig'
+    depends 'openssl', 'glibc', 'libxslt', 'perl', 'bash', 'shadow-utils', 'initscripts', 'chkconfig'
   end
 
   def build
@@ -91,4 +89,3 @@ class Nginx < FPM::Cookery::Recipe
     end
   end
 end
-

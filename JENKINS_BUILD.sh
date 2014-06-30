@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-export PATH="/opt/local/bin:/sbin:/usr/sbin:/opt/ruby/bin:$PATH"
+export PATH="/opt/puppet-omnibus/embedded/bin:/opt/local/bin:/sbin:/usr/sbin:$PATH"
 
 set -x
 if [ "$BUILD_NUMBER" == "" ];then
@@ -10,9 +10,9 @@ fi
 echo "Going for bundle install and build:"
 cd /package
 cp -r /package_source/* /package/
-/opt/ruby/bin/gem install --no-ri --no-rdoc /package/vendor/bundler-1.6.3.gem
-/opt/ruby/bin/bundle install --binstubs --local
-/opt/ruby/bin/bundle exec bin/fpm-cook package recipe.rb </dev/null
+/opt/puppet-omnibus/embedded/bin/gem install /package/vendor/bundler-1.6.3.gem
+/opt/puppet-omnibus/embedded/bin/bundle install --local
+/opt/puppet-omnibus/embedded/bin/bundle exec fpm-cook package recipe.rb
 echo "Copying package to the dist folder"
 cp -v pkg/* /package_dest/
 echo "Package copying worked!"
