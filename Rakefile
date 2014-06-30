@@ -33,7 +33,7 @@ OS_BUILDS.each do |os|
     raise "Dockerfile md5 is empty, wtf?" if "#{current_docker_md5}".empty?
 
     puts "last Dockerfile md5: #{current_docker_md5}"
-    puts "current Dockerfile md5: #{current_docker_md5}"
+    puts "current Dockerfile md5: #{last_docker_md5}"
 
     if current_docker_md5 != last_docker_md5
       tempdir = `mktemp -d`.strip
