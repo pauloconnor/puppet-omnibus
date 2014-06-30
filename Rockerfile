@@ -122,6 +122,7 @@ run %Q{
 
 add "ruby-build-20140524.tar.gz /tmp"
 run %Q{
+  mkdir -p /opt/puppet-omnibus/embedded
   MAKE_OPTS=-j1 RUBY_CFLAGS=-Os \
   RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm --disable-install-doc --without-tcl --without-tk" \
     /tmp/ruby-build-20140524/bin/ruby-build 2.1.2 /opt/puppet-omnibus/embedded
