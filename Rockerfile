@@ -35,6 +35,8 @@ OS_SOURCES = {
 
 from OS_SOURCES[env_os]
 
+run "echo rebuild 1"
+
 # packages
 
 rpm_packages = %w{
