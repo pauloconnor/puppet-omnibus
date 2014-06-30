@@ -38,8 +38,8 @@ from OS_SOURCES[env_os]
 # packages
 
 rpm_packages = %w{
-  bison fakeroot gcc-c++ gdbm-devel glibc-headers gnutls-devel libffi-devel \
-  libxslt-devel openssh-server openssl-devel pcre-devel readline readline-devel \
+  bison fakeroot gcc-c++ gdbm-devel glibc-headers gnutls-devel libffi-devel
+  libxslt-devel openssh-server openssl-devel pcre-devel readline readline-devel
   rpmdevtools screen sudo zlib zlib-devel }
 c5_packages = rpm_packages + %w{java make}
 c6_packages = rpm_packages + %w{autoconf gcc git java-1.7.0-openjdk libvirt libvirt-devel passwd}
@@ -50,14 +50,14 @@ if env_os == 'centos5'
   run %Q{
     rpm -Uvh /tmp/remi-release-5*.rpm /tmp/epel-release-5*.rpm
     rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
-    rpm -Uvh ftp://ftp.pbone.net/mirror/dl.iuscommunity.org/pub/ius/archive/Redhat/5/i386/autoconf26x-2.63-4.ius.el5.noarch.rpm
     yum install --enablerepo=webtatic git-all -y
-    yum install #{c5_packages.sort.join ' '} -y
+    yum install #{c5_packages.sort.join(' ')} -y
+    rpm -Uvh ftp://ftp.pbone.net/mirror/dl.iuscommunity.org/pub/ius/archive/Redhat/5/i386/autoconf26x-2.63-4.ius.el5.noarch.rpm
   }
 end
 
 run %Q{
-  yum install #{c6_packages.sort.join ' '} -y
+  yum install #{c6_packages.sort.join(' ')} -y
 } if env_os == 'centos6'
 
 run %Q{
