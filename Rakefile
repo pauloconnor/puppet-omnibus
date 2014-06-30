@@ -14,7 +14,7 @@ def package_name_suffix(os)
 end
 
 def package_name(os)
-  "dist/#{os}/#{PACKAGE_NAME}_#{VERSION}+yelp-#{BUILD_NUMBER}#{output_package_suffix(os)}"
+  "dist/#{os}/#{PACKAGE_NAME}_#{VERSION}+yelp-#{BUILD_NUMBER}#{package_name_suffix(os)}"
 end
 
 def run(cmd)
