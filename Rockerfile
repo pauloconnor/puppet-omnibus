@@ -35,8 +35,6 @@ OS_SOURCES = {
 
 from OS_SOURCES[env_os]
 
-run "echo rebuild 1"
-
 # packages
 
 rpm_packages = %w{
@@ -63,7 +61,7 @@ run %Q{
 } if env_os == 'centos6'
 
 run %Q{
-  mkdir /var/run/sshd
+  mkdir -p /var/run/sshd
   /etc/init.d/sshd stop
 } if %w{centos5 centos6}.include? env_os
 
@@ -71,26 +69,28 @@ run %Q{
   echo 'deb http://ppa.launchpad.net/git-core/ppa/ubuntu lucid main' >> /etc/apt/sources.list
 } if env_os == 'lucid'
 
-deb_packages = %w{
+packages = {}
+packages['deb']     = %w{
   autoconf bison build-essential curl fakeroot libgdbm-dev libgnutls-dev
   libncurses5-dev libpcre3-dev libsqlite3-dev libssl-dev libxslt1-dev
   openjdk-6-jdk openssh-server pkg-config screen sudo wget zlib1g zlib1g-dev
   git-core libxml2-dev }
 
-h_packages   = deb_packages + %w{libreadline5-dev libffi4-dev}
-tpl_packages = deb_packages + %w{libffi-dev libffi6 libreadline6 libreadline6-dev}
+# hardy zlib1g goes crazy
+packages['hardy']   = packages['deb'] - %w{zlib1g zlib1g-dev} +
+                        %w{ libreadline5-dev libffi4-dev
+                            zlib1g=1:1.2.3.3.dfsg-7ubuntu1
+                            zlib1g-dev=1:1.2.3.3.dfsg-7ubuntu1 }
+packages['tpl']     = packages['deb'] + %w{libffi6 libffi-dev libreadline6 libreadline6-dev}
+packages['lucid']   = packages['tpl'] - %w{libffi6} + %w{libffi5}
+packages['precise'] = packages['trusty'] = packages['tpl']
 
 run %Q{
-  aptitude update
-  DEBIAN_FRONTEND=noninteractive aptitude -y install #{h_packages.sort.join(' ')}
-} if env_os == 'hardy'
-
-run %Q{
-  rm /etc/dpkg/dpkg.cfg.d/02apt-speedup
+  rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup
   apt-get update
-  apt-get install #{tpl_packages.sort.join(' ')} --yes --force-yes
-  mkdir /var/run/sshd
-} if %w{trusty precise lucid}.include? env_os
+  DEBIAN_FRONTEND=noninteractive apt-get install #{packages[env_os].sort.join(' ')} --yes --force-yes --fix-missing
+  mkdir -p /var/run/sshd
+} if %w{trusty precise lucid hardy}.include? env_os
 
 # user jenkins
 
@@ -106,7 +106,7 @@ run "passwd -uf jenkins" if env_os == 'centos6'
 
 run %Q{
   useradd jenkins
-  mkdir /home/jenkins
+  mkdir -p /home/jenkins
   chown jenkins: -R /home/jenkins
   chsh -s /bin/bash jenkins
   rm -f /bin/sh
