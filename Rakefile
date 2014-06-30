@@ -43,19 +43,17 @@ OS_BUILDS.each do |os|
     puts "current Dockerfile md5: #{current_docker_md5}"
 
     if current_docker_md5 != last_docker_md5
-      with_tempdir do |tempdir|
-        run "cp -r #{CURDIR}/vendor/* dockerfiles/#{os}/"
-        run <<-SHELL
-          flock /tmp/#{PACKAGE_NAME}_#{os}_docker_build.lock \
-            docker build -t "package_#{PACKAGE_NAME}_#{os}" dockerfiles/#{os}/ && \
-          echo "#{current_docker_md5}" > .#{os}_docker_is_created
-        SHELL
-      end
+      run "cp -r #{CURDIR}/vendor/* dockerfiles/#{os}/"
+      run <<-SHELL
+        flock /tmp/#{PACKAGE_NAME}_#{os}_docker_build.lock \
+          docker build -t "package_#{PACKAGE_NAME}_#{os}" dockerfiles/#{os}/ && \
+        echo "#{current_docker_md5}" > .#{os}_docker_is_created
+      SHELL
     end
   end
 
   task :"package_#{os}" => :"docker_#{os}" do
-    with_tempdir do
+    with_tempdir do |tempdir|
       run "[ -d pkg ] || mkdir pkg"
       run "[ -d dist/#{os} ] || mkdir -p dist/#{os}"
       run "chmod 777 pkg dist/#{os} #{tempdir}"
