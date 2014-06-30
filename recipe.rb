@@ -5,6 +5,14 @@ class FPM::Cookery::Path
   end
 end
 
+class FPM::Cookery::Recipe
+  alias :old_cachedir :cachedir
+  def cachedir(*args)
+    path = ENV['FPM_CACHE_DIR']
+    path ? FPM::Cookery::Path.new(path) : old_cachedir(*args)
+  end
+end
+
 class PuppetOmnibus < FPM::Cookery::Recipe
   homepage 'https://github.com/bobtfish/puppet-omnibus'
   section 'Utilities'
