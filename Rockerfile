@@ -79,8 +79,8 @@ h_packages   = deb_packages + %w{libreadline5-dev libffi4-dev}
 tpl_packages = deb_packages + %w{libffi-dev libffi6 libreadline6 libreadline6-dev}
 
 run %Q{
-  apt-get update
-  aptitude -y install #{h_packages.sort.join(' ')}
+  aptitude update
+  DEBIAN_FRONTEND=noninteractive aptitude -y install #{h_packages.sort.join(' ')}
 } if env_os == 'hardy'
 
 run %Q{
