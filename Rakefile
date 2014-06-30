@@ -19,7 +19,9 @@ end
 
 def run(cmd)
   puts "+ #{cmd}"
-  system cmd unless ENV['DRY']
+  unless ENV['DRY']
+    exit 1 unless system cmd
+  end
 end
 
 OS_BUILDS.each do |os|
