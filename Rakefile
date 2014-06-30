@@ -6,7 +6,7 @@ OS_BUILDS    = %w(hardy lucid precise trusty centos5 centos6)
 
 def package_name_suffix(os)
   case os
-  when "hardy", "lucy", "precise", "trusty"
+  when "hardy", "lucid", "precise", "trusty"
     "_amd64.deb"
   when /centos/
     "-1.x86_64.rpm"
