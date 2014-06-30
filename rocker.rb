@@ -6,7 +6,9 @@ class Rocker
     @data = File.read file
   end
 
-  DOCKER_DIRECTIVES=%w{from run volume add}
+  DOCKER_DIRECTIVES=%w{
+    from run volume add copy maintainer cmd expose env entrypoint user
+    workdir onbuild }
   DOCKER_DIRECTIVES.each do |dir|
     define_method(dir) { |content| puts "#{dir.upcase} #{content}" }
   end
