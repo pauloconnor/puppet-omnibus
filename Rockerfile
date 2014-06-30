@@ -62,7 +62,7 @@ run %Q{
 
 run %Q{
   mkdir -p /var/run/sshd
-  /etc/init.d/sshd stop
+  /etc/init.d/sshd stop || true
 } if %w{centos5 centos6}.include? env_os
 
 run %Q{
