@@ -62,7 +62,8 @@ OS_BUILDS.each do |os|
           -e HOME=/package \
           -u jenkins \
           -v #{CURDIR}:/package_source:ro \
-          -v #{tempdir}:/tmp:rw -v #{CURDIR}/dist/#{os}/:/package_dest:rw \
+          -v #{CURDIR}/dist/#{os}:/package_dest:rw \
+          -v #{tempdir}:/tmp:rw \
           "package_#{PACKAGE_NAME}_#{os}:#{docker_md5}" \
           /bin/bash /package_source/JENKINS_BUILD.sh
       SHELL
@@ -72,7 +73,7 @@ OS_BUILDS.each do |os|
 
   task :"itest_#{os}" => :"package_#{os}" do
     run <<-SHELL
-      docker run \
+      unbuffer docker run -t -i \
         -v #{CURDIR}/itest:/itest:ro \
         -v #{CURDIR}/dist:/dist:ro \
         docker-dev.yelpcorp.com/#{os}_yelp \

@@ -15,9 +15,8 @@ if [ -e /opt/puppet-omnibus ]; then
   exit 1
 fi
 
-apt-get update
-apt-get -y install gdebi-core
-if gdebi -n $packages_to_install; then
+apt-get install libxml2 libxslt1.1 --yes --force-yes
+if dpkg -i $packages_to_install; then
   echo "Looks like it installed correctly"
 else
   echo "Dpkg install failed"
