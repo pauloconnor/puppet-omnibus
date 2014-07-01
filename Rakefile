@@ -29,31 +29,29 @@ ensure
   `rm -rf #{tempdir}`
 end
 
+def make_dockerfile(os)
+  run "mkdir -p dockerfiles/#{os}"
+  run "OS=#{os} ./rocker.rb > dockerfiles/#{os}/Dockerfile"
+  `md5sum dockerfiles/#{os}/Dockerfile | cut -c-32`.strip
+end
+
 OS_BUILDS.each do |os|
   task :"docker_#{os}" do
-    run "mkdir -p dockerfiles/#{os}"
-    run "OS=#{os} ./rocker.rb > dockerfiles/#{os}/Dockerfile"
+    docker_md5 = make_dockerfile os
+    raise "Dockerfile md5 is empty, wtf?" if "#{docker_md5}".empty?
 
-    current_docker_md5 = `md5sum dockerfiles/#{os}/Dockerfile`.strip
-    last_docker_md5    = File.read(".#{os}_docker_is_created").strip rescue nil
-
-    raise "Dockerfile md5 is empty, wtf?" if "#{current_docker_md5}".empty?
-
-    puts "last Dockerfile md5: #{last_docker_md5}"
-    puts "current Dockerfile md5: #{current_docker_md5}"
-
-    if current_docker_md5 != last_docker_md5
+    if `docker images | grep package_#{PACKAGE_NAME}_#{os} | grep #{docker_md5}`.strip.empty?
       run "cp -r #{CURDIR}/vendor/* dockerfiles/#{os}/"
       run <<-SHELL
         cd dockerfiles/#{os} && \
         flock /tmp/#{PACKAGE_NAME}_#{os}_docker_build.lock \
-          docker build -t "package_#{PACKAGE_NAME}_#{os}" . && \
-        echo "#{current_docker_md5}" > ../../.#{os}_docker_is_created
+          docker build -t "package_#{PACKAGE_NAME}_#{os}:#{docker_md5}" .
       SHELL
     end
   end
 
   task :"package_#{os}" => :"docker_#{os}" do
+    docker_md5 = make_dockerfile os
     with_tempdir do |tempdir|
       run "[ -d pkg ] || mkdir pkg"
       run "[ -d dist/#{os} ] || mkdir -p dist/#{os}"
@@ -65,7 +63,8 @@ OS_BUILDS.each do |os|
           -u jenkins \
           -v #{CURDIR}:/package_source:ro \
           -v #{tempdir}:/tmp:rw -v #{CURDIR}/dist/#{os}/:/package_dest:rw \
-          package_#{PACKAGE_NAME}_#{os} /bin/bash /package_source/JENKINS_BUILD.sh
+          "package_#{PACKAGE_NAME}_#{os}:#{docker_md5}" \
+          /bin/bash /package_source/JENKINS_BUILD.sh
       SHELL
       run "rm -rf #{tempdir}"
     end
