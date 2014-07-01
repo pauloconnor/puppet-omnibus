@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 unset RUBYOPT BUNDLE_GEMFILE BUNDLE_BIN_PATH GEM_HOME GEM_PATH GEMRC
 
-export RUBY_HEAP_MIN_SLOTS=600000
-export RUBY_GC_MALLOC_LIMIT=59000000
-export RUBY_HEAP_FREE_MIN=100000
+export RUBY_GC_HEAP_INIT_SLOTS=150000
+export RUBY_GC_HEAP_FREE_SLOTS=150000
+export RUBY_GC_HEAP_GROWTH_FACTOR=1.2
+export RUBY_GC_HEAP_GROWTH_MAX_SLOTS=75000
+export RUBY_GC_MALLOC_LIMIT=64000000
+export RUBY_GC_OLDMALLOC_LIMIT=64000000
 export RUBYOPT="-rrubygems -r/opt/puppet-omnibus/var/lib/ruby/gemspec_patch.rb"
 export PATH="/opt/puppet-omnibus/embedded/bin:$PATH"
 
 exec /opt/puppet-omnibus/embedded/bin/puppet "$@"
-
