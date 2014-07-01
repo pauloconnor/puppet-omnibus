@@ -36,4 +36,3 @@ else
   echo "puppet-omnibus --version failed"
   exit 1
 fi
-

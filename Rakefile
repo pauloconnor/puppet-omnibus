@@ -73,11 +73,9 @@ OS_BUILDS.each do |os|
 
   task :"itest_#{os}" => :"package_#{os}" do
     run <<-SHELL
-      unbuffer docker run -t -i \
-        -v #{CURDIR}/itest:/itest:ro \
-        -v #{CURDIR}/dist:/dist:ro \
-        docker-dev.yelpcorp.com/#{os}_yelp \
-        /itest/#{os}.sh /#{package_name(os)}
+      docker run \
+        -v #{CURDIR}/itest:/itest:ro -v #{CURDIR}/dist:/dist:ro \
+        docker-dev.yelpcorp.com/#{os}_yelp /itest/#{os}.sh /#{package_name(os)}
     SHELL
   end
 end
