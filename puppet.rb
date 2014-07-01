@@ -33,6 +33,7 @@ class PuppetGem < FPM::Cookery::Recipe
       gem_install "#{workdir}/vendor/bundler-1.6.3.gem"
       cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas --with-opt-dir=#{destdir}"
       cleanenv_safesystem "#{destdir}/bin/bundle install --local --gemfile #{workdir}/puppet/Gemfile"
+      cleanenv_safesystem "#{destdir}/bin/bundle exec gem clean"
     end
 
     self.class.platforms [:darwin] do
