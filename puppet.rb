@@ -1,3 +1,4 @@
+# depends on ruby being installed in /opt/puppet-omnibus/embedded by ruby-build
 class PuppetGem < FPM::Cookery::Recipe
   description 'Puppet gem stack'
 
@@ -26,13 +27,16 @@ class PuppetGem < FPM::Cookery::Recipe
   end
 
   def build
-    cleanenv_safesystem "echo 'install: -Nf' > ~/.gemrc"
-
     self.class.platforms [:ubuntu, :debian, :fedora, :redhat, :centos] do
       ENV['PKG_CONFIG_PATH'] = "#{destdir}/lib/pkgconfig"
-      gem_install "#{workdir}/vendor/bundler-1.6.3.gem"
-      cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas --with-opt-dir=#{destdir}"
-      cleanenv_safesystem "#{destdir}/bin/bundle install --local --gemfile #{workdir}/puppet/Gemfile"
+      cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas \
+                             --with-opt-dir=#{destdir}"
+
+      cleanenv_safesystem "#{destdir}/bin/bundle install --local \
+                             --gemfile #{workdir}/puppet/Gemfile \
+                             --binstubs /opt/puppet-omnibus/embedded/bin \
+                             --shebang /opt/puppet-omnibus/embedded/bin/ruby"
+
       cleanenv_safesystem "#{destdir}/bin/gem clean"
     end
 
