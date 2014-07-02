@@ -12,7 +12,7 @@ cd /package
 cp -r /package_source/* /package/
 echo 'install: -Nf' > ~/.gemrc
 /opt/puppet-omnibus/embedded/bin/gem install /package/vendor/bundler-1.6.3.gem
-/opt/puppet-omnibus/embedded/bin/bundle install --local \
+/opt/puppet-omnibus/embedded/bin/bundle install --local --standalone \
   --binstubs /opt/puppet-omnibus/embedded/bin \
   --shebang /opt/puppet-omnibus/embedded/bin/ruby
 FPM_CACHE_DIR=/package/vendor /opt/puppet-omnibus/embedded/bin/fpm-cook package recipe.rb

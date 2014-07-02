@@ -32,7 +32,7 @@ class PuppetGem < FPM::Cookery::Recipe
       cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas \
                              --with-opt-dir=#{destdir}"
 
-      cleanenv_safesystem "#{destdir}/bin/bundle install --local \
+      cleanenv_safesystem "#{destdir}/bin/bundle install --local --standalone \
                              --gemfile #{workdir}/puppet/Gemfile \
                              --binstubs /opt/puppet-omnibus/embedded/bin \
                              --shebang /opt/puppet-omnibus/embedded/bin/ruby"
