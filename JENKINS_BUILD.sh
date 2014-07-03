@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-export PATH="/opt/local/bin:/sbin:/usr/sbin:$PATH"
+export PATH="/opt/puppet-omnibus/embedded/bin:/opt/local/bin:/sbin:/usr/sbin:$PATH"
 
 set -x
 if [ "$BUILD_NUMBER" == "" ];then
