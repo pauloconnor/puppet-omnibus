@@ -32,12 +32,19 @@ class PuppetGem < FPM::Cookery::Recipe
       cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas \
                              --with-opt-dir=#{destdir}"
 
-      cleanenv_safesystem "#{destdir}/bin/bundle install --local --standalone \
-                             --gemfile #{workdir}/puppet/Gemfile \
-                             --binstubs /opt/puppet-omnibus/embedded/bin \
-                             --shebang /opt/puppet-omnibus/embedded/bin/ruby"
+      cleanenv_safesystem "#{destdir}/bin/bundle install --local \
+                             --gemfile #{workdir}/puppet/Gemfile"
 
       cleanenv_safesystem "#{destdir}/bin/gem clean"
+
+      # bundle is shit
+      cleanenv_safesystem <<-SHELL
+        for file in #{destdir}/bin/*; do
+          if head -n1 $file | grep '^#!/usr/bin/env ruby'; then
+            sed -i '1s/.*/#!#{destdir.to_s.gsub('/', "\\/")}\\/bin\\/ruby/' $file
+          fi
+        done
+      SHELL
     end
 
     self.class.platforms [:darwin] do
@@ -45,14 +52,9 @@ class PuppetGem < FPM::Cookery::Recipe
       cleanenv_safesystem "#{destdir}/bin/gem build #{workdir}/ruby-shadow/*.gemspec"
       cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/ruby-shadow/*.gem"
     end
-
-    build_files
   end
 
   def install
-    # Install init-script and puppet.conf
-    install_files
-
     # Provide 'safe' binaries in /opt/<package>/bin like Vagrant does
     rm_rf "#{destdir}/../bin"
     destdir('../bin').mkdir
@@ -75,98 +77,5 @@ class PuppetGem < FPM::Cookery::Recipe
 
     destdir('../etc').mkdir
     destdir('../etc').install workdir('puppet/unicorn.conf')
-
-    # Symlink binaries to PATH using update-alternatives
-    with_trueprefix do
-      create_post_install_hook
-      create_pre_uninstall_hook
-    end
   end
-
-  private
-
-  def gem_install(name, version = nil)
-    v = version.nil? ? '' : "-v #{version}"
-    cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{v} #{name}"
-  end
-
-  platforms [:ubuntu, :debian] do
-    def build_files
-    end
-    def install_files
-    #  etc('puppet').mkdir
-    #  etc('default').install builddir('puppet.default') => 'puppet'
-    end
-  end
-
-  platforms [:fedora, :redhat, :centos] do
-    def build_files
-    end
-    def install_files
-    #  etc('puppet').mkdir
-    end
-  end
-
-  def create_post_install_hook
-    File.open(builddir('post-install'), 'w', 0755) do |f|
-      f.write <<-__POSTINST
-#!/bin/sh
-set -e
-
-if [ "$1" = "configure" ]; then
-
-    # Create the "puppet" user
-    if ! getent passwd puppet > /dev/null; then
-        adduser --quiet --system --group --home /var/lib/puppet  \
-            --no-create-home                                 \
-            --gecos "Puppet configuration management daemon" \
-            puppet
-    fi
-
-    # Set correct permissions and ownership for puppet directories
-    if ! dpkg-statoverride --list /var/log/puppet >/dev/null 2>&1; then
-        dpkg-statoverride --update --add puppet puppet 0750 /var/log/puppet
-    fi
-
-    if ! dpkg-statoverride --list /var/lib/puppet >/dev/null 2>&1; then
-        dpkg-statoverride --update --add puppet puppet 0750 /var/lib/puppet
-    fi
-
-    # Create folders common to "puppet" and "puppetmaster", which need
-    # to be owned by the "puppet" user
-    install --owner puppet --group puppet --directory \
-        /var/lib/puppet/state
-fi
-
-BIN_PATH="#{destdir}/bin"
-BINS="puppet facter hiera"
-
-for BIN in $BINS; do
-  update-alternatives --install /usr/bin/$BIN $BIN $BIN_PATH/$BIN 100
-done
-
-exit 0
-      __POSTINST
-    end
-  end
-
-  def create_pre_uninstall_hook
-    File.open(builddir('pre-uninstall'), 'w', 0755) do |f|
-      f.write <<-__PRERM
-#!/bin/sh
-
-BIN_PATH="#{destdir}/bin"
-BINS="puppet facter hiera"
-
-if [ "$1" != "upgrade" ]; then
-  for BIN in $BINS; do
-    update-alternatives --remove $BIN $BIN_PATH/$BIN
-  done
-fi
-
-exit 0
-      __PRERM
-    end
-  end
-
 end
