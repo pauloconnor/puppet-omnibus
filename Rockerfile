@@ -87,8 +87,8 @@ packages['precise'] = packages['trusty'] = packages['tpl']
 
 run %Q{
   rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup
-  apt-get update
-  DEBIAN_FRONTEND=noninteractive apt-get install #{packages[env_os].sort.join(' ')} --yes --force-yes --fix-missing
+  apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install #{packages[env_os].sort.join(' ')} --yes --force-yes --fix-missing && \
   mkdir -p /var/run/sshd
 } if %w{trusty precise lucid hardy}.include? env_os
 
