@@ -40,7 +40,7 @@ from OS_SOURCES[env_os]
 rpm_packages = %w{
   bison fakeroot gcc-c++ gdbm-devel glibc-headers gnutls-devel libffi-devel
   libxslt-devel openssh-server openssl-devel pcre-devel readline readline-devel
-  rpmdevtools screen sudo zlib zlib-devel }
+  rpmdevtools screen sudo zlib zlib-devel ruby gawk }
 c5_packages = rpm_packages + %w{java make}
 c6_packages = rpm_packages + %w{autoconf gcc git java-1.7.0-openjdk libvirt libvirt-devel passwd}
 
@@ -74,7 +74,7 @@ packages['deb']     = %w{
   autoconf bison build-essential curl fakeroot libgdbm-dev libgnutls-dev
   libncurses5-dev libpcre3-dev libsqlite3-dev libssl-dev libxslt1-dev
   openjdk-6-jdk openssh-server pkg-config screen sudo wget zlib1g zlib1g-dev
-  git-core libxml2-dev }
+  git-core libxml2-dev ruby gawk }
 
 # hardy zlib1g goes crazy
 packages['hardy']   = packages['deb'] - %w{zlib1g zlib1g-dev} +
@@ -123,10 +123,11 @@ run %Q{
 # ruby2.1.2
 
 add "ruby-build-20140524.tar.gz /tmp"
+add "ruby-2.1.2-patches.tar.gz /tmp"
 run %Q{
   mkdir -p /opt/puppet-omnibus/embedded
   MAKE_OPTS=-j1 RUBY_CFLAGS=-Os RUBY_BUILD_CACHE_PATH=/tmp \
   RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm --disable-install-doc --without-tcl --without-tk" \
-    /tmp/ruby-build-20140524/bin/ruby-build 2.1.2 /opt/puppet-omnibus/embedded
+    cat /tmp/ruby-2.1.2-patches/* | /tmp/ruby-build-20140524/bin/ruby-build -p 2.1.2 /opt/puppet-omnibus/embedded
   chown -R jenkins: /opt/puppet-omnibus
 }
