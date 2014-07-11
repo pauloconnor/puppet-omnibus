@@ -19,7 +19,7 @@ class Libaugeas < FPM::Cookery::Recipe
   end
 
   platforms [:fedora, :redhat, :centos] do
-    build_depends 'rpmdevtools', 'bison', 'pkgconfig'
+    build_depends 'bison', 'pkgconfig'
 
     centos_5 = IO.read('/etc/redhat-release') =~ /CentOS release 5/
     build_depends centos_5 ? 'autoconf26x' : 'autoconf'

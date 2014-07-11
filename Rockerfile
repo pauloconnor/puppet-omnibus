@@ -25,8 +25,8 @@
 #           note the spaces here ---'
 
 OS_SOURCES = {
-  'centos5' => 'backjlack/centos:5.9',
-  'centos6' => 'centos:6.4',
+  'centos5' => 'docker-dev.yelpcorp.com/centos5_yelp:20140710-0948',
+  'centos6' => 'docker-dev.yelpcorp.com/centos6_yelp:20140709-1022',
   'hardy'   => 'docker-dev.yelpcorp.com/hardy_yelp',
   'lucid'   => 'ubuntu:lucid',
   'precise' => 'ubuntu:precise',
@@ -38,32 +38,32 @@ from OS_SOURCES[env_os]
 # packages
 
 rpm_packages = %w{
-  bison fakeroot gcc-c++ gdbm-devel glibc-headers gnutls-devel libffi-devel
-  libxslt-devel openssh-server openssl-devel pcre-devel readline readline-devel
-  rpmdevtools screen sudo zlib zlib-devel ruby gawk }
-c5_packages = rpm_packages + %w{java make}
-c6_packages = rpm_packages + %w{autoconf gcc git java-1.7.0-openjdk libvirt libvirt-devel passwd}
+  bison fakeroot gcc-c++ gdbm-devel gnutls-devel libffi-devel tar
+  libxslt-devel pcre-devel readline readline-devel openssl-devel
+  rpmdevtools rpm-build sudo zlib zlib-devel ruby gawk }
+c5_packages = rpm_packages + %w{make git bzip2 curl patch openssl-0.9.8e-22.el5_8.4}
+c6_packages = rpm_packages + %w{
+  autoconf git-1.7.1 libvirt libvirt-devel passwd glibc-headers-2.12-1.107.el6
+  glibc-common-2.12-1.107.el6 glibc-2.12-1.107.el6}
 
 if env_os == 'centos5'
-  add "remi-release-5.rpm /tmp/remi-release-5.rpm"
-  add "epel-release-5-4.noarch.rpm /tmp/epel-release-5-4.noarch.rpm"
   run %Q{
-    rpm -Uvh /tmp/remi-release-5*.rpm /tmp/epel-release-5*.rpm
-    rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
-    yum install --enablerepo=webtatic git-all -y
+    yum clean metadata && \
     yum install #{c5_packages.sort.join(' ')} -y
+  }
+
+  run %Q{
     rpm -Uvh ftp://ftp.pbone.net/mirror/dl.iuscommunity.org/pub/ius/archive/Redhat/5/i386/autoconf26x-2.63-4.ius.el5.noarch.rpm
   }
 end
 
+# downgrade libselinux because openssl dependency problem
 run %Q{
-  yum install #{c6_packages.sort.join(' ')} -y
+  yum downgrade glibc-2.12-1.107.el6 glibc-common-2.12-1.107.el6 libselinux libselinux-utils -y && \
+  yum downgrade libstdc++-4.4.7-3.el6.x86_64 krb5-libs-1.10.3-10.el6.x86_64 libcom_err-1.41.12-14.el6.x86_64 libss-1.41.12-14.el6.x86_64 e2fsprogs-1.41.12-14.el6.x86_64 e2fsprogs-libs-1.41.12-14.el6.x86_64 --exclude *el6_* *i686 -y && \
+  yum downgrade libxml2-2.7.6-12.el6_4.1.x86_64 -y && \
+  yum install #{c6_packages.sort.join(' ')} -y --exclude *i686
 } if env_os == 'centos6'
-
-run %Q{
-  mkdir -p /var/run/sshd
-  /etc/init.d/sshd stop || true
-} if %w{centos5 centos6}.include? env_os
 
 run %Q{
   echo 'deb http://ppa.launchpad.net/git-core/ppa/ubuntu lucid main' >> /etc/apt/sources.list
@@ -73,7 +73,7 @@ packages = {}
 packages['deb']     = %w{
   autoconf bison build-essential curl fakeroot libgdbm-dev libgnutls-dev
   libncurses5-dev libpcre3-dev libsqlite3-dev libssl-dev libxslt1-dev
-  openjdk-6-jdk openssh-server pkg-config screen sudo wget zlib1g zlib1g-dev
+  pkg-config screen sudo wget zlib1g zlib1g-dev
   git-core libxml2-dev ruby gawk }
 
 # hardy zlib1g goes crazy
@@ -88,8 +88,7 @@ packages['precise'] = packages['trusty'] = packages['tpl']
 run %Q{
   rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup
   apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install #{packages[env_os].sort.join(' ')} --yes --force-yes --fix-missing && \
-  mkdir -p /var/run/sshd
+  DEBIAN_FRONTEND=noninteractive apt-get install #{packages[env_os].sort.join(' ')} --yes --force-yes --fix-missing
 } if %w{trusty precise lucid hardy}.include? env_os
 
 # user jenkins
@@ -125,9 +124,10 @@ run %Q{
 add "ruby-build-20140524.tar.gz /tmp"
 add "ruby-2.1.2-patches.tar.gz /tmp"
 run %Q{
-  mkdir -p /opt/puppet-omnibus/embedded
+  mkdir -p /opt/puppet-omnibus/embedded && \
   MAKE_OPTS=-j1 RUBY_CFLAGS=-Os RUBY_BUILD_CACHE_PATH=/tmp \
-  RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm --disable-install-doc --without-tcl --without-tk" \
-    cat /tmp/ruby-2.1.2-patches/* | /tmp/ruby-build-20140524/bin/ruby-build -p 2.1.2 /opt/puppet-omnibus/embedded
+    RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm --disable-install-doc --without-tcl --without-tk" \
+    cat /tmp/ruby-2.1.2-patches/* | /tmp/ruby-build-20140524/bin/ruby-build -p 2.1.2 /opt/puppet-omnibus/embedded && \
   chown -R jenkins: /opt/puppet-omnibus
 }
+
