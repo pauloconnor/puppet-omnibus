@@ -8,7 +8,6 @@ export RUBY_GC_HEAP_GROWTH_FACTOR=${RUBY_GC_HEAP_GROWTH_FACTOR-1.1}
 export RUBY_GC_HEAP_GROWTH_MAX_SLOTS=${RUBY_GC_HEAP_GROWTH_MAX_SLOTS-150000}
 export RUBY_GC_MALLOC_LIMIT=${RUBY_GC_MALLOC_LIMIT-64000000}
 export RUBY_GC_OLDMALLOC_LIMIT=${RUBY_GC_OLDMALLOC_LIMIT-64000000}
-export RUBYOPT="-rrubygems -r/opt/puppet-omnibus/var/lib/ruby/gemspec_patch.rb"
 export PATH="/opt/puppet-omnibus/embedded/bin:$PATH"
 
 exec nice -n +10 setuidgid puppet /opt/puppet-omnibus/embedded/bin/unicorn \
