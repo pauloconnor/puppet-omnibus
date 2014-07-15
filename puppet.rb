@@ -68,8 +68,6 @@ class PuppetGem < FPM::Cookery::Recipe
 
     destdir('../var/lib/ruby').mkdir
     destdir('../var/lib/ruby').install workdir('puppet/seppuku_patch.rb')
-    destdir('../var/lib/ruby').install workdir('puppet/puppet_metatype_patch.rb')
-    destdir('../var/lib/ruby').install workdir('puppet/gemspec_patch.rb')
 
     destdir('../var/lib/puppetmaster').mkdir
     destdir('../var/lib/puppetmaster/rack').mkdir
