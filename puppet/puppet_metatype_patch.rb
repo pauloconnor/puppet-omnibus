@@ -3,19 +3,26 @@ require 'puppet/type'
 require 'puppet/metatype/manager'
 
 # this module wraps original Manager#type method and memoizez it
-module Puppet::MetaType::FasterTypeLookup
+module Puppet::MetaType
+module Manager
   def type(name)
+    return nil if name.to_s.include? ':'
+
+    @types ||= {}
     return @types[name] if @types.include? name
 
-    munged_name = name.downcase.intern if name.is_a? String
-    return @types[munged_name] if @types.include? munged_name
-
-    super.tap do |type|
-      @types[name] = @types[munged_name] = type
+    if name.is_a? String
+      name = name.downcase.intern
+      return @types[name] if @types.include? name
     end
+
+    if typeloader.load(name, Puppet.lookup(:current_environment))
+      Puppet.warning "Loaded puppet/type/#{name} but no class was created" unless @types.include? name
+    else
+      @types[name] = nil
+    end
+
+    @types[name]
   end
 end
-
-class Puppet::Type
-  include Puppet::MetaType::FasterTypeLookup
 end
