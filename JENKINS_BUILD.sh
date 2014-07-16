@@ -15,7 +15,7 @@ cp -r /package_source/* /package/
 cd /tmp
 git clone git://github.com/Yelp/puppet.git
 cd puppet
-git checkout 7c93c861d9cb70492641b3f093d2e13b3fdc094b
+git checkout 3.6.2-y2
 rake package:bootstrap
 rake package:gem
 mv pkg/puppet-3.6.2.y2.gem /package/vendor/
