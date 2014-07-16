@@ -4,7 +4,7 @@ class PuppetGem < FPM::Cookery::Recipe
 
   # If you want to bump puppet version you have to do it in Gemfile as well
   name 'puppet'
-  version '3.6.2'
+  version ENV['PUPPET_VERSION']
 
   source "nothing", :with => :noop
 
@@ -37,7 +37,7 @@ class PuppetGem < FPM::Cookery::Recipe
                              --gemfile #{workdir}/puppet/Gemfile"
 
       cleanenv_safesystem "#{destdir}/bin/gem clean"
-      cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/vendor/puppet-3.6.2.y2.gem"
+      cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/vendor/puppet-#{ENV['PUPPET_VERSION']}.gem"
 
       # bundle is shit
       cleanenv_safesystem <<-SHELL

@@ -9,16 +9,19 @@ if [ "$BUILD_NUMBER" == "" ];then
 fi
 echo "Going for bundle install and build:"
 
+export PUPPET_VERSION=3.6.2.y3
+export PUPPET_DASHVER=${PUPPET_VERSION//./-}
+export PUPPET_BUILDPATH=/tmp/puppet.$PUPPET_DASHVER
+
 cp -r /package_source/* /package/
 
 # build puppet gem
-cd /tmp
-git clone -q git://github.com/Yelp/puppet.git
-cd puppet
-git checkout -q 3.6.2-y2
+git clone -q git://github.com/Yelp/puppet.git $PUPPET_BUILDPATH # versioning here because of hardy
+cd $PUPPET_BUILDPATH
+git checkout -q $PUPPET_VERSION
 rake package:bootstrap > /dev/null
 rake package:gem > /dev/null
-mv pkg/puppet-3.6.2.y2.gem /package/vendor/
+mv pkg/puppet-$PUPPET_VERSION.gem /package/vendor/
 
 # build omnibus package
 cd /package

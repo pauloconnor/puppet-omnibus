@@ -117,6 +117,17 @@ How things look from Jenkins point of view
         - move built package to dest folder
     - run itest script against new package in docker
 
+Build troubleshooting
+---------------------
+
+Hardy docker images have outdated git (1.5) which doesn't support describe
+command which is essential to building puppet gem of a correct version. This
+is worked-around by building gem in specially named folder /tmp/puppet.3-6-2.
+
+Bundler is stupid. Because of that puppet.rb recipe runs a script that
+changes all shebangs in ruby scripts in /opt/puppet-omnibus/embedded/bin to
+#!/opt/puppet-omnibus/embedded/bin/ruby.
+
 Configuration
 -------------
 
