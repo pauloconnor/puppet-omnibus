@@ -9,7 +9,7 @@ if [ "$BUILD_NUMBER" == "" ];then
 fi
 echo "Going for bundle install and build:"
 
-export PUPPET_VERSION=3.6.2.y3
+export PUPPET_VERSION=3.6.2.y4
 export PUPPET_DASHVER=${PUPPET_VERSION//./-}
 export PUPPET_BUILDPATH=/tmp/puppet.$PUPPET_DASHVER
 
