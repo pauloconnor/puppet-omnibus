@@ -13,11 +13,11 @@ cp -r /package_source/* /package/
 
 # build puppet gem
 cd /tmp
-git clone git://github.com/Yelp/puppet.git
+git clone -q git://github.com/Yelp/puppet.git
 cd puppet
-git checkout 3.6.2-y2
-rake package:bootstrap
-rake package:gem
+git checkout -q 3.6.2-y2
+rake package:bootstrap > /dev/null
+rake package:gem > /dev/null
 mv pkg/puppet-3.6.2.y2.gem /package/vendor/
 
 # build omnibus package
