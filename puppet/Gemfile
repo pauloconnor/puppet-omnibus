@@ -16,8 +16,6 @@ gem 'trollop',                '2.0'        # ??? FIXME
 gem 'hiera-eyaml',            '2.0.2'      # MIT
 gem 'rack',                   '1.5.2'
 gem 'unicorn',                '4.8.3'
-gem 'puppet', :git => 'git://github.com/Yelp/puppet.git',
-              :ref => '9d8392a21a8d4cf94ca559612434c5c84f014957'
 
 group :centos_6 do
   gem 'ruby-libvirt',         '0.4.0'
@@ -25,18 +23,7 @@ end
 
 # Puppet tools section
 # TODO: Is this really needed?
-gem 'puppet-syntax',          '1.1.0'      # MIT
-gem 'librarian-puppet',       '0.9.10'     # Ruby
-gem 'rspec-core',             '2.14.5'     # MIT
-gem 'rspec-expectations',     '2.14.2'     # MIT
-gem 'rspec-mocks',            '2.14.3'     # MIT
-gem 'rspec',                  '2.14.1'     # MIT
-gem 'rake-hooks',             '1.2.3'      # MIT
-gem 'rspec-puppet',           '1.0.1'      # MIT
-gem 'puppetlabs_spec_helper', '0.4.1'      # Apache2
 gem 'sensu-plugin',           '0.2.2'
-gem 'puppet-lint',            '0.4.0.pre1'
-gem 'r10k',                   '1.2.0'
 
 # AWS section
 gem 'unf',                    '0.1.3'
