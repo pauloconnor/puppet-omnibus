@@ -52,23 +52,19 @@ OS_BUILDS.each do |os|
 
   task :"package_#{os}" => :"docker_#{os}" do
     docker_md5 = make_dockerfile os
-    with_tempdir do |tempdir|
-      run "[ -d pkg ] || mkdir pkg"
-      run "[ -d dist/#{os} ] || mkdir -p dist/#{os}"
-      run "chmod 777 pkg dist/#{os} #{tempdir}"
-      run <<-SHELL
-        unbuffer docker run -t -i \
-          -e BUILD_NUMBER=#{BUILD_NUMBER} \
-          -e HOME=/package \
-          -u jenkins \
-          -v #{CURDIR}:/package_source:ro \
-          -v #{CURDIR}/dist/#{os}:/package_dest:rw \
-          -v #{tempdir}:/tmp:rw \
-          "package_#{PACKAGE_NAME}_#{os}:#{docker_md5}" \
-          /bin/bash /package_source/JENKINS_BUILD.sh
-      SHELL
-      run "rm -rf #{tempdir}"
-    end
+    run "[ -d pkg ] || mkdir pkg"
+    run "[ -d dist/#{os} ] || mkdir -p dist/#{os}"
+    run "chmod 777 pkg dist/#{os}"
+    run <<-SHELL
+      unbuffer docker run -t -i \
+        -e BUILD_NUMBER=#{BUILD_NUMBER} \
+        -e HOME=/package \
+        -u jenkins \
+        -v #{CURDIR}:/package_source:ro \
+        -v #{CURDIR}/dist/#{os}:/package_dest:rw \
+        "package_#{PACKAGE_NAME}_#{os}:#{docker_md5}" \
+        /bin/bash /package_source/JENKINS_BUILD.sh
+    SHELL
   end
 
   task :"itest_#{os}" => :"package_#{os}" do

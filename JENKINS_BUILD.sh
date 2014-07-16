@@ -12,9 +12,9 @@ cd /package
 cp -r /package_source/* /package/
 echo 'install: -Nf' > ~/.gemrc
 /opt/puppet-omnibus/embedded/bin/gem install /package/vendor/bundler-1.6.3.gem
-/opt/puppet-omnibus/embedded/bin/bundle install --local
+/opt/puppet-omnibus/embedded/bin/bundle install --local --path /tmp
 FPM_CACHE_DIR=/package/vendor /opt/puppet-omnibus/embedded/bin/bundle exec fpm-cook clean
-eFPM_CACHE_DIR=/package/vendor /opt/puppet-omnibus/embedded/bin/bundle exec fpm-cook package recipe.rb
+FPM_CACHE_DIR=/package/vendor /opt/puppet-omnibus/embedded/bin/bundle exec fpm-cook package recipe.rb
 echo "Copying package to the dist folder"
 cp -v pkg/* /package_dest/
 echo "Package copying worked!"

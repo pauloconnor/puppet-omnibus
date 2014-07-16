@@ -32,10 +32,12 @@ class PuppetGem < FPM::Cookery::Recipe
       cleanenv_safesystem "#{destdir}/bin/bundle config build.ruby-augeas \
                              --with-opt-dir=#{destdir}"
 
+      cleanenv_safesystem "#{destdir}/bin/bundle config --delete path"
       cleanenv_safesystem "#{destdir}/bin/bundle install --local \
                              --gemfile #{workdir}/puppet/Gemfile"
 
       cleanenv_safesystem "#{destdir}/bin/gem clean"
+      cleanenv_safesystem "#{destdir}/bin/gem install --no-ri --no-rdoc #{workdir}/vendor/puppet-3.6.2.y2.gem"
 
       # bundle is shit
       cleanenv_safesystem <<-SHELL
