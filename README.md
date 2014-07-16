@@ -53,9 +53,9 @@ not using AWS.
 
 The following gems are built into both recipes:
 - facter
-- json_pure
+- json\_pure
 - hiera
-- deep_merge
+- deep\_merge
 - rgen
 - ruby-augeas
 - ruby-shadow
@@ -78,40 +78,44 @@ config files, and files in `/etc/default` / `/etc/sysconfig`.
 How do I build the package?
 ---------------------------
 
-fpm-cookery will build a package for the platform you run it on - so if you want
-one for e.g. CentOS, then run the build on CentOS. We'd like to integrate
-automatic Vagrant builds; pull requests welcomed!
-
 You need to clone the repository and bundle it:
 
     $ git clone https://github.com/bobtfish/puppet-omnibus
-    $ bundle install
 
-Now use fpm-cookery to build the package:
+Build process is relying heavily on Docker now since we need to build package
+for many different distribs. To build Ubuntu Lucid package use:
 
-    $ sudo bundle exec fpm-cook package recipe.rb
+    $ rake package_lucid
 
-or:
+this will prepare(and store with a checksum) a Docker image for Lucid and
+run build process. Resulting package will be under dist/lucid.
 
-    $ sudo bundle exec fpm-cook package recipe-aws.rb
+Build process reference
+-----------------------
 
-depending on whether you want the AWS or non-AWS build.
+There are many tools in use here, here's a quick list:
 
-You need to use sudo as the recipe will try to install in /opt/puppet-omnibus,
-so it'll need root to create this directory.
+- make (Makefile) - used by jenkins, provides itest\_$package entrypoints
+- rake (Rakefile) - used to compile docker images and initiate package building
+- rocker.rb (Rockerfile) - used to generate Dockerfiles for different distribs
+- fpm (recipe.rb, puppet.rb, etc) - actual building and generating debs/rpms
 
-The final package will be at:
+How things look from Jenkins point of view
+------------------------------------------
 
-    puppet-omnibus/pkg
-
-You might want to update the maintainer, revision and vendor in puppet-omnibus.rb.
-
-Vagrant notes
--------------
-
-Why do i have to do this:
-
-    $ sudo PATH=$PATH bundle exec bin/fpm-cook package recipr.rb
+- make itest\_lucid
+  - rake itest\_lucid
+    - invoke package\_lucid
+      - generate Dockerfile
+      - invoke docker\_lucid if image for Dockerfile checksum doesnt exist
+        - build docker image
+        - install ruby 2.1.2 inside docker image
+        - if all is good - tag image with Dockerfile checksum
+      - run JENKINS_BUILD.sh inside prepared docker image
+        - build puppet gem from github.com/Yelp/puppet.git fork
+        - bundle gems needed for fpm and run fpm
+        - move built package to dest folder
+    - run itest script against new package in docker
 
 Configuration
 -------------
