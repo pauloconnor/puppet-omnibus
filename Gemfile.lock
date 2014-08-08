@@ -22,7 +22,7 @@ GEM
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     clamp (0.6.3)
-    facter (2.0.2)
+    facter (2.1.0)
       CFPropertyList (~> 2.2.6)
     ffi (1.9.3)
     fpm (0.4.42)
