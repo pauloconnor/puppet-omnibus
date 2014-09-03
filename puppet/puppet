@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 unset RUBYOPT BUNDLE_GEMFILE BUNDLE_BIN_PATH GEM_HOME GEM_PATH GEMRC
 
-# this is because of exceccive calls to stat /etc/localtime
-export TZ=PDT
+# setting this variable inhibits calls to stat /etc/localtime
+# which would otherwise be excessive.
+export TZ='US/Pacific'
 
 export RUBY_GC_HEAP_INIT_SLOTS=600000
 export RUBY_GC_HEAP_FREE_SLOTS=300000
