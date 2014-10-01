@@ -77,10 +77,11 @@ packages['deb']     = %w{
   git-core libxml2-dev ruby gawk }
 
 # hardy zlib1g goes crazy
-packages['hardy']   = packages['deb'] - %w{zlib1g zlib1g-dev} +
+packages['hardy']   = packages['deb'] - %w{zlib1g zlib1g-dev git-core} +
                         %w{ libreadline5-dev libffi4-dev
                             zlib1g=1:1.2.3.3.dfsg-7ubuntu1
-                            zlib1g-dev=1:1.2.3.3.dfsg-7ubuntu1 }
+                            zlib1g-dev=1:1.2.3.3.dfsg-7ubuntu1
+                            git-core=1.7.4-yelp1 }
 packages['tpl']     = packages['deb'] + %w{libffi6 libffi-dev libreadline6 libreadline6-dev}
 packages['lucid']   = packages['tpl'] - %w{libffi6} + %w{libffi5}
 packages['precise'] = packages['trusty'] = packages['tpl']
