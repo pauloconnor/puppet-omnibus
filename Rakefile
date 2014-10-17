@@ -62,6 +62,7 @@ OS_BUILDS.each do |os|
         -u jenkins \
         -v #{CURDIR}:/package_source:ro \
         -v #{CURDIR}/dist/#{os}:/package_dest:rw \
+        -v /etc/ssh/ssh_known_hosts:/etc/ssh/ssh_known_hosts:ro \
         "package_#{PACKAGE_NAME}_#{os}:#{docker_md5}" \
         /bin/bash /package_source/JENKINS_BUILD.sh
     SHELL
