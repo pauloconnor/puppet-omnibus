@@ -16,7 +16,7 @@ export PUPPET_BUILDPATH=/tmp/puppet.$PUPPET_DASHVER
 cp -r /package_source/* /package/
 
 # build puppet gem
-git clone -q git://github.com/Yelp/puppet.git $PUPPET_BUILDPATH # versioning here because of hardy
+git clone -q git@git.yelpcorp.com:mirrors/Yelp/puppet.git $PUPPET_BUILDPATH # versioning here because of hardy
 cd $PUPPET_BUILDPATH
 git checkout -q $PUPPET_VERSION
 rake package:bootstrap > /dev/null
