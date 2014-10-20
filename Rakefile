@@ -23,7 +23,7 @@ def run(cmd)
 end
 
 def fetch_puppet_git(dir)
-  run "git clone git@git.yelpcorp.com:mirrors/Yelp/puppet.git #{dir}/puppet-git"
+  run "git clone #{ENV["upstream_git_repo"]} #{dir}/puppet-git"
 end
 
 def with_tempdir
