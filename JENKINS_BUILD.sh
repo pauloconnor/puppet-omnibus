@@ -16,7 +16,7 @@ export PUPPET_BUILDPATH=/tmp/puppet.$PUPPET_DASHVER
 cp -r /package_source/* /package/
 
 # build puppet gem
-ln -s $PUPPET_BUILDPATH /package/puppet-git # versioning here because of hardy
+ln -s /package/puppet-git $PUPPET_BUILDPATH # versioning here because of hardy
 ls -la $PUPPET_BUILDPATH
 cd $PUPPET_BUILDPATH
 git checkout -q $PUPPET_VERSION

@@ -23,6 +23,7 @@ def run(cmd)
 end
 
 def fetch_puppet_git(dir)
+  run "rm -rf #{dir}/puppet-git"
   run "git clone #{ENV["upstream_puppet_git"]} #{dir}/puppet-git"
 end
 
