@@ -22,6 +22,10 @@ def run(cmd)
   raise if !ENV['DRY'] && !system(cmd)
 end
 
+def fetch_puppet_git(dir)
+  run "git clone git@git.yelpcorp.com:mirrors/Yelp/puppet.git #{dir}/puppet-git"
+end
+
 def with_tempdir
   tempdir = `mktemp -d`.strip
   yield tempdir
@@ -51,6 +55,7 @@ OS_BUILDS.each do |os|
   end
 
   task :"package_#{os}" => :"docker_#{os}" do
+    fetch_puppet_git CURDIR
     docker_md5 = make_dockerfile os
     run "[ -d pkg ] || mkdir pkg"
     run "[ -d dist/#{os} ] || mkdir -p dist/#{os}"
