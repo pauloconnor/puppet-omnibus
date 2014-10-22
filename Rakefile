@@ -3,6 +3,7 @@ VERSION      = "3.6.2"
 BUILD_NUMBER = ENV["upstream_build_number"] || 0
 CURDIR       = Dir.pwd
 OS_BUILDS    = %w(hardy lucid precise trusty centos5 centos6)
+PUPPET_GIT   = ENV["upstream_puppet_git"] || "git://github.com/Yelp/puppet.git"
 
 def package_name_suffix(os)
   case os
@@ -23,8 +24,8 @@ def run(cmd)
 end
 
 def fetch_puppet_git(dir)
-  run "rm -rf #{dir}/puppet-git"
-  run "git clone #{ENV["upstream_puppet_git"]} #{dir}/puppet-git"
+  run "rm -rf '#{dir}/puppet-git'"
+  run "git clone '#{PUPPET_GIT}' '#{dir}/puppet-git'"
 end
 
 def with_tempdir
