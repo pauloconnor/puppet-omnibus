@@ -1,5 +1,5 @@
 PACKAGE_NAME = "puppet-omnibus"
-VERSION      = "3.6.2"
+VERSION      = "3.7.3"
 BUILD_NUMBER = ENV["upstream_build_number"] || 0
 CURDIR       = Dir.pwd
 OS_BUILDS    = %w(hardy lucid precise trusty centos5 centos6)
