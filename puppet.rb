@@ -33,7 +33,7 @@ class PuppetGem < FPM::Cookery::Recipe
                              --with-opt-dir=#{destdir}"
 
       cleanenv_safesystem "#{destdir}/bin/bundle config --delete path"
-      cleanenv_safesystem "#{destdir}/bin/bundle install --local \
+      cleanenv_safesystem "#{destdir}/bin/bundle install \
                              --gemfile #{workdir}/puppet/Gemfile"
 
       cleanenv_safesystem "#{destdir}/bin/gem clean"

@@ -29,7 +29,7 @@ cd /package
 echo 'install: -Nf' > ~/.gemrc
 gem install /package/vendor/bundler-1.6.3.gem
 gem install /package/vendor/puppet-$PUPPET_VERSION.gem
-bundle install #--local --path /tmp
+bundle install --path /tmp
 FPM_CACHE_DIR=/package/vendor bundle exec fpm-cook clean
 FPM_CACHE_DIR=/package/vendor bundle exec fpm-cook package recipe.rb
 echo "Copying package to the dist folder"
