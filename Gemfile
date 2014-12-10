@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "http://rubygems.org"
 
 gem "fpm-cookery",
    :git => 'git://github.com/bobtfish/fpm-cookery.git', :branch => 'master'
