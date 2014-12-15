@@ -1,9 +1,12 @@
-PACKAGE_NAME = "puppet-omnibus"
+# Make sure repository has either tag or branch(not both!) named "VERSION.ITERATION"
+PUPPET_GIT   = ENV["upstream_puppet_git"] || "git://github.com/Yelp/puppet.git"
 VERSION      = "3.7.3"
+ITERATION    = "y2"
+
+PACKAGE_NAME = "puppet-omnibus"
 BUILD_NUMBER = ENV["upstream_build_number"] || 0
 CURDIR       = Dir.pwd
 OS_BUILDS    = %w(hardy lucid precise trusty centos5 centos6)
-PUPPET_GIT   = ENV["upstream_puppet_git"] || "git://github.com/Yelp/puppet.git"
 
 def package_name_suffix(os)
   case os
@@ -65,6 +68,7 @@ OS_BUILDS.each do |os|
     run <<-SHELL
       unbuffer docker run -t -i \
         -e BUILD_NUMBER=#{BUILD_NUMBER} \
+        -e PUPPET_VERSION=#{VERSION}.#{ITERATION}
         -e HOME=/package \
         -u jenkins \
         -v #{CURDIR}:/package_source:ro \

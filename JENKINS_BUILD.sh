@@ -7,9 +7,13 @@ if [ "$BUILD_NUMBER" == "" ];then
   echo "BUILD_NUMBER environment not set - producing debug build"
   export BUILD_NUMBER=debug0
 fi
+
+if [ "$PUPPET_VERSION" == "" ];then
+  echo "PUPPET_VERSION environment variable must be set"
+  exit1
+fi
 echo "Going for bundle install and build:"
 
-export PUPPET_VERSION=3.7.3.y2
 export PUPPET_DASHVER=${PUPPET_VERSION//./-}
 export PUPPET_BUILDPATH=/tmp/puppet.$PUPPET_DASHVER
 
