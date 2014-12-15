@@ -68,7 +68,7 @@ OS_BUILDS.each do |os|
     run <<-SHELL
       unbuffer docker run -t -i \
         -e BUILD_NUMBER=#{BUILD_NUMBER} \
-        -e PUPPET_VERSION=#{VERSION}.#{ITERATION}
+        -e PUPPET_VERSION=#{VERSION}.#{ITERATION} \
         -e HOME=/package \
         -u jenkins \
         -v #{CURDIR}:/package_source:ro \
