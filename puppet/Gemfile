@@ -24,6 +24,7 @@ end
 # Puppet tools section
 gem 'puppet-syntax', '1.2.0'
 gem 'puppet-lint', '~> 1.1.0'              # MIT
+gem 'serverspec', '2.7.1' # MIT
 
 # AWS section
 gem 'unf',                    '0.1.3'

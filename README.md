@@ -62,6 +62,7 @@ The following gems are built into both recipes:
 - gpgme
 - puppet
 - unicorn
+- serverspec
 
 The following extra gems are included in the `recipe-aws.rb` build:
 - aws-sdk
