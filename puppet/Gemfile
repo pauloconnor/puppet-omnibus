@@ -22,9 +22,6 @@ group :centos_6 do
 end
 
 # Puppet tools section
-# TODO: Is this really needed?
-gem 'sensu-plugin',           '0.2.2'
-
 gem 'puppet-syntax', '1.2.0'
 gem 'puppet-lint', '~> 1.1.0'              # MIT
 
