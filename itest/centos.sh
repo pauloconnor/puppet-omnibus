@@ -35,3 +35,12 @@ else
   echo "puppet-omnibus --version failed"
   exit 1
 fi
+
+COUNT=$(find /opt/puppet-omnibus/embedded/lib/ruby/gems/*/gems/puppet-[0-9]* -maxdepth 0 | wc -l)
+if [ "$COUNT" == "0" ]; then
+  echo "We have exactly 1 puppet gem version installed"
+else
+   echo "We have $COUNT puppet gem versions installed, not 1"
+   exit 1
+fi
+
