@@ -23,6 +23,8 @@ end
 
 # Puppet tools section
 gem 'puppet-syntax', '1.4.1'
+gem 'sensu-plugin',           '0.2.2' # This is used for check_aws_events
+
 gem 'puppet-lint', '~> 1.1.0'              # MIT
 gem 'serverspec', '2.7.1' # MIT
 gem 'r10k', '1.4.1'
