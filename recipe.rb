@@ -32,10 +32,9 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   omnibus_dir     "/opt/#{name}"
   omnibus_recipes 'libaugeas', 'puppet', 'nginx'
 
-  #  replaces 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
-  #  conflicts 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
-  #  provides 'puppet', 'puppet-common', 'hiera', 'yelp-hiera', 'facter', 'puppetmaster', 'puppetmaster-passenger', 'puppetmaster-common'
-  # omnibus_additional_paths config_files
+  %i{replaces conflicts provides}.each {|m| send(m,
+    *%i{ puppet puppet-common hiera yelp-hiera facter puppetmaster
+         puppetmaster-passenger puppetmaster-common })}
 
   def build
   end
@@ -49,6 +48,9 @@ class PuppetOmnibus < FPM::Cookery::Recipe
     self.class.pre_uninstall builddir('pre-uninstall')
   end
 
+  BIN_PATH="#{destdir}/bin"
+  BINS="puppet facter hiera"
+
   def create_post_install_hook
     File.open(builddir('post-install'), 'w', 0755) do |f|
       f.write <<-__POSTINST
@@ -56,7 +58,6 @@ class PuppetOmnibus < FPM::Cookery::Recipe
 set -e
 
 if [ "$1" = "configure" ]; then
-
     # Create the "puppet" user
     if ! getent passwd puppet > /dev/null; then
         adduser --quiet --system --group --home /var/lib/puppet  \
@@ -80,8 +81,8 @@ if [ "$1" = "configure" ]; then
         /var/lib/puppet/state
 fi
 
-BIN_PATH="#{destdir}/bin"
-BINS="puppet facter hiera"
+BIN_PATH="#{BIN_PATH}"
+BINS="#{BINS}"
 
 for BIN in $BINS; do
   update-alternatives --install /usr/bin/$BIN $BIN $BIN_PATH/$BIN 100
@@ -97,8 +98,8 @@ exit 0
       f.write <<-__PRERM
 #!/bin/sh
 
-BIN_PATH="#{destdir}/bin"
-BINS="puppet facter hiera"
+BIN_PATH="#{BIN_PATH}"
+BINS="#{BINS}"
 
 if [ "$1" != "upgrade" ]; then
   for BIN in $BINS; do
@@ -111,3 +112,4 @@ exit 0
     end
   end
 end
+
