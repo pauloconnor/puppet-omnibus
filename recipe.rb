@@ -32,8 +32,8 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   omnibus_dir     "/opt/#{name}"
   omnibus_recipes 'libaugeas', 'puppet', 'nginx'
 
-  %i{replaces conflicts provides}.each {|m| send(m,
-    *%i{ puppet puppet-common hiera yelp-hiera facter puppetmaster
+  %w{replaces conflicts provides}.each {|m| send(m,
+    *%w{ puppet puppet-common hiera yelp-hiera facter puppetmaster
          puppetmaster-passenger puppetmaster-common })}
 
   def build
