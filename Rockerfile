@@ -28,7 +28,7 @@ OS_SOURCES = {
   'centos5' => 'docker-dev.yelpcorp.com/centos5_yelp:20140710-0948',
   'centos6' => 'docker-dev.yelpcorp.com/centos6_yelp:20140709-1022',
   'hardy'   => 'docker-dev.yelpcorp.com/hardy_yelp',
-  'lucid'   => 'ubuntu:lucid',
+  'lucid'   => 'docker-dev.yelpcorp.com/lucid_yelp',
   'precise' => 'ubuntu:precise',
   'trusty'  => 'ubuntu:trusty'
 }
@@ -122,13 +122,13 @@ run %Q{
 
 # ruby2.1.2
 
-add "ruby-build-20140524.tar.gz /tmp"
-add "ruby-2.1.2-patches.tar.gz /tmp"
+add "ruby-build-20150130.tar.gz /tmp"
+add "ruby-2.2.0-patches.tar.gz /tmp"
 run %Q{
   mkdir -p /opt/puppet-omnibus/embedded && \
-  MAKE_OPTS=-j1 RUBY_CFLAGS=-Os RUBY_BUILD_CACHE_PATH=/tmp \
+  MAKE_OPTS=-j4 RUBY_CFLAGS=-Os RUBY_BUILD_CACHE_PATH=/tmp \
     RUBY_CONFIGURE_OPTS="--without-gdbm --without-dbm --disable-install-doc --without-tcl --without-tk" \
-    cat /tmp/ruby-2.1.2-patches/* | /tmp/ruby-build-20140524/bin/ruby-build -p 2.1.2 /opt/puppet-omnibus/embedded && \
+    /tmp/ruby-build-20150130/bin/ruby-build -p 2.2.0 /opt/puppet-omnibus/embedded && \
   chown -R jenkins: /opt/puppet-omnibus
 }
 
