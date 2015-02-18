@@ -33,9 +33,8 @@ class PuppetOmnibus < FPM::Cookery::Recipe
   omnibus_recipes 'libaugeas', 'puppet', 'nginx'
 
   if File.read('/etc/issue') !~ /centos release 5/i
-    %w{replaces conflicts provides}.each {|m| send(m,
-      *%w{ puppet puppet-common hiera yelp-hiera facter puppetmaster
-           puppetmaster-passenger puppetmaster-common })}
+    conflicts(*%w{ puppet puppet-common hiera yelp-hiera facter puppetmaster
+                   puppetmaster-passenger puppetmaster-common })
   end
 
   def build
