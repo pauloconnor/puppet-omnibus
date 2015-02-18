@@ -11,13 +11,13 @@ GIT
       systemu
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     CFPropertyList (2.2.8)
     addressable (2.3.6)
     arr-pm (0.0.9)
       cabin (> 0)
-    backports (3.6.3)
+    backports (3.6.0)
     cabin (0.6.1)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
@@ -55,5 +55,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  backports (= 3.6.3)
   fpm-cookery!
