@@ -11,7 +11,7 @@ GIT
       systemu
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     CFPropertyList (2.2.8)
     addressable (2.3.6)
@@ -43,7 +43,7 @@ GEM
     http_parser.rb (0.5.3)
     json (1.8.1)
     json_pure (1.8.1)
-    puppet (3.7.3)
+    puppet (3.7.4)
       facter (> 1.6, < 3)
       hiera (~> 1.0)
       json_pure
