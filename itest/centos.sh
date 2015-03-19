@@ -10,6 +10,8 @@ else
   echo "Going to run integration tests on $packages_to_install"
 fi
 
+rm -rf /etc/yum.repos.d/Yelp.repo /etc/yum.repos.d/yelppack*
+
 if [ -e /opt/puppet-omnibus ]; then
   echo "puppet-omnibus looks like is already here?"
   exit 1
