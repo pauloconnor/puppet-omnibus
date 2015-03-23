@@ -1,7 +1,7 @@
 # Make sure repository has either tag or branch(not both!) named "VERSION.ITERATION"
 PUPPET_GIT   = ENV["upstream_puppet_git"] || "git://github.com/Yelp/puppet.git"
 VERSION      = "3.7.4"
-ITERATION    = "y1"
+ITERATION    = "y2"
 
 PACKAGE_NAME = "puppet-omnibus"
 BUILD_NUMBER = ENV["upstream_build_number"] || 0
