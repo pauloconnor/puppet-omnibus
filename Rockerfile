@@ -25,12 +25,12 @@
 #           note the spaces here ---'
 
 OS_SOURCES = {
-  'centos5' => 'docker-dev.yelpcorp.com/centos5_yelp:20140710-0948',
-  'centos6' => 'docker-dev.yelpcorp.com/centos6_yelp:20140709-1022',
-  'hardy'   => 'docker-dev.yelpcorp.com/hardy_yelp',
-  'lucid'   => 'ubuntu:lucid',
-  'precise' => 'ubuntu:precise',
-  'trusty'  => 'ubuntu:trusty'
+  'centos5' => 'docker-dev.yelpcorp.com/centos5_yelp:latest',
+  'centos6' => 'docker-dev.yelpcorp.com/centos6_yelp:latest',
+  'hardy'   => 'docker-dev.yelpcorp.com/hardy_yelp:latest',
+  'lucid'   => 'docker-dev.yelpcorp.com/hardy_lucid:latest',
+  'precise' => 'docker-dev.yelpcorp.com/hardy_precise:latest',
+  'trusty'  => 'docker-dev.yelpcorp.com/hardy_trusty:latest'
 }
 
 from OS_SOURCES[env_os]
@@ -43,27 +43,14 @@ rpm_packages = %w{
   rpmdevtools rpm-build sudo zlib zlib-devel ruby gawk }
 c5_packages = rpm_packages + %w{make git bzip2 curl patch openssl-0.9.8e-22.el5_8.4}
 c6_packages = rpm_packages + %w{
-  autoconf git-1.7.1 libvirt libvirt-devel passwd glibc-headers-2.12-1.107.el6
-  glibc-common-2.12-1.107.el6 glibc-2.12-1.107.el6}
+  autoconf git-1.7.1 libvirt libvirt-devel passwd glibc-headers glibc-common glibc}
 
 if env_os == 'centos5'
-  run %Q{
-    yum clean metadata && \
-    yum install #{c5_packages.sort.join(' ')} -y
-  }
-
-  run %Q{
-    rpm -Uvh ftp://ftp.pbone.net/mirror/dl.iuscommunity.org/pub/ius/archive/Redhat/5/i386/autoconf26x-2.63-4.ius.el5.noarch.rpm
-  }
+  run %Q{ yum clean metadata && yum install #{c5_packages.sort.join(' ')} -y }
+  run %Q{ rpm -Uvh ftp://ftp.pbone.net/mirror/dl.iuscommunity.org/pub/ius/archive/Redhat/5/i386/autoconf26x-2.63-4.ius.el5.noarch.rpm }
 end
 
-# downgrade libselinux because openssl dependency problem
-run %Q{
-  yum downgrade glibc-2.12-1.107.el6 glibc-common-2.12-1.107.el6 libselinux libselinux-utils -y && \
-  yum downgrade libstdc++-4.4.7-3.el6.x86_64 krb5-libs-1.10.3-10.el6.x86_64 libcom_err-1.41.12-14.el6.x86_64 libss-1.41.12-14.el6.x86_64 e2fsprogs-1.41.12-14.el6.x86_64 e2fsprogs-libs-1.41.12-14.el6.x86_64 --exclude *el6_* *i686 -y && \
-  yum downgrade libxml2-2.7.6-12.el6_4.1.x86_64 -y && \
-  yum install #{c6_packages.sort.join(' ')} -y --exclude *i686
-} if env_os == 'centos6'
+run "yum clean metadata && yum install #{c6_packages.sort.join(' ')} -y" if env_os == 'centos6'
 
 run %Q{
   echo 'deb http://ppa.launchpad.net/git-core/ppa/ubuntu lucid main' >> /etc/apt/sources.list
