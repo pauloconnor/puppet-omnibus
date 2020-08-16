@@ -14,7 +14,7 @@ gem 'gpgme',                  '2.0.5'
 gem 'highline',               '1.6.21'     # Ruby
 gem 'trollop',                '2.0'        # ??? FIXME
 gem 'hiera-eyaml',            '2.0.2'      # MIT
-gem 'rack',                   '1.5.2'
+gem 'rack',                   '2.1.4'
 gem 'unicorn',                '4.8.3'
 
 group :centos_6 do
